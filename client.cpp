@@ -6,6 +6,6 @@ Client::Client() {}
 char* Client::Messagedata()
 {
     std::cout<<"please enter your message:"<<std::endl;
-    std::cin>>buf;
+    std::cin.get(buf,1024);
     return buf;
 }

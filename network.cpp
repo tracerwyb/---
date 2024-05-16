@@ -6,7 +6,7 @@
 #include "string.h"
 #include <sys/ioctl.h>
 
-#define IPADDR "10.253.52.34" //"10.253.172.131"
+#define IPADDR "10.253.184.12" //"10.253.172.131"
 #define MAXBUF  500
 Network::Network() {}
 
@@ -47,7 +47,8 @@ void Network::sendTextMessage(char* sendmessage,int size)
 
 void Network::reciveTextMessage()
 {
-    char recivemessage[1024];
+
+    char recivemessage[1024]="";
     int nbytes;
     if(ioctl(m_listenfd,FIONREAD,&nbytes) == -1){
         qDebug()<<"erro iotrl";
@@ -93,7 +94,7 @@ int Network::Select()
     FD_ZERO(&readfds);
     FD_SET(m_listenfd,&readfds);
 
-    tv.tv_sec=1;  //seconds
+    tv.tv_sec=3;  //seconds
     tv.tv_usec=0; //misroseconds
 
     retval = select(m_listenfd+1,&readfds,NULL,NULL,&tv);

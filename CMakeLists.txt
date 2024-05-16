@@ -7,8 +7,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_standard_project_setup()
 
 qt_add_executable(client-network
-    mainwindow.h mainwindow.cpp
-    mainwindow.ui
     main.cpp
     network.h network.cpp
     client.h client.cpp
