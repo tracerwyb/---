@@ -11,9 +11,8 @@
 
 int main(int argc, char *argv[])
 {
-
     Network network;
-    Client client;
+    Client client(3);
     network.createSocket();
 
     while (1) {
@@ -29,10 +28,12 @@ int main(int argc, char *argv[])
         std::cin.get();
         if(choice==1){
             char* buf=client.Messagedata();
-            network.sendTextMessage(buf,strlen(buf));
+            char* json_buf=new char[1024];
+            client.comversionJson(json_buf);
+            network.sendTextMessage(json_buf,strlen(json_buf));
+            delete json_buf;
         }
     }
-
     network.closeSocket();
 }
 

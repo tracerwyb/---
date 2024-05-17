@@ -16,7 +16,7 @@ void Network::createSocket()
     struct sockaddr_in servaddr;
     bzero(&servaddr,sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(9878);
+    servaddr.sin_port = htons(9879);
     std::string ip=IPADDR;       //
     char * ipaddr=ip.data();
     inet_pton(AF_INET,ipaddr,&servaddr.sin_addr);
