@@ -14,9 +14,11 @@ qt_add_executable(client-network
 
 target_compile_features(client-network PRIVATE cxx_std_20)
 
+add_subdirectory(json)
 target_link_libraries(client-network
     PRIVATE 
         Qt6::Widgets
+        nlohmann_json
 )
 
 set_target_properties(client-network PROPERTIES

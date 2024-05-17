@@ -12,9 +12,9 @@
 int main(int argc, char *argv[])
 {
     Network network;
-    Client client(3);
+    Client client;
     network.createSocket();
-
+    client.setId();
     while (1) {
         int choice;
         int retval;
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
             char* json_buf=new char[1024];
             client.comversionJson(json_buf);
             network.sendTextMessage(json_buf,strlen(json_buf));
-            delete json_buf;
+            delete[] json_buf;
         }
     }
     network.closeSocket();

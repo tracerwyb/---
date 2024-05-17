@@ -3,7 +3,7 @@
 #include "nlohmann/json.hpp"
 #include <iostream>
 #include <QString>
-Client::Client(int id):id{id} {
+Client::Client(){
     time = QDateTime::currentDateTime();
     qDebug()<<time.toString();
 }
@@ -25,4 +25,11 @@ void Client::comversionJson(char* json_buf)
     j["content"]=buf;
     std::string s=j.dump();
     strcpy(json_buf,s.data());
+}
+
+void Client::setId()
+{
+    std::cout<<"Please input your id:"<<std::endl;
+    std::cin>>id;
+    std::cin.get();
 }

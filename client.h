@@ -6,10 +6,10 @@
 class Client
 {
 public:
-    Client(int id);
+    Client();
     char* Messagedata();
     void comversionJson(char* json_buf);
-
+    void setId();
 private:
     int id;
     QDateTime time;
