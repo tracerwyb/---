@@ -1,4 +1,4 @@
-#include "MessagePreviewPageController.h"
+#include "messagepreviewpagecontroller.h"
 
 void MessagePreviewPageController::initClientInfo() {
 	

@@ -1,4 +1,4 @@
-#include "AddFriendPageController.h"
+#include "addfriendpagecontroller.h"
 
 void AddFriendPageController::SetFriendRequestInfo() {
 	

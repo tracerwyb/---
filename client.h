@@ -1,16 +1,34 @@
 #ifndef CLIENT_H
 #define CLIENT_H
-#include <iostream>
-#define MAX 1024
+
+#include <string>
+
+#define MAX 50
+
+class Network;
 class Client
 {
+private:
+    static Client *m_instance;
+    Network *m_network;
+    char buf[MAX];
+        
 public:
-    Client();
     char *Messagedata();
 
+    static Client *getInstance();
 
-private:
-        char buf[MAX];
+    void send(const char *buf, size_t size);
+
+    bool receive(char *buf);
+
+    void start();
+
+    void reconnect();
+
+    std::string receiveFile();
+
+    void closeSocket();
 };
 
-#endif // CLIENT_H
+#endif

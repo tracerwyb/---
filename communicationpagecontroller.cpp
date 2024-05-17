@@ -1,4 +1,4 @@
-#include "CommunicationPageController.h"
+#include "communicationpagecontroller.h"
 
 void CommunicationPageController::sendMessageAsJson() {
 	
