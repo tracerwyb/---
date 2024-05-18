@@ -3,11 +3,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include "string.h"
+#include <string.h>
 #include <sys/ioctl.h>
 
-#define IPADDR "10.253.52.34" //"10.253.172.131"
-#define MAXBUF  500
+#define IPADDR "10.253.184.12" //"10.253.172.131"
+#define PORT 9879
 Network::Network() {}
 
 void Network::createSocket()
@@ -16,7 +16,7 @@ void Network::createSocket()
     struct sockaddr_in servaddr;
     bzero(&servaddr,sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(9878);
+    servaddr.sin_port = htons(PORT);
     std::string ip=IPADDR;       //
     char * ipaddr=ip.data();
     inet_pton(AF_INET,ipaddr,&servaddr.sin_addr);
@@ -32,6 +32,7 @@ void Network::createSocket()
 
 void Network::sendTextMessage(char* sendmessage,int size)
 {
+    write(m_listenfd,&size,sizeof(size));
     int offset=0;
     int n=0;
     while(size>0){
@@ -47,7 +48,10 @@ void Network::sendTextMessage(char* sendmessage,int size)
 
 void Network::reciveTextMessage()
 {
-    char recivemessage[1024];
+    int size=0;
+    read(m_listenfd,&size,sizeof(size));
+    qDebug()<<"size :"<<size;
+    char recivemessage[1024]="";
     int nbytes;
     if(ioctl(m_listenfd,FIONREAD,&nbytes) == -1){
         qDebug()<<"erro iotrl";
@@ -61,24 +65,24 @@ void Network::reciveTextMessage()
     }
     int n=0;
     int posx=0;
-    while((nbytes-n)>0 ){
-        n=read(m_listenfd,recivemessage+posx,nbytes);
+    while((size-n)>0 ){
+        n=read(m_listenfd,recivemessage+posx,size);
         posx+=n;
     }
     qDebug()<<"mesg:"<<recivemessage;
     int nbytes2;
     if(ioctl(m_listenfd,FIONREAD,&nbytes2) == -1){
-        qDebug()<<"erro iotrl2";
+        qDebug()<<"erro iotrl";
     }else{
         if(nbytes2>0){
-            qDebug()<<"buffer have data2:"<<nbytes2;
+            qDebug()<<"buffer have data:"<<nbytes2;
         }
         else {
-            qDebug()<<"no data2";
+            qDebug()<<"no data";
         }
     }
 }
-
+//源代码
 void Network::closeSocket()
 {
     close(m_listenfd);

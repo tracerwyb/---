@@ -11,11 +11,10 @@
 
 int main(int argc, char *argv[])
 {
-
     Network network;
     Client client;
     network.createSocket();
-
+    client.setId();
     while (1) {
         int choice;
         int retval;
@@ -24,16 +23,17 @@ int main(int argc, char *argv[])
         if(retval==1){
             network.reciveTextMessage();
         }
-        std::cout<<"If you want send msg,please input 1"<<std::endl;
+        qDebug()<<"If you want send msg,please input 1";
         std::cin>>choice;
+        std::cin.get();
         if(choice==1){
             char* buf=client.Messagedata();
-            std::cout<<"main():"<<buf;
-            qDebug()<<"buf len"<<strlen(buf);
-            network.sendTextMessage(buf,strlen(buf));
+            char* json_buf=new char[1024];
+            client.comversionJson(json_buf);
+            network.sendTextMessage(json_buf,strlen(json_buf));
+            delete[] json_buf;
         }
     }
-
     network.closeSocket();
 }
 

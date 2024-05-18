@@ -1,21 +1,20 @@
 #ifndef CLIENT_H
 #define CLIENT_H
-
 #include <string>
+#include <iostream>
+#include <QDateTime>
+#define MAX 1024
 
-#define MAX 50
-
-class Network;
 class Client
 {
 private:
     static Client *m_instance;
     Network *m_network;
     char buf[MAX];
+    int id;
+    QDateTime time;
         
 public:
-    char *Messagedata();
-
     static Client *getInstance();
 
     void send(const char *buf, size_t size);
@@ -29,6 +28,12 @@ public:
     std::string receiveFile();
 
     void closeSocket();
+
+    
+    char *Messagedata();
+    void comversionJson(char* json_buf);
+    void setId();
+    
 };
 
 #endif
