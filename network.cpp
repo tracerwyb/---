@@ -50,17 +50,39 @@ void Network::reciveTextMessage()
 {
     int size=0;
     read(m_listenfd,&size,sizeof(size));
+    qDebug()<<"size :"<<size;
     char recivemessage[1024]="";
     int nbytes;
+    if(ioctl(m_listenfd,FIONREAD,&nbytes) == -1){
+        qDebug()<<"erro iotrl";
+    }else{
+        if(nbytes>0){
+            qDebug()<<"buffer have data:"<<nbytes;
+        }
+        else {
+            qDebug()<<"no data";
+        }
+    }
     int n=0;
     int posx=0;
     while((size-n)>0 ){
-        n=read(m_listenfd,recivemessage+posx,1024);
+        n=read(m_listenfd,recivemessage+posx,size);
         posx+=n;
     }
     qDebug()<<"mesg:"<<recivemessage;
+    int nbytes2;
+    if(ioctl(m_listenfd,FIONREAD,&nbytes2) == -1){
+        qDebug()<<"erro iotrl";
+    }else{
+        if(nbytes2>0){
+            qDebug()<<"buffer have data:"<<nbytes2;
+        }
+        else {
+            qDebug()<<"no data";
+        }
+    }
 }
-
+//源代码
 void Network::closeSocket()
 {
     close(m_listenfd);
@@ -75,7 +97,7 @@ int Network::Select()
     FD_ZERO(&readfds);
     FD_SET(m_listenfd,&readfds);
 
-    tv.tv_sec=3;  //seconds
+    tv.tv_sec=1;  //seconds
     tv.tv_usec=0; //misroseconds
 
     retval = select(m_listenfd+1,&readfds,NULL,NULL,&tv);
