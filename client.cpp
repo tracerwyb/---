@@ -28,7 +28,9 @@ char* Client::Messagedata()
 void Client::comversionJson(char* json_buf)
 {
     nlohmann::json j;
-    j["id"]=id;
+    j["myid"]=id;
+    j["acceptid"]=acid;
+    j["request_type"]=request_type;
     QString date=time.toString();
     std::string dt=date.toStdString();
     j["date"]=dt;
@@ -43,5 +45,12 @@ void Client::setId()
     std::cin>>id;
     std::cin.get();
     time = QDateTime::currentDateTime();
-    qDebug()<<time.toString();
+    std::cout<<"Please input aceept id:"<<std::endl;
+    std::cin>>acid;
+    std::cin.get();
+    std::cout<<"Please requst type:"<<std::endl;
+    std::cin>>request_type;
+    std::cin.get();
 }
+
+

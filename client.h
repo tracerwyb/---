@@ -13,6 +13,8 @@ private:
     char buf[MAX];
     int id;
     QDateTime time;
+    int acid;
+    std::string request_type;
         
 public:
     static Client *getInstance();
