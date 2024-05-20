@@ -12,6 +12,8 @@ private:
     Network *m_network;
     char buf[MAX];
     int id;
+    int acid;
+    std::string request_type;
     QDateTime time;
     int acid;
     std::string request_type;
@@ -35,6 +37,8 @@ public:
     char *Messagedata();
     void comversionJson(char* json_buf);
     void setId();
+    void setAcceptId();
+    void setRequestType();
     
 };
 
