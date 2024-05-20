@@ -10,8 +10,12 @@ public:
     char* Messagedata();
     void comversionJson(char* json_buf);
     void setId();
+    void setAcceptId();
+    void setRequestType();
 private:
     int id;
+    int acid;
+    std::string request_type;
     QDateTime time;
     char buf[MAX];
 };

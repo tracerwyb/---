@@ -4,8 +4,6 @@
 #include <iostream>
 #include <QString>
 Client::Client(){
-    time = QDateTime::currentDateTime();
-    qDebug()<<time.toString();
 }
 
 char* Client::Messagedata()
@@ -26,10 +24,20 @@ void Client::comversionJson(char* json_buf)
     std::string s=j.dump();
     strcpy(json_buf,s.data());
 }
-
 void Client::setId()
-{
+{    
+    time = QDateTime::currentDateTime();
     std::cout<<"Please input your id:"<<std::endl;
     std::cin>>id;
+    std::cin.get();
+}
+void Client::setAcceptId(){
+    std::cout<<"Please input aceept id:"<<std::endl;
+    std::cin>>acid;
+    std::cin.get();
+}
+void Client::setRequestType(){
+    std::cout<<"Please requst type:"<<std::endl;
+    std::cin>>request_type;
     std::cin.get();
 }

@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
         if(retval==1){
             network.reciveTextMessage();
         }
+        client.setAcceptId();
+        client.setRequestType();
         qDebug()<<"If you want send msg,please input 1";
         std::cin>>choice;
         std::cin.get();
