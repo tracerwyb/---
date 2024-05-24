@@ -21,9 +21,13 @@ qt_add_executable(appWechat-Client
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
 
+
+add_subdirectory(json)
+
 target_link_libraries(appWechat-Client
     PRIVATE 
         Qt6::Widgets
+        nlohmann_json
 )
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)

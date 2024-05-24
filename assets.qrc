@@ -18,5 +18,6 @@
         <file>assets/Picture/icons/user-white.png</file>
         <file>assets/Picture/icons/group_people.png</file>
         <file>assets/Picture/icons/label.png</file>
+        <file>assets/Picture/avatar/cats.jpg</file>
     </qresource>
 </RCC>

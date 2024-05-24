@@ -18,13 +18,14 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageControl");
-    qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageControl");
-    qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageControl");
-    qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageControl");
+    qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
+    qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
+    qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageController");
 
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+    qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
     const QUrl url(QStringLiteral("qrc:/qml/Main.qml"));
     QObject::connect(
         &engine,
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     AddFriendPageController add;
-    add.setAddfri(1);
+    add.setAddFri(1);
 
     engine.load(url);
     // Network network;

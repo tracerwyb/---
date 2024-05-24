@@ -18,9 +18,16 @@ ApplicationWindow {
     readonly property url addfriendPage_loader: "AddfriendPage.qml"
     readonly property url personalPage_loader: "PersonalPage.qml"
 
-
+    property var titlecolor: "#EDEDED"
+    property alias afController: afController
+    property alias loader: loader
     property int page_num: 3
     property double barheight_rate: 0.06
+
+    AddFriendPageController{
+        id: afController
+
+    }
 
     Rectangle{
         width: parent.width
@@ -33,15 +40,14 @@ ApplicationWindow {
 
             anchors.horizontalCenter: parent.horizontalCenter
             y: 0
-            color: "#EDEDED"
+            color: titlecolor
             visible: true
             Text{
                 width: parent.width
-                height: parent.height / 1.5
-                y:parent.height - parent.height / 1.5
+                height: parent.height
 
                 text: qsTr("微信")
-                font.pixelSize: 20
+                font.pixelSize: 18
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter // 水平居中
                 verticalAlignment: Text.AlignVCenter
@@ -82,43 +88,27 @@ ApplicationWindow {
                 Repeater{
                     model: [qsTr("微信"),qsTr("通讯录"),qsTr("我")]
                     TabButton{
-                        width: text_1.width
-                        height:text_1.height
+                        width: text.width
+                        height:text.height
                         x: index * width
                         Text{
-                            id:text_1
-                            width:pagebar.width / page_num
-                            height:pagebar.height
-                            text: modelData
-                            horizontalAlignment: Text.AlignHCenter // 水平居中
-                            verticalAlignment: Text.AlignVCenter
-
-                        }
-                    }
-                    TabButton{
-                        width: text_2.width
-                        height:text_2.height
-                        x: index * width
-                        Text{
-                            id:text_2
+                            id:text
                             width:pagebar.width / page_num
                             height:pagebar.height
                             text: modelData
                             horizontalAlignment: Text.AlignHCenter // 水平居中
                             verticalAlignment: Text.AlignVCenter
                         }
-                    }
-                    TabButton{
-                        width: text_3.width
-                        height:text_3.height
-                        x: index * width
-                        Text{
-                            id:text_3
-                            width:pagebar.width / page_num
-                            height:pagebar.height
-                            horizontalAlignment: Text.AlignHCenter // 水平居中
-                            verticalAlignment: Text.AlignVCenter
-                            text: modelData
+                        onClicked: {
+                            if(index === 0){
+                                loader.source = messagePreviewPage_loader
+                            }
+                            if(index === 1){
+                                loader.source = contactListPage_loader
+                            }
+                            if(index === 2){
+                                loader.source = personalPage_loader
+                            }
                         }
                     }
                 }
@@ -126,8 +116,3 @@ ApplicationWindow {
         }
     }
 }
-
-
-
-
-
