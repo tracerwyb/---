@@ -6,7 +6,6 @@ import UIControl 1.0
 
 ApplicationWindow {
     id: main
-
     width: Screen.desktopAvailableWidth
     height: Screen.desktopAvailableHeight
     visible: true
@@ -33,10 +32,14 @@ ApplicationWindow {
 
     AddFriendPageController{
         id: afController
+    }
+    //界面控制
+    MessagePreviewPageController{
+        id:messagePriviewPageController
 
     }
-
     Rectangle{
+        z:2
         width: parent.width
         height:parent.height
         color:"#EDEDED"
@@ -105,68 +108,78 @@ ApplicationWindow {
                 }
             }
         }
+    }
 
         //Content Area
-        Rectangle{
-            id: content
-            width: main.width
-            height: main.height - title.height - pagebar.height
-            y: title.height
-            border.color: "black"
-            Loader {
-                id: loader
-                anchors.fill: parent
-                asynchronous: true
-                source:contactListPage_loader
-                Component.onCompleted: {
-                }
+    Rectangle{
+        id: content
+        width: main.width
+        height: main.height - title.height - pagebar.height
+        y: title.height
+        border.color: "black"
+        Loader {
+            id: loader
+            anchors.fill: parent
+            asynchronous: true
+            source:contactListPage_loader
+            Component.onCompleted: {
             }
-
         }
+    }
 
-        Rectangle{
-            id: pagebar
+    Rectangle{
+        id: pagebar
+        width: main.width
+        height: main.height * (barheight_rate+0.01)
+        anchors.horizontalCenter: main.horizontalCenter
+        y: main.height-height
+        visible: pagebar_visible
+        color: "#ffffff"
+        TabBar{
+            height: parent.height
+            y: 0
 
-            width: main.width
-            height: main.height * (barheight_rate+0.01)
-            anchors.horizontalCenter: main.horizontalCenter
-            y: main.height-height
-            visible: pagebar_visible
-            color: "#ffffff"
-            TabBar{
-                height: parent.height
-                y: 0
-
-                Repeater{
-                    model: [qsTr("微信"),qsTr("通讯录"),qsTr("我")]
-                    TabButton{
-                        width: text.width
-                        height:text.height
-                        x: index * width
-                        Text{
-                            id:text
-                            width:pagebar.width / page_num
-                            height:pagebar.height
-                            text: modelData
-                            horizontalAlignment: Text.AlignHCenter // 水平居中
-                            verticalAlignment: Text.AlignVCenter
+            Repeater{
+                model: [qsTr("微信"),qsTr("通讯录"),qsTr("我")]
+                TabButton{
+                    width: text.width
+                    height:text.height
+                    x: index * width
+                    Text{
+                        id:text
+                        width:pagebar.width / page_num
+                        height:pagebar.height
+                        text: modelData
+                        horizontalAlignment: Text.AlignHCenter // 水平居中
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    onClicked: {
+                        if(index === 0){
+                            loader.source = messagePreviewPage_loader
                         }
-                        onClicked: {
-                            if(index === 0){
-                                loader.source = messagePreviewPage_loader
-                            }
-                            if(index === 1){
-                                loader.source = contactListPage_loader
-                            }
-                            if(index === 2){
-                                loader.source = personalPage_loader
-                            }
-                            backvisible = false
-                            titletext = "微信"
+                        if(index === 1){
+                            loader.source = contactListPage_loader
                         }
+                        if(index === 2){
+                            loader.source = personalPage_loader
+                        }
+                        backvisible = false
+                        titletext = "微信"
                     }
                 }
             }
+        }
+    }
+
+    Loader {
+        id: loader2
+        anchors.fill: parent
+        asynchronous: true
+        source:messagePreviewPage_loader
+        Component.onCompleted: {
+            title.visible=false
+            content.visible=false
+            pagebar.visible=false
         }
     }
 }

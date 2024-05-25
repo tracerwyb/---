@@ -4,7 +4,7 @@
 #include <iostream>
 #include <QDateTime>
 #define MAX 1024
-
+class Network;
 class Client
 {
 private:

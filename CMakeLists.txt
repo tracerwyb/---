@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.26)
 project(appWechat-Client VERSION 0.1 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOUIC ON)
 
 qt_standard_project_setup()
 
@@ -21,15 +26,23 @@ qt_add_executable(appWechat-Client
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
 
+include_directories("/root/WeChat-Imitate-Client/ffmpeg-source/include/ffmpeg4.4")
+link_directories("/root/WeChat-Imitate-Client/ffmpeg-source/lib/ffmpeg4.4")
+link_libraries(avformat)
 
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Qml)
+find_package(Qt6 REQUIRED COMPONENTS Gui)
 add_subdirectory(json)
-
 target_link_libraries(appWechat-Client
     PRIVATE
-        Qt6::Widgets
         nlohmann_json
-)
-
+        Qt6::Widgets
+        Qt6::Qml
+        Qt6::Quick
+        Qt6::Gui
+    )
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 target_link_libraries(appWechat-Client PRIVATE Qt6::Quick)
 find_package(Qt6 REQUIRED COMPONENTS Qml)

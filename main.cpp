@@ -7,11 +7,9 @@
 #include "messagepreviewpagecontroller.h"
 #include "network.h"
 #include "personalpagecontroller.h"
-#include <arpa/inet.h>
-#include <iostream>
-#include <netinet/in.h>
-#include <string.h>
-#include <sys/socket.h>
+
+#include <libavformat/avformat.h>
+#include <nlohmann/json.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -64,6 +62,5 @@ int main(int argc, char *argv[])
     //     }
     // }
     // network.closeSocket();
-
-    return app.exec();
+     return app.exec();
 }
