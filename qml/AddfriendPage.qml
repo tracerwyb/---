@@ -6,8 +6,6 @@ Rectangle {
     width: parent.width
     height: parent.height
 
-    readonly property url showFriend_loader: "ShowFriend.qml"
-
     property bool loaderVisible : false
 
     signal searchTextChanged(var text)
@@ -24,14 +22,18 @@ Rectangle {
         }
     }
 
+    // friend base info page loader
     Loader{
         id: loader
         asynchronous: true
         anchors.fill: parent
         source: showFriend_loader
+        // source: showStranger_loader
         visible: loaderVisible
+
     }
 
+    // 搜索栏
     Rectangle
     {
         id:searchBar
@@ -46,6 +48,7 @@ Rectangle {
 
         TextInput {
             id: search_content
+
             anchors.leftMargin: 20
             anchors.left: parent.left
             anchors.right: image_search.left
@@ -58,6 +61,10 @@ Rectangle {
             focus: true
             wrapMode: Text.WordWrap
             verticalAlignment: TextInput.AlignVCenter
+            validator: RegularExpressionValidator{
+                regularExpression: /\b[1-9]\d{7}\b/
+            }
+            // focus: true
         }
 
         Image {
@@ -74,6 +81,10 @@ Rectangle {
                 id: searchButton_img
                 onTapped: {
                     searchTextChanged(search_content.text)
+                    searchBar.visible = false
+
+                    titlecolor = "#ffffff"
+                    loaderVisible = true
                 }
             }
         }
@@ -92,11 +103,12 @@ Rectangle {
                 id: searchButton_text
                 onTapped: {
                     searchTextChanged(search_content.text)
-                    searchBar.visible = false
 
                     titlecolor = "#ffffff"
-                    // loader.source = showFriend_loader
                     loaderVisible = true
+                    titlevisible = false
+                    searchBar.visible = false
+                    search_content.focus = false
                 }
             }
         }

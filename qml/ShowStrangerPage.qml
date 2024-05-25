@@ -2,12 +2,22 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 
 Rectangle{
-    id: showfriend
+    id: showstranger
 
     width:parent.width
     height:parent.height
 
+    property string signal_text: "罪业的报偿"
+    property string friend_name: "85"
+    property string area: "中国大陆 重庆"
+
     color: "#eeeeee"
+
+    signal sendAddFriRequest(var text)
+
+    Component.onCompleted: {
+        sendAddFriRequest.connect(afController.onSendAddFriRequest)
+    }
 
     // show friend base info
     Rectangle{
@@ -72,7 +82,7 @@ Rectangle{
                 anchors.verticalCenter: avatar.verticalCenter
                 Column{
                     Text{
-                        text: qsTr("85")
+                        text: qsTr(friend_name)
                         width: contentWidth + gender.width
                         font.pointSize: 20
                         // anchors.verticalCenter: parent.verticalCenter
@@ -86,7 +96,7 @@ Rectangle{
                         }
                     }
                     Text {
-                        text: qsTr("地区：中国大陆 重庆")
+                        text: qsTr("地区：" + area)
                         font.pointSize: 15
 
                     }
@@ -123,6 +133,21 @@ Rectangle{
             anchors.verticalCenter: parent.verticalCenter
             leftPadding: 30
         }
+        Image {
+            id: goahead_img
+            width: parent.height / 3
+            height: width
+            fillMode: Image.PreserveAspectFit
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 20
+            source: "../assets/Picture/icons/go_ahead.jpg"
+        }
+        TapHandler{
+            onTapped: {
+                console.log("imcompleted function")
+            }
+        }
     }
 
     Rectangle{
@@ -154,27 +179,13 @@ Rectangle{
             }
             Text{
                 id: signal_content
-                text: "罪业的报偿"
+                text: signal_text
                 color: "#8a8a8a"
                 font.pointSize: 16
                 anchors.verticalCenter: parent.verticalCenter
                 leftPadding: 30
             }
-
         }
-
-        // Rectangle{
-        //     anchors{
-        //         fill: rect;
-        //         bottomMargin:rect.border.width;
-        //     }
-        //     width: parent.width * 0.9
-        //     height: 0.6
-        //     border.color: "#c7c7c7"
-        //     border.width: 0.6
-        //     anchors.horizontalCenter: parent.horizontalCenter
-        //     anchors.bottom:parent.bottom
-        // }
     }
 
 
@@ -201,6 +212,11 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             // leftPadding: 30
+        }
+        TapHandler{
+            onTapped:{
+                sendAddFriRequest(search_content.text)
+            }
         }
     }
 }

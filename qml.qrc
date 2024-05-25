@@ -6,6 +6,7 @@
         <file>qml/MessagePreviewPage.qml</file>
         <file>qml/PersonalPage.qml</file>
         <file>qml/ContactListPage.qml</file>
-        <file>qml/ShowFriend.qml</file>
+        <file>qml/ShowFriendPage.qml</file>
+        <file>qml/ShowStrangerPage.qml</file>
     </qresource>
 </RCC>

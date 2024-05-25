@@ -21,24 +21,24 @@ int AddFriendPageController::addFri() const
     return m_addfri;
 };
 
-QString AddFriendPageController::jsonToQstring(QJsonObject jsonObject)
-{
-    QJsonDocument document;
-    document.setObject(jsonObject);
-    QByteArray simpbyte_array = document.toJson(QJsonDocument::Compact);
-    QString simpjson_str(simpbyte_array);
+// QString AddFriendPageController::jsonToQstring(QJsonObject jsonObject)
+// {
+//     QJsonDocument document;
+//     document.setObject(jsonObject);
+//     QByteArray simpbyte_array = document.toJson(QJsonDocument::Compact);
+//     QString simpjson_str(simpbyte_array);
 
-    return simpjson_str;
-}
-QJsonObject AddFriendPageController::qstringToJson(QString jsonString)
-{
-    QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toLocal8Bit().data());
-    if (jsonDocument.isNull()) {
-        qDebug() << "String NULL" << jsonString.toLocal8Bit().data();
-    }
-    QJsonObject jsonObject = jsonDocument.object();
-    return jsonObject;
-}
+//     return simpjson_str;
+// }
+// QJsonObject AddFriendPageController::qstringToJson(QString jsonString)
+// {
+//     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toLocal8Bit().data());
+//     if (jsonDocument.isNull()) {
+//         qDebug() << "String NULL" << jsonString.toLocal8Bit().data();
+//     }
+//     QJsonObject jsonObject = jsonDocument.object();
+//     return jsonObject;
+// }
 
 QString AddFriendPageController::onSearchTextChanged(QString text)
 {
@@ -52,6 +52,15 @@ QString AddFriendPageController::onSearchTextChanged(QString text)
         friendBaseInfo(QString::fromStdString(str.dump()));
     }
     return text;
+}
+
+bool AddFriendPageController::onSendAddFriRequest(int target_id)
+{
+    qDebug() << target_id;
+
+    //called function of network to send friend request to server
+
+    return true;
 }
 
 /* server: send msg 

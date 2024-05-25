@@ -19,5 +19,8 @@
         <file>assets/Picture/icons/group_people.png</file>
         <file>assets/Picture/icons/label.png</file>
         <file>assets/Picture/avatar/cats.jpg</file>
+        <file>assets/Picture/icons/back.png</file>
+        <file>assets/Picture/icons/to_personInfo.png</file>
+        <file>assets/Picture/icons/go_ahead.jpg</file>
     </qresource>
 </RCC>

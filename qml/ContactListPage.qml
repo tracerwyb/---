@@ -92,6 +92,9 @@ Rectangle {
                         // console.log(model.name)
                         // loader 动态加载页面 AddfriendPage
                         loader.source = addfriendPage_loader
+                        titletext = "新的朋友"
+                        pagebar_visible = false
+                        backvisible = true
                     }
                     if(model.name === "群聊"){
                         // console.log(model.name)

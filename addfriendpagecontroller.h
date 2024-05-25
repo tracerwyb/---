@@ -36,8 +36,8 @@ public:
 
     Q_INVOKABLE int addFri() const;
     Q_INVOKABLE void setAddFri(int);
-    Q_INVOKABLE QString jsonToQstring(QJsonObject jsonObject);
-    Q_INVOKABLE QJsonObject qstringToJson(QString jsonString);
+    // Q_INVOKABLE QString jsonToQstring(QJsonObject jsonObject);
+    // Q_INVOKABLE QJsonObject qstringToJson(QString jsonString);
 
 signals:
     void addFriChanged(QString friend_name, QString first_letter, QString avatar_path);
@@ -45,9 +45,11 @@ signals:
 
 public slots:
     QString onSearchTextChanged(QString text);
+    bool onSendAddFriRequest(int target_id); // send user id and target(friend) id to server
 
 private:
     int m_addfri = 0;
+    int user_id;
 };
 
 #endif
