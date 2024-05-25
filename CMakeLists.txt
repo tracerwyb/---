@@ -13,11 +13,10 @@ qt_add_executable(appWechat-Client
     messagepreviewpagecontroller.h      messagepreviewpagecontroller.cpp
     communicationpagecontroller.h       communicationpagecontroller.cpp
     addfriendpagecontroller.h           addfriendpagecontroller.cpp
-    qml/Main.qml
-    qml/addfriendpage.qml
-    qml/communicationpage.qml
-    qml/messagepreviewpage.qml
-    qml/personalpage.qml
+    personalpagecontroller.h            personalpagecontroller.cpp
+
+    qml.qrc
+    assets.qrc
 )
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
@@ -30,6 +29,11 @@ target_link_libraries(appWechat-Client
         Qt6::Widgets
         nlohmann_json
 )
+
+find_package(Qt6 REQUIRED COMPONENTS Quick)
+target_link_libraries(appWechat-Client PRIVATE Qt6::Quick)
+find_package(Qt6 REQUIRED COMPONENTS Qml)
+target_link_libraries(appWechat-Client PRIVATE Qt6::Qml)
 
 set_target_properties(appWechat-Client PROPERTIES
     AUTORCC TRUE
