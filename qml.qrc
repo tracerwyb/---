@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/AddfriendPage.qml</file>
+        <file>qml/CommunicationPage.qml</file>
+        <file>qml/ContactListPage.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/MessagePreviewPage.qml</file>
+        <file>qml/PersonalPage.qml</file>
+        <file>assets/Picture/icons/send.png</file>
+        <file>assets/Picture/icons/back.png</file>
+        <file>assets/Picture/icons/to_personInfo.png</file>
+        <file>qml/showFriendPage.qml</file>
+        <file>qml/showStrangePage.qrc</file>
+    </qresource>
+</RCC>

@@ -1,10 +1,11 @@
-#include <QApplication>
 #include "network.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include <QApplication>
 #include <arpa/inet.h>
-#include "string.h"
+#include <netinet/in.h>
+#include <string.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 #define IPADDR "10.253.52.34" //"10.253.172.131"
 #define MAXBUF  500

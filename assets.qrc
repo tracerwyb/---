@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/Picture/icons/add.png</file>
+        <file>assets/Picture/icons/addfriend.png</file>
+        <file>assets/Picture/icons/addressbook-black.png</file>
+        <file>assets/Picture/icons/addressbook-green.png</file>
+        <file>assets/Picture/icons/compass-black.png</file>
+        <file>assets/Picture/icons/compass-green.jpg</file>
+        <file>assets/Picture/icons/find.png</file>
+        <file>assets/Picture/icons/message-black.png</file>
+        <file>assets/Picture/icons/message-green.png</file>
+        <file>assets/Picture/icons/newfriend.png</file>
+        <file>assets/Picture/icons/setting_black.png</file>
+        <file>assets/Picture/icons/user-black.png</file>
+        <file>assets/Picture/icons/user-green.png</file>
+        <file>assets/Picture/icons/wechat.png</file>
+        <file>assets/Picture/icons/addfriend-white.png</file>
+        <file>assets/Picture/icons/user-white.png</file>
+        <file>assets/Picture/avatar/hrx.jpg</file>
+        <file>assets/Picture/icons/bubble_green.png</file>
+        <file>assets/Picture/icons/bubble_white.png</file>
+        <file>assets/Picture/icons/more.png</file>
+        <file>assets/Picture/icons/send.png</file>
+        <file>assets/Picture/icons/voice.png</file>
+        <file>assets/Picture/icons/back.png</file>
+        <file>assets/Picture/icons/to_personInfo.png</file>
+        <file>assets/Picture/avatar/11111.jpg</file>
+        <file>assets/Picture/avatar/22222.jpg</file>
+    </qresource>
+</RCC>
