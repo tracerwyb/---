@@ -3,19 +3,37 @@
 #include "nlohmann/json.hpp"
 #include <iostream>
 
-Client *Client::getInstance() {}
+Client::Client(){
+    m_network.createSocket();
+    qDebug()<<"Client connect Server......";
+}
+Client* Client::m_instance = nullptr;
+Client *Client::getInstance() {
+    if(m_instance == nullptr){
+        m_instance=new Client();
+    }
+    return m_instance;
+}
 
-void Client::send(const char *buf, size_t size) {}
+void Client::send(char *buf, int size) {
+    m_network.sendTextMessage(buf,size);
+}
 
-bool Client::receive(char *buf) {}
+bool Client::receive(char *buf) {
+    m_network.reciveTextMessage(buf);
+    return NULL;
+}
 
-void Client::start() {}
+//void Client::start() {}
 
-void Client::reconnect() {}
+//void Client::reconnect() {}
 
-std::string Client::receiveFile() {}
+//std::string Client::receiveFile() {}
 
-void Client::closeSocket() {}
+void Client::closeSocket() {
+    m_network.closeSocket();
+}
+
 
 
 char* Client::Messagedata()
@@ -44,13 +62,6 @@ void Client::setId()
     std::cout<<"Please input your id:"<<std::endl;
     std::cin>>id;
     std::cin.get();
-    time = QDateTime::currentDateTime();
-    std::cout<<"Please input aceept id:"<<std::endl;
-    std::cin>>acid;
-    std::cin.get();
-    std::cout<<"Please requst type:"<<std::endl;
-    std::cin>>request_type;
-    std::cin.get();
 }
 
 void Client::setAcceptId(){
@@ -63,3 +74,4 @@ void Client::setRequestType(){
     std::cin>>request_type;
     std::cin.get();
 }
+

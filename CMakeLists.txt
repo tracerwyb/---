@@ -4,6 +4,9 @@ project(appWechat-Client VERSION 0.1 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
+
+find_package(Qt6 COMPONENTS Quick REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Qml)
 qt_standard_project_setup()
 
 qt_add_executable(appWechat-Client
@@ -14,11 +17,15 @@ qt_add_executable(appWechat-Client
     communicationpagecontroller.h       communicationpagecontroller.cpp
     addfriendpagecontroller.h           addfriendpagecontroller.cpp
     qml/Main.qml
-    qml/addfriendpage.qml
-    qml/communicationpage.qml
-    qml/messagepreviewpage.qml
-    qml/personalpage.qml
+    qml/ContactListPage.qml
+    qml/Communicationpage.qml
+    qml/Messagepreviewpage.qml
+    qml/Personalpage.qml
+    qml.qrc
+    assets.qrc
+    personalpagecontroller.h personalpagecontroller.cpp
 )
+
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
 
@@ -27,6 +34,8 @@ add_subdirectory(json)
 
 target_link_libraries(appWechat-Client
     PRIVATE
+        Qt6::Quick
+        Qt6::Qml
         Qt6::Widgets
         nlohmann_json
 )

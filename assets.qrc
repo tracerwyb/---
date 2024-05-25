@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/Picture/icons/wechat.png</file>
+        <file>assets/Picture/icons/user-white.png</file>
+        <file>assets/Picture/icons/user-green.png</file>
+        <file>assets/Picture/icons/user-black.png</file>
+        <file>assets/Picture/icons/setting_black.png</file>
+        <file>assets/Picture/icons/newfriend.png</file>
+        <file>assets/Picture/icons/message-green.png</file>
+        <file>assets/Picture/icons/message-black.png</file>
+        <file>assets/Picture/icons/find.png</file>
+        <file>assets/Picture/icons/compass-green.jpg</file>
+        <file>assets/Picture/icons/compass-black.png</file>
+        <file>assets/Picture/icons/addressbook-green.png</file>
+        <file>assets/Picture/icons/addressbook-black.png</file>
+        <file>assets/Picture/icons/addfriend.png</file>
+        <file>assets/Picture/icons/addfriend-white.png</file>
+        <file>assets/Picture/icons/add.png</file>
+        <file>assets/Picture/icons/avater.png</file>
+        <file>assets/Picture/avatar/avater1.jpg</file>
+        <file>assets/Picture/avatar/avater2.jpg</file>
+        <file>assets/Picture/avatar/avater3.jpg</file>
+        <file>assets/Picture/icons/jiantou.png</file>
+        <file>assets/Picture/icons/serve.jpg</file>
+        <file>assets/Picture/icons/卡包.jpg</file>
+        <file>assets/Picture/icons/收藏.jpg</file>
+        <file>assets/Picture/icons/朋友圈.jpg</file>
+        <file>assets/Picture/icons/服务.jpg</file>
+        <file>assets/Picture/icons/表情.jpg</file>
+        <file>assets/Picture/icons/设置.jpg</file>
+    </qresource>
+</RCC>
