@@ -1,22 +1,33 @@
 //#include "mainwindow.h"
-#include "network.h"
+#include "addfriendpagecontroller.h"
+#include "communicationpagecontroller.h"
+#include "messagepreviewpagecontroller.h"
 #include "personalpagecontroller.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <iostream>
-#include <string.h>
+#include "listenthread.h"
+#include "client.h"
 #include <QApplication>
-#include <QGuiApplication>
-#include <QQmlContext>
 #include <QQmlApplicationEngine>
-
+#include <libavformat/avformat.h>
+#include <nlohmann/json.hpp>
+#include <QQmlContext>
 int main(int argc, char *argv[])
 {
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+    qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
+    qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
+    qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageController");
+    qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
+
+
+    ListenThread listenThread;
+
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<PersonalPageController>("PersonalControl", 1, 0, "PersonalController");
+    engine.rootContext()->setContextProperty("listenThread",&listenThread);
 
     const QUrl url(QStringLiteral("qrc:/qml/Main.qml"));
     QObject::connect(
@@ -28,40 +39,45 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         },
         Qt::QueuedConnection);
+
+    AddFriendPageController add;
+    add.setAddFri(1);
+
     engine.load(url);
-    app.exec();
-    /*
-    Network network;
-    Client client;
-    network.createSocket();
-    client.setId();
-    char *recevebuf[1024]="";
-    while (1) {
-        int choice;
-        int retval;
-        retval=network.Select();
-        std::cout<<"retval:"<<retval<<std::endl;
-        if(retval==1){
-            int n=network.reciveTextMessage(recevebuf);
-            if(n<0){
-                break;
-            }
-        }
+    return app.exec();
 
-        qDebug()<<"If you want send msg,please input 1";
-        std::cin>>choice;
-        std::cin.get();
-        if(choice==1){
-            client.setAcceptId();
-            client.setRequestType();
-            char* buf=client.Messagedata();
-            char* json_buf=new char[1024];
-            client.comversionJson(json_buf);
-            network.sendTextMessage(json_buf,strlen(json_buf));
-            delete[] json_buf;
-        }
-    }
-    network.closeSocket();
-*/
+
+    // Network network;
+    // Client *client=Client::getInstance();
+    // client->start();
+    // //network.createSocket();
+    // client->setId();
+    // char recevebuf[1024]="";
+    // while (1) {
+    //     int choice;
+    //     int retval;
+    //     retval=client->select();
+    //     std::cout<<"retval:"<<retval<<std::endl;
+    //     if(retval==1){
+    //         int n=client->receive(recevebuf);
+    //         if(n<0){
+    //             break;
+    //         }
+    //     }
+
+    //     qDebug()<<"If you want send msg,please input 1";
+    //     std::cin>>choice;
+    //     std::cin.get();
+    //     if(choice==1){
+    //         client->setAcceptId();
+    //         client->setRequestType();
+    //         char* buf=client->Messagedata();
+    //         char* json_buf=new char[1024];
+    //         client->comversionJson(json_buf);
+    //         client->send(json_buf,strlen(json_buf));
+    //         delete[] json_buf;
+    //     }
+    // }
+    // network.closeSocket();
+
 }
-

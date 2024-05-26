@@ -1,12 +1,14 @@
-#include <QApplication>
 #include "network.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include <string.h>
+#include <QApplication>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <unistd.h>
-#define IPADDR "10.253.184.12" //"10.253.172.131"
+
+
+#define IPADDR "10.253.192.10" //"10.253.172.131"
 #define PORT 9879
 Network::Network() {}
 
@@ -58,13 +60,13 @@ int Network::reciveTextMessage(char* recivemessage)
     int n=0;
     int posx=0;
     while((size-n)>0 ){
-        n=read(m_listenfd,recivemessage+posx,size);
+        n=read(m_listenfd,recivemessage+posx,size); //size=size-n
         posx+=n;
     }
     qDebug()<<"mesg:"<<recivemessage;
     return 0;
 }
-//源代码
+
 void Network::closeSocket()
 {
     close(m_listenfd);

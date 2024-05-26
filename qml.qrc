@@ -1,9 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/Communicationpage.qml</file>
+        <file>qml/AddfriendPage.qml</file>
+        <file>qml/CommunicationPage.qml</file>
         <file>qml/Main.qml</file>
-        <file>qml/Messagepreviewpage.qml</file>
-        <file>qml/Personalpage.qml</file>
+        <file>qml/MessagePreviewPage.qml</file>
+        <file>qml/PersonalPage.qml</file>
         <file>qml/ContactListPage.qml</file>
+        <file>qml/ShowFriendPage.qml</file>
+        <file>qml/ShowStrangerPage.qml</file>
     </qresource>
 </RCC>

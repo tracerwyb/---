@@ -43,3 +43,18 @@ void PersonalPageController::initPersonalData()
     m_number = QString::fromStdString(jsonObject.at("myid"));
     m_name = QString::fromStdString(jsonObject.at("myname"));
 }
+
+void PersonalPageController::test()
+{
+    Client *client=Client::getInstance();      //点击登陆时创建Client实例，调用start（）方法与服务器建立连接
+    client->start();
+    client->setId();
+    client->setAcceptId();
+    client->setRequestType();
+    char* buf=client->Messagedata();
+    char* json_buf=new char[1024];
+    client->comversionJson(json_buf);
+    client->send(json_buf,strlen(json_buf));    //点击发送按钮后,调用send方法发送已经序列化的json字符串
+    delete[] json_buf;
+}
+

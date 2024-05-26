@@ -7,6 +7,10 @@ Rectangle {
     width: parent.width
     height: parent.height
 
+    readonly property url addfriendPage_loader: "AddfriendPage.qml"
+    // readonly property url groupList_loader: "AddfriendPage.qml"
+    // readonly property url label_loader: "AddfriendPage.qml"
+
     function add_to_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
         name_model.append({name:name , first_letter:first_letter, avatar_path: avatar_path})
     }
@@ -24,9 +28,9 @@ Rectangle {
     }
 
     Connections{
-        target: afcontroller
+        target: afController
 
-        function onAddFriendChanged(friend_name, first_letter, avatar_path) {
+        function onAddFriChanged(friend_name, first_letter, avatar_path) {
             if(afcontroller.getAddFri() === 1){
                 afcontroller.setAddfri(0);
                 add_to_contacts(friend_name, first_letter, avatar_path);
@@ -51,7 +55,6 @@ Rectangle {
     Component {
         id: contacts_delegate
 
-
         Row {
             id: row
             spacing: 10
@@ -62,6 +65,7 @@ Rectangle {
                 width: contactsPage.width / 11
                 height: width
                 source: avatar_path
+                fillMode: Image.PreserveAspectFit
             }
             Rectangle{
                 id: rect
@@ -87,6 +91,10 @@ Rectangle {
                     if(model.name === "新的朋友"){
                         // console.log(model.name)
                         // loader 动态加载页面 AddfriendPage
+                        loader.source = addfriendPage_loader
+                        titletext = "新的朋友"
+                        pagebar_visible = false
+                        backvisible = true
                     }
                     if(model.name === "群聊"){
                         // console.log(model.name)
@@ -163,6 +171,7 @@ Rectangle {
                             width: contactsPage.width / 11
                             height: model.first_letter === parentItem.letter ? width : 0
                             source: model.first_letter === parentItem.letter ? model.avatar_path : ""
+                            fillMode: Image.PreserveAspectFit
                         }
                         Rectangle{width: 10; height:0.1}
                         Rectangle{
@@ -197,5 +206,4 @@ Rectangle {
         }
     }
 }
-
 

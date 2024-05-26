@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QQmlEngine>
 #define MAX 1024
+
 class Client
 {
 
@@ -32,7 +33,9 @@ public:
 
     bool receive(char *buf);
 
-    //void start();
+    void start();
+
+    int select();
 
     //void reconnect();
 

@@ -1,5 +1,6 @@
 #ifndef PERSONALPAGECONTROLLER_H
 #define PERSONALPAGECONTROLLER_H
+
 #include <QQmlEngine>
 class PersonalPageController : public QObject
 {
@@ -11,7 +12,7 @@ public:
     PersonalPageController(QObject *parent = nullptr);
 
     Q_INVOKABLE void initPersonalData();
-
+    Q_INVOKABLE void test();
     void setNetname(const QString str);
     QString netname()const;
     void setNetnumber(const QString number);

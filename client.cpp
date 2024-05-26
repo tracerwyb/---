@@ -24,7 +24,16 @@ bool Client::receive(char *buf) {
     return NULL;
 }
 
-//void Client::start() {}
+void Client::start() {
+
+    m_network.createSocket();
+}
+
+int Client::select()
+{
+    int result=m_network.Select();
+    return result;
+}
 
 //void Client::reconnect() {}
 
@@ -33,7 +42,6 @@ bool Client::receive(char *buf) {
 void Client::closeSocket() {
     m_network.closeSocket();
 }
-
 
 
 char* Client::Messagedata()
