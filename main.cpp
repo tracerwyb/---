@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("listenThread",&listenThread);
 
-    const QUrl url(QStringLiteral("qrc:/qml/Main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qml/InitPage.qml"));
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,

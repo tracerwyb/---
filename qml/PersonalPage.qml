@@ -12,12 +12,31 @@ Rectangle{
     visible: true
     color: "#FFFAFF"
 
-
+    Loader {
+        id: loadermine
+        anchors.fill: parent
+        asynchronous: true
+        Component.onCompleted: {
+        }
+    }
     Rectangle{
         id:re
         width: parent.width
         height: parent.height/4
         color:"white"
+
+        TapHandler{
+            id:avatertaphandler
+            onTapped:{
+                loader.source="PersonalInformation.qml"
+                titlevisible=true
+                themeColor="#ededed"
+                titletext="个人信息"
+                console.log("avater was clicked:"+titletext)
+            }
+
+        }
+
         Rectangle{
 
             id:avatar;
@@ -74,17 +93,7 @@ Rectangle{
         width: parent.width
         height: parent.height/15
         anchors.top: re.bottom
-        anchors.topMargin: 30
-        // color: "red"
-        TapHandler{
-            id:servetaphandler
-            onTapped: {
-                console.log("serve was clicked");
-                listenThread.startThread();
-            }
-
-        }
-
+        anchors.topMargin: 30   
         // Button{
         //     anchors.fill: parent
         //     flat: true                        //设置为扁平按钮
@@ -206,7 +215,6 @@ Rectangle{
             id:setuptaphandler
             onTapped: {
                 console.log("setup was clicked!")
-                personalctrller.test()
             }
         }
         Image {

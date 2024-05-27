@@ -2,6 +2,7 @@
 #include "string.h"
 #include "nlohmann/json.hpp"
 #include <iostream>
+#include <string>
 
 Client::Client(){
     m_network.createSocket();
@@ -46,8 +47,11 @@ void Client::closeSocket() {
 
 char* Client::Messagedata()
 {
-    std::cout<<"please enter your message:"<<std::endl;
-    std::cin.get(buf,1024);
+    // std::cout<<"please enter your message:"<<std::endl;
+    // std::cin.get(buf,1024);
+   // std::string s={"hello good morning"};
+    std::string s="hello ,kang kang";
+    strcpy(buf,s.c_str());
     return buf;
 }
 
@@ -65,21 +69,45 @@ void Client::comversionJson(char* json_buf)
     strcpy(json_buf,s.data());
 }
 void Client::setId()
-{    
+{
     time = QDateTime::currentDateTime();
-    std::cout<<"Please input your id:"<<std::endl;
-    std::cin>>id;
-    std::cin.get();
+    // std::cout<<"Please input your id:"<<std::endl;
+    // std::cin>>id;
+    // std::cin.get();
+    id=3;
 }
 
 void Client::setAcceptId(){
-    std::cout<<"Please input aceept id:"<<std::endl;
-    std::cin>>acid;
-    std::cin.get();
+    // std::cout<<"Please input aceept id:"<<std::endl;
+    // std::cin>>acid;
+    // std::cin.get();
+    acid=5;
 }
 void Client::setRequestType(){
-    std::cout<<"Please requst type:"<<std::endl;
-    std::cin>>request_type;
-    std::cin.get();
+    // std::cout<<"Please requst type:"<<std::endl;
+    // std::cin>>request_type;
+    // std::cin.get();
+    request_type="sendmsg";
 }
+// void Client::setId()
+// {
+//     time = QDateTime::currentDateTime();
+//     // std::cout<<"Please input your id:"<<std::endl;
+//     // std::cin>>id;
+//     // std::cin.get();
+//     id=5;
+// }
+
+// void Client::setAcceptId(){
+//     // std::cout<<"Please input aceept id:"<<std::endl;
+//     // std::cin>>acid;
+//     // std::cin.get();
+//     acid=3;
+// }
+// void Client::setRequestType(){
+//     // std::cout<<"Please requst type:"<<std::endl;
+//     // std::cin>>request_type;
+//     // std::cin.get();
+//     request_type="sendmsg";
+// }
 

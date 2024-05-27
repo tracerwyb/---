@@ -4,13 +4,13 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts
 import UIControl 1.0
 
-ApplicationWindow {
+Item{
     id: main
 
     width: Screen.desktopAvailableWidth
     height: Screen.desktopAvailableHeight
     visible: true
-    title: qsTr("Hello World")
+    // title: qsTr("Hello World")
 
     readonly property url messagePreviewPage_loader: "MessagePreviewPage.qml"
     readonly property url communicationPage_loader: "CommunicationPage.qml"
@@ -19,6 +19,7 @@ ApplicationWindow {
     readonly property url personalPage_loader: "PersonalPage.qml"
     readonly property url showFriend_loader: "ShowFriendPage.qml"
     readonly property url showStranger_loader: "ShowStrangerPage.qml"
+    readonly property url personalinformation_loader: "PersonalInformation"
 
     property string titlecolor: themeColor
     property string themeColor: "#ededed"
@@ -28,6 +29,7 @@ ApplicationWindow {
     property bool pagebar_visible: true
     property alias afController: afController
     property alias loader: loader
+    //property alias titletext:titletext
     property int page_num: 3
     property double barheight_rate: 0.05
 
@@ -35,6 +37,9 @@ ApplicationWindow {
         id: afController
 
     }
+    // PersonalPageController{
+    //     id:personalctrller
+    // }
 
     Rectangle{
         width: parent.width
@@ -101,7 +106,11 @@ ApplicationWindow {
                     anchors.rightMargin: 20
                     anchors.verticalCenter: parent.verticalCenter
                     source: "../assets/Picture/icons/to_personInfo.png"
-                    visible: loader.source === communicationPage_loader ? true : (title_text.visible === true ? false : true)
+                    visible: loader.source === communicationPage_loader ?
+                                 true :
+                                 (loader.source === personalPage_loader ?
+                                      false :
+                                      (title_text.visible === true ? false : true))
                 }
             }
         }
@@ -119,6 +128,12 @@ ApplicationWindow {
                 asynchronous: true
                 source:contactListPage_loader
                 Component.onCompleted: {
+                }
+                onSourceChanged: {
+                    if(source===personalinformation_loader)
+                    {
+                        console.log("source change!!!!!!!!!!!!!!")
+                    }
                 }
             }
 
@@ -153,13 +168,20 @@ ApplicationWindow {
                         }
                         onClicked: {
                             if(index === 0){
+                                titlevisible=true
+                                titlecolor=themeColor
                                 loader.source = messagePreviewPage_loader
                             }
                             if(index === 1){
+                                titlevisible=true
+                                titlecolor=themeColor
                                 loader.source = contactListPage_loader
                             }
                             if(index === 2){
+                                personalctrller.initPersonalData()
                                 loader.source = personalPage_loader
+                                titlevisible=false
+                                themeColor="white"
                             }
                             backvisible = false
                             titletext = "微信"

@@ -8,5 +8,7 @@
         <file>qml/ContactListPage.qml</file>
         <file>qml/ShowFriendPage.qml</file>
         <file>qml/ShowStrangerPage.qml</file>
+        <file>qml/PersonalInformation.qml</file>
+        <file>qml/InitPage.qml</file>
     </qresource>
 </RCC>
