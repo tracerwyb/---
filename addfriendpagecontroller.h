@@ -36,20 +36,27 @@ public:
 
     Q_INVOKABLE int addFri() const;
     Q_INVOKABLE void setAddFri(int);
+    void receiveFriBaseInfo(char *text);
+    void receiveAddRequest(
+        char *text); // receive all friend base info, request type: "addFriendRequest"
+    void receiveAcceptSignal(char *text);
     // Q_INVOKABLE QString jsonToQstring(QJsonObject jsonObject);
     // Q_INVOKABLE QJsonObject qstringToJson(QString jsonString);
 
 signals:
-    void addFriChanged(QString friend_name, QString first_letter, QString avatar_path);
     void friendBaseInfo(QString);
+    void sendToAddFriRequest(QString);
+    void sendAcceptSignal(char *text);
 
 public slots:
     QString onSearchTextChanged(QString text);
     bool onSendAddFriRequest(int target_id); // send user id and target(friend) id to server
+    void onAddToContacts(int ID, QString nickname, QString firstletter, QString avatar_path);
 
 private:
     int m_addfri = 0;
-    int user_id;
+    int user_id; // initialize when user login
+    std::vector<int> m_friendlist;
 };
 
 #endif

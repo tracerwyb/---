@@ -5,26 +5,43 @@ Rectangle {
     id: newfriend
     width: parent.width
     height: parent.height
+    color: "#eeeeee"
 
     property bool loaderVisible : false
+    property bool newfriV: true
 
     signal searchTextChanged(var text)
 
+    function findPerson(personID){
+        // 1. search from local document
+        // 2. is exist -> return info
+        // 3. not exist -> send find signal to server with person(target) id
+        searchTextChanged(personID)
+    }
+
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
+        addToContacts.connect(afController.onAddToContacts)
     }
 
     Connections{
         target: afController
         function onFriendBaseInfo(text){
             console.log("on friend base info called")
-            return JSON.parse(text)
+            // 1. let text easy to understand
+            setProperties(text)
+
         }
+        function onSendToAddFriRequest(text){
+            var tmp = JSON.parse(text)
+            addreq_model.append(tmp[1][1],tmp[2][1],getFirstLetter.getFirstWord(tmp[2][1]),tmp[5][1])
+        }
+
     }
 
     // friend base info page loader
     Loader{
-        id: loader
+        id: loader_stranger
         asynchronous: true
         anchors.fill: parent
         source: showFriend_loader
@@ -37,13 +54,15 @@ Rectangle {
     Rectangle
     {
         id:searchBar
-        y: parent.height * 0.05
+        y: parent.height * 0.02
+        z: 1
         anchors.horizontalCenter: parent.horizontalCenter
         width:newfriend.width * 0.9
-        height: newfriend.height / 14
+        height: newfriend.height / 18
         border.color: "#e8e8e8"
         border.width: 1
-        radius: searchBar.height / 2
+        radius: searchBar.height / 4
+        visible: newfriV
         //信号
 
         TextInput {
@@ -80,8 +99,8 @@ Rectangle {
             TapHandler{
                 id: searchButton_img
                 onTapped: {
-                    searchTextChanged(search_content.text)
-                    searchBar.visible = false
+                    findPerson(search_content.text)
+                    newfriV = false
 
                     titlecolor = "#ffffff"
                     loaderVisible = true
@@ -102,18 +121,141 @@ Rectangle {
             TapHandler{
                 id: searchButton_text
                 onTapped: {
-                    searchTextChanged(search_content.text)
+                    findPerson(search_content.text)
+
+                    nickname = model.name
+                    signal_text_ = model.signal_text
+                    area_ = model.area
+                    avatar_path_ = model.avatar_path
 
                     titlecolor = "#ffffff"
                     loaderVisible = true
                     titlevisible = false
-                    searchBar.visible = false
+                    newfriV = false
                     search_content.focus = false
                 }
             }
         }
     }
 
+    ListView{
+        id: addreq
+        width: parent.width
+        height: parent.height - searchBar.height - searchBar.y - gap.height
+        model:addreq_model
+        delegate: addreq_delegate
+        visible: newfriV
+        anchors.top: gap.bottom
+    }
 
+    Rectangle{
+        id: gap
+        width: parent.width
+        height:searchBar.height / 4
+        color: "#eeeeee"
+        visible: newfriV
+        anchors.top: searchBar.bottom
+    }
+
+    ListModel{
+        id: addreq_model
+        ListElement{ID:"00000000";nickname:"测试"; fristletter:"a";avatar:"../assets/Picture/avatar/cats.jpg";who:"hhh"}
+    }
+
+    Component{
+        id: addreq_delegate
+
+        Rectangle{
+            id: addreq_rec
+            width: newfriend.width
+            height: searchBar.height * 1.5
+
+            Row{
+                spacing: 20
+                anchors.verticalCenter: parent.verticalCenter
+
+                Rectangle{
+                    width: 1
+                    height: 1
+                }
+
+                Rectangle{
+                    id: avatar
+                    width: addreq_rec.height / 1.25
+                    height: width
+                    anchors.verticalCenter: parent.verticalCenter
+                    Image {
+                        id: image
+                        width: parent.height
+                        height: width
+                        fillMode: Image.PreserveAspectFit
+                        visible: false
+                        source: model.avatar
+                    }
+                    Rectangle {
+                        id: maskRec
+                        anchors.centerIn: parent
+                        width: image.width
+                        height: image.height
+                        color:"transparent"
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: image.paintedWidth
+                            height: image.paintedHeight
+                            color:"black"
+                            radius: 10
+                        }
+                        visible: false;
+                    }
+                    OpacityMask {
+                        id: avatar_mask
+                        anchors.fill: image
+                        source: image
+                        maskSource: maskRec
+                    }
+                }
+
+                Rectangle{
+                    id: show_nickname
+                    width: addreq_rec.width - avatar.width - 30
+                    height: avatar.height * 0.8
+                    anchors.verticalCenter: avatar.verticalCenter
+                    Text {
+                        id:t1
+                        text: qsTr(model.nickname)
+                        font.pointSize: 15
+                    }
+                    Text {
+                        text: qsTr(model.who)
+                        font.pointSize: 12
+                        color: "#8a8a8a"
+                        anchors.top: t1.bottom
+                    }
+                    Rectangle{
+                        id: accept_but
+                        width:parent.width / 5.5
+                        height: parent.height / 1.3
+                        radius: 10
+                        anchors.right: parent.right
+                        anchors.rightMargin: 40
+                        anchors.verticalCenter: parent.verticalCenter
+                        border.color: "#eeeeee"
+                        Text{
+                            text: qsTr("接受")
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        TapHandler{
+                            onTapped: {
+                                console.log("accept button on clicked")
+                                addFriend(model.ID, model.nickname, model.fristletter, model.avatar)
+                                isContactsUpdate = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 

@@ -12,7 +12,7 @@ private:
     static Client *m_instance;
     Network *m_network;
     char buf[MAX];
-        
+
 public:
     char *Messagedata();
 

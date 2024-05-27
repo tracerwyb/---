@@ -7,19 +7,28 @@ Rectangle{
     width:parent.width
     height:parent.height
 
-    property string friendID: "2000000"
-    property string nickname: "85"
-    property string memo: "85"
-    property string signal_text: "罪业的报偿"
-    property string area: "中国大陆 重庆"
-
+    property string friendID: parent.friendID /* "2000000"*/
+    property string nickname: parent.nickname /*"85"*/
+    property string memo: parent.memo_ /*"85"*/
+    property string signal_text: parent.signal_text_ /*"罪业的报偿"*/
+    property string area: parent.area_ /*"中国大陆 重庆"*/
+    property string avatar_path: parent.avatar_path_ /*"../assets/Picture/avatar/cats.jpg"*/
     color: "#eeeeee"
 
     // signal sendAddFriRequest(var text)
 
-    // Component.onCompleted: {
-    //     sendAddFriRequest.connect(afController.onSendAddFriRequest)
-    // }
+    Component.onCompleted: {
+        console.log("contact list on clicked")
+        console.log(parent)
+        console.log(friendID)
+        console.log(nickname)
+        console.log(memo)
+        console.log(signal_text)
+        console.log(avatar_path)
+        console.log(area)
+        console.log(test)
+        // sendAddFriRequest.connect(afController.onSendAddFriRequest)
+    }
 
     // Loader{
     //     id: msgpage_loader
@@ -59,7 +68,7 @@ Rectangle{
                     height: width
                     fillMode: Image.PreserveAspectFit
                     visible: false
-                    source: "../assets/Picture/avatar/cats.jpg"
+                    source: avatar_path
                 }
                 Rectangle {
                     id: maskRec
@@ -122,10 +131,6 @@ Rectangle{
             }
         }
         Rectangle{
-            anchors{
-                fill: rect;
-                bottomMargin:rect.border.width;
-            }
             width: parent.width * 0.9
             height: 0.6
             border.color: "#c7c7c7"
@@ -212,10 +217,6 @@ Rectangle{
             }
         }
         Rectangle{
-            anchors{
-                fill: rect;
-                bottomMargin:rect.border.width;
-            }
             width: parent.width * 0.9
             height: 0.6
             border.color: "#c7c7c7"
@@ -287,10 +288,6 @@ Rectangle{
             anchors.verticalCenter: parent.verticalCenter
         }
         Rectangle{
-            anchors{
-                fill: rect;
-                bottomMargin:rect.border.width;
-            }
             width: parent.width
             height: 0.6
             border.color: "#c7c7c7"

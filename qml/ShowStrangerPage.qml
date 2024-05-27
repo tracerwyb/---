@@ -7,9 +7,11 @@ Rectangle{
     width:parent.width
     height:parent.height
 
-    property string signal_text: "罪业的报偿"
-    property string friend_name: "85"
-    property string area: "中国大陆 重庆"
+    property string friendID: parent.friendID
+    property string signal_text: parent.signal_text_
+    property string friend_name: parent.nickname
+    property string area: parent.area_
+    property string avatar_path: parent.avatar_path_
 
     color: "#eeeeee"
 

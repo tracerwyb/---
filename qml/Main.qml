@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Window 2.2
 import QtQuick.Layouts
 import UIControl 1.0
+import Algorithm 1.0
 
 ApplicationWindow {
     id: main
@@ -34,6 +35,10 @@ ApplicationWindow {
     AddFriendPageController{
         id: afController
 
+    }
+
+    GetFirstLetter{
+        id:getFirstLetter
     }
 
     Rectangle{
@@ -115,11 +120,15 @@ ApplicationWindow {
             border.color: "black"
             Loader {
                 id: loader
+                property string friendID /* "2000000"*/
+                property string nickname /*"85"*/
+                property string memo_ /*"85"*/
+                property string signal_text_ /*"罪业的报偿"*/
+                property string area_ /*"中国大陆 重庆"*/
+                property string avatar_path_ /*"中国大陆 重庆"*/
                 anchors.fill: parent
                 asynchronous: true
                 source:contactListPage_loader
-                Component.onCompleted: {
-                }
             }
 
         }
