@@ -14,9 +14,11 @@ qt_add_executable(appWechat-Client
     communicationpagecontroller.h       communicationpagecontroller.cpp
     addfriendpagecontroller.h           addfriendpagecontroller.cpp
     personalpagecontroller.h            personalpagecontroller.cpp
+    getfirstletter.h                    getfirstletter.cpp
 
     qml.qrc
     assets.qrc
+
 )
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)

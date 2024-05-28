@@ -4,6 +4,7 @@
 #include "addfriendpagecontroller.h"
 #include "client.h"
 #include "communicationpagecontroller.h"
+#include "getfirstletter.h"
 #include "messagepreviewpagecontroller.h"
 #include "network.h"
 #include "personalpagecontroller.h"
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
     qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
     qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageController");
+    qmlRegisterType<GetFirstLetter>("Algorithm", 1, 0, "GetFirstLetter");
 
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;

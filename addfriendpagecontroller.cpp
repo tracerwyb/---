@@ -13,7 +13,6 @@ void AddFriendPageController::setFriendDetail() const {}
 void AddFriendPageController::setAddFri(int addfri)
 {
     m_addfri = addfri;
-    emit addFriChanged("saj", "s", "");
 };
 
 int AddFriendPageController::addFri() const
@@ -21,36 +20,23 @@ int AddFriendPageController::addFri() const
     return m_addfri;
 };
 
-// QString AddFriendPageController::jsonToQstring(QJsonObject jsonObject)
-// {
-//     QJsonDocument document;
-//     document.setObject(jsonObject);
-//     QByteArray simpbyte_array = document.toJson(QJsonDocument::Compact);
-//     QString simpjson_str(simpbyte_array);
-
-//     return simpjson_str;
-// }
-// QJsonObject AddFriendPageController::qstringToJson(QString jsonString)
-// {
-//     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonString.toLocal8Bit().data());
-//     if (jsonDocument.isNull()) {
-//         qDebug() << "String NULL" << jsonString.toLocal8Bit().data();
-//     }
-//     QJsonObject jsonObject = jsonDocument.object();
-//     return jsonObject;
-// }
+void AddFriendPageController::receiveFriBaseInfo(char *text)
+{
+    emit friendBaseInfo(QString::fromStdString(json::parse(text).dump()));
+}
 
 QString AddFriendPageController::onSearchTextChanged(QString text)
 {
     qDebug() << text.toStdString();
 
-    // send get friend info request to server
+    // 1. send get friend info request to server
     json str;
     str.push_back({"request", "getFriendBaseInfo"});
     str.push_back({"na", "friendBaseinfo"});
     if (str[0][1] == "getFriendBaseInfo") {
-        friendBaseInfo(QString::fromStdString(str.dump()));
+        emit friendBaseInfo(QString::fromStdString(str.dump()));
     }
+
     return text;
 }
 
@@ -58,9 +44,29 @@ bool AddFriendPageController::onSendAddFriRequest(int target_id)
 {
     qDebug() << target_id;
 
-    //called function of network to send friend request to server
+    //1. send friend request to server
 
     return true;
+}
+
+void AddFriendPageController::receiveAddRequest(char *text)
+{
+    emit sendToAddFriRequest(QString::fromStdString(json::parse(text).dump()));
+}
+
+void AddFriendPageController::onAddToContacts(int ID,
+                                              QString nickname,
+                                              QString firstletter,
+                                              QString avatar_path)
+{
+    // 1.add to m_friendlist
+    // 2.store in local document
+    // 3.send accept signal to server(with accepter id) 所有查找过的其他人的基本信息都存在一个文件里面， 该文件有状态friend_state: 1 -1,代表是否是朋友关系
+}
+
+void AddFriendPageController::receiveAcceptSignal(char *text)
+{
+    emit sendAcceptSignal(text);
 }
 
 /* server: send msg 
