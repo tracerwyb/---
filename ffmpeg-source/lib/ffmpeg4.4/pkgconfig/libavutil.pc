@@ -1,0 +1,14 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib/ffmpeg4.4
+includedir=/usr/include/ffmpeg4.4
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 56.70.100
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavutil 
+Libs.private: -pthread -lva-drm -lva -lva-x11 -lva -lvdpau -lX11 -lm -ldrm -lva -latomic -lXv -lX11 -lXext
+Cflags: -I${includedir}

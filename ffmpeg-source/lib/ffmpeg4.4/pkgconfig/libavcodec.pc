@@ -1,0 +1,14 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib/ffmpeg4.4
+includedir=/usr/include/ffmpeg4.4
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 58.134.100
+Requires: 
+Requires.private: libswresample >= 3.9.100, libavutil >= 56.70.100
+Conflicts:
+Libs: -L${libdir}  -lavcodec 
+Libs.private: -lvpx -lm -lvpx -lm -lvpx -lm -lvpx -lm -lwebpmux -pthread -lm -latomic -llzma -ldav1d -lopencore-amrwb -lrsvg-2 -lm -lgio-2.0 -lgdk_pixbuf-2.0 -lgobject-2.0 -lglib-2.0 -lcairo -lz -lgsm -lmp3lame -lm -lopencore-amrnb -lopenjp2 -lopus -lspeex -ltheoraenc -ltheoradec -logg -lvorbis -lvorbisenc -lwebp -lx264 -lx265 -lxvidcore -lva
+Cflags: -I${includedir}

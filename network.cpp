@@ -7,7 +7,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#define IPADDR "10.253.184.12" //"10.253.172.131"
+
+#define IPADDR "10.253.192.10" //"10.253.172.131"
 #define PORT 9879
 Network::Network() {}
 
@@ -47,43 +48,25 @@ void Network::sendTextMessage(char* sendmessage,int size)
     }
 }
 
-void Network::reciveTextMessage()
+int Network::reciveTextMessage(char* recivemessage)
 {
     int size=0;
-    read(m_listenfd,&size,sizeof(size));
-    qDebug()<<"size :"<<size;
-    char recivemessage[1024]="";
-    int nbytes;
-    if(ioctl(m_listenfd,FIONREAD,&nbytes) == -1){
-        qDebug()<<"erro iotrl";
-    }else{
-        if(nbytes>0){
-            qDebug()<<"buffer have data:"<<nbytes;
-        }
-        else {
-            qDebug()<<"no data";
-        }
+    int result=read(m_listenfd,&size,sizeof(size));
+    if(result<=0){
+        return -1;
     }
+    qDebug()<<"size :"<<size;
+    //char recivemessage[1024]="";
     int n=0;
     int posx=0;
     while((size-n)>0 ){
-        n=read(m_listenfd,recivemessage+posx,size);
+        n=read(m_listenfd,recivemessage+posx,size); //size=size-n
         posx+=n;
     }
     qDebug()<<"mesg:"<<recivemessage;
-    int nbytes2;
-    if(ioctl(m_listenfd,FIONREAD,&nbytes2) == -1){
-        qDebug()<<"erro iotrl";
-    }else{
-        if(nbytes2>0){
-            qDebug()<<"buffer have data:"<<nbytes2;
-        }
-        else {
-            qDebug()<<"no data";
-        }
-    }
+    return 0;
 }
-//源代码
+
 void Network::closeSocket()
 {
     close(m_listenfd);

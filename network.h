@@ -8,7 +8,7 @@ public:
     Network();
     void createSocket();
     void sendTextMessage(char* sendmessage,int size);
-    void reciveTextMessage();
+    int reciveTextMessage(char *recivemessage);
     void closeSocket();
     int Select();
 private:
