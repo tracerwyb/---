@@ -5,7 +5,6 @@
 #include <string>
 
 Client::Client(){
-    m_network.createSocket();
     qDebug()<<"Client connect Server......";
 }
 Client* Client::m_instance = nullptr;
@@ -20,9 +19,9 @@ void Client::send(char *buf, int size) {
     m_network.sendTextMessage(buf,size);
 }
 
-bool Client::receive(char *buf) {
-    m_network.reciveTextMessage(buf);
-    return NULL;
+int Client::receive(char *buf) {
+    int n=m_network.reciveTextMessage(buf);
+    return n;
 }
 
 void Client::start() {
@@ -45,12 +44,13 @@ void Client::closeSocket() {
 }
 
 
-char* Client::Messagedata()
+char* Client::Messagedata(QString sendmsg)
 {
     // std::cout<<"please enter your message:"<<std::endl;
     // std::cin.get(buf,1024);
    // std::string s={"hello good morning"};
-    std::string s="hello ,kang kang";
+
+    std::string s=sendmsg.toStdString();
     strcpy(buf,s.c_str());
     return buf;
 }
@@ -68,20 +68,20 @@ void Client::comversionJson(char* json_buf)
     std::string s=j.dump();
     strcpy(json_buf,s.data());
 }
-void Client::setId()
+void Client::setId(int inputid)
 {
     time = QDateTime::currentDateTime();
     // std::cout<<"Please input your id:"<<std::endl;
     // std::cin>>id;
     // std::cin.get();
-    id=3;
+    id=inputid;
 }
 
-void Client::setAcceptId(){
+void Client::setAcceptId(int id){
     // std::cout<<"Please input aceept id:"<<std::endl;
     // std::cin>>acid;
     // std::cin.get();
-    acid=5;
+    acid=id;
 }
 void Client::setRequestType(){
     // std::cout<<"Please requst type:"<<std::endl;

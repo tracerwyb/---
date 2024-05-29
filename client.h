@@ -31,7 +31,7 @@ public:
 
     void send(char *buf, int size);
 
-    bool receive(char *buf);
+    int receive(char *buf);
 
     void start();
 
@@ -44,10 +44,10 @@ public:
     void closeSocket();
 
     
-    char *Messagedata();
+    char *Messagedata(QString string);
     void comversionJson(char* json_buf);
-    void setId();
-    void setAcceptId();
+    void setId(int);
+    void setAcceptId(int);
     void setRequestType();
 
 };

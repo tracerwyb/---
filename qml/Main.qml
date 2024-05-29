@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import UIControl 1.0
 
 Item{
+
     id: main
 
     width: Screen.desktopAvailableWidth
@@ -191,4 +192,195 @@ Item{
             }
         }
     }
+
+
+ //    Rectangle{
+ //        id:initRectangle
+ //        anchors.fill: parent
+ //        color: "#ededed"
+ //        Column{
+ //            id:initColumn
+ //            anchors.horizontalCenter: parent.horizontalCenter
+ //            anchors.verticalCenter: parent.verticalCenter
+ //            Rectangle{
+ //                id:inputRecid
+ //                width: init.width/10*8
+ //                height: init.height/10
+ //                //color:"#FFAAFF"
+ //                Row{
+ //                    anchors.horizontalCenter: parent.horizontalCenter
+ //                    anchors.verticalCenter: parent.verticalCenter
+ //                    id:idrow
+ //                    spacing: 25
+ //                    Rectangle{
+ //                        width: 50
+ //                        height: inputRecid.height/2
+ //                        // color: "#DEDEDE"
+ //                        Text {
+ //                            anchors.horizontalCenter: parent.horizontalCenter
+ //                            anchors.verticalCenter: parent.verticalCenter
+ //                            id: myidtext
+ //                            text: qsTr("AcceptId:")
+ //                            font.pixelSize: 22
+ //                    }
+ //                    }
+ //                    Rectangle{
+ //                        width: inputRecid.width/5*4
+ //                        height: inputRecid.height/2
+ //                        // color: "#"
+ //                        border.color: "black"
+ //                        TextInput{
+ //                            id:idtextinput
+ //                            anchors.fill: parent
+ //                            autoScroll: false
+ //                            echoMode:TextInput.Normal
+ //                            // maximumLength: 10
+ //                            font.pixelSize: 22
+ //                            horizontalAlignment: TextInput.AlignLeft
+ //                            verticalAlignment: TextInput.AlignVCenter
+ //                            leftPadding: 10
+
+ //                            validator: RegularExpressionValidator{
+ //                                            regularExpression: /\b[1-9]\d{7}\b/
+ //                                        }
+ //                        }
+ //                    }
+ //                }
+ //            }
+ // //----------------------------           ----------------------------------------------------------
+ //            Rectangle{
+ //                id:inputRecid2
+ //                width: init.width/10*8
+ //                height: init.height/10
+ //                //color:"#FFAAFF"
+ //                Row{
+ //                    anchors.horizontalCenter: parent.horizontalCenter
+ //                    anchors.verticalCenter: parent.verticalCenter
+ //                    id:idrow2
+ //                    spacing: 25
+ //                    Rectangle{
+ //                        width: 50
+ //                        height: inputRecid2.height/2
+ //                        // color: "#DEDEDE"
+ //                        Text {
+ //                            anchors.horizontalCenter: parent.horizontalCenter
+ //                            anchors.verticalCenter: parent.verticalCenter
+ //                            id: myidtext2
+ //                            text: qsTr("Message:")
+ //                            font.pixelSize: 22
+ //                    }
+ //                    }
+ //                    Rectangle{
+ //                        width: inputRecid2.width/5*4
+ //                        height: inputRecid.height/2
+ //                        // color: "#"
+ //                        border.color: "black"
+ //                        TextInput{
+ //                            id:idtextinput2
+ //                            anchors.fill: parent
+ //                            autoScroll: false
+ //                            echoMode:TextInput.Normal
+ //                            // maximumLength: 10
+ //                            font.pixelSize: 22
+ //                            horizontalAlignment: TextInput.AlignLeft
+ //                            verticalAlignment: TextInput.AlignVCenter
+ //                            leftPadding: 10
+ //                            onAccepted: {
+ //                                personalctrller.sendmsg=idtextinput2.text
+ //                            }
+ //                        }
+ //                    }
+ //                }
+ //            }
+ //    //--------------------------------------------------------------------
+ //            Rectangle{
+ //                id:inputRecid3
+ //                width: init.width/10*8
+ //                height: init.height/10
+ //                //color:"#FFAAFF"
+ //                Row{
+ //                    anchors.horizontalCenter: parent.horizontalCenter
+ //                    anchors.verticalCenter: parent.verticalCenter
+ //                    id:idrow3
+ //                    spacing: 25
+ //                    Rectangle{
+ //                        width: 50
+ //                        height: inputRecid3.height/2
+ //                        // color: "#DEDEDE"
+ //                        Text {
+ //                            anchors.horizontalCenter: parent.horizontalCenter
+ //                            anchors.verticalCenter: parent.verticalCenter
+ //                            id: myidtext3
+ //                            text: qsTr("AcceptMessage:")
+ //                            font.pixelSize: 22
+ //                    }
+ //                    }
+ //                    Rectangle{
+ //                        width: inputRecid3.width/5*4
+ //                        height: inputRecid3.height/2
+ //                        // color: "#"
+ //                        border.color: "black"
+ //                        TextInput{
+ //                            id:idtextinput3
+ //                            anchors.fill: parent
+ //                            autoScroll: false
+ //                            echoMode:TextInput.Normal
+ //                            // maximumLength: 10
+ //                            font.pixelSize: 22
+ //                            horizontalAlignment: TextInput.AlignLeft
+ //                            verticalAlignment: TextInput.AlignVCenter
+ //                            leftPadding: 10
+ //                            text: personalctrller.acceptmsg
+ //                        }
+ //                    }
+ //                    Component.onCompleted: {
+ //                        personalctrller.acceptmsgChanged.connect(function(msg){
+ //                            console.log("signal was touch");
+ //                            idtextinput3.text=msg;
+ //                        }
+ //                            )
+ //                    }
+ //                }
+
+ //            }
+ //    //------------------------------------------------------------------------------
+ //            spacing: 10
+ //            Rectangle{
+ //                id:initbuttonRec
+ //                width: init.width/10*8
+ //                height: init.height/15
+ //                Button{
+ //                    anchors.fill: parent
+ //                    id:initbutton
+ //                    background:Rectangle{
+ //                        id:bgRec
+ //                        anchors.fill: parent
+ //                        color: "#3399FF"
+ //                        radius: 5
+ //                    }
+ //                    onPressed: {
+ //                        bgRec.color="#66B2FF"
+ //                    }
+ //                    onReleased: {
+ //                        bgRec.color="#3399FF"
+ //                    }
+
+ //                    Text{
+ //                        anchors.horizontalCenter: parent.horizontalCenter
+ //                        anchors.verticalCenter: parent.verticalCenter
+ //                        id:buttontext
+ //                        text:qsTr("send")
+ //                        font.pixelSize: 25
+ //                        color: "white"
+ //                    }
+
+ //                    onClicked: {
+ //                        personalctrller.acceptid=idtextinput.text
+ //                        personalctrller.send()
+ //                    }
+ //                }
+ //            }
+ //        }
+ //    }
+
 }

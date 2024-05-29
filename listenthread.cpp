@@ -1,5 +1,7 @@
 #include "listenthread.h"
 #include "client.h"
+#include "nlohmann/json.hpp"
+#include "personalpagecontroller.h"
 
 ListenThread::ListenThread(QObject *parent):QThread(parent),state(true)
 {
@@ -29,14 +31,17 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
         bzero(buf,sizeof(buf));
         qDebug()<<"begin to read";
         int n=Client::getInstance()->receive(buf);
-        qDebug()<<"read ok";
+        qDebug()<<"read ok"<<n;
+
         if(n == -1){
             qDebug()<<"listenthread read failed!";
             break;
         }
         //从将套接字内容读到了buf中，下接转json存储
-
-
+        auto j=nlohmann::json::parse(buf);
+        std::string content;
+        content=j.at("content");
+        PersonalPageController::setAcceptmsg(content);
     }
 
     qDebug()<<"the listen thread finish work";
