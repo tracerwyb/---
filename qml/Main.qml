@@ -120,12 +120,14 @@ ApplicationWindow {
             border.color: "black"
             Loader {
                 id: loader
-                property string friendID /* "2000000"*/
-                property string nickname /*"85"*/
-                property string memo_ /*"85"*/
-                property string signal_text_ /*"罪业的报偿"*/
-                property string area_ /*"中国大陆 重庆"*/
-                property string avatar_path_ /*"中国大陆 重庆"*/
+                property string friendID
+                property string nickname
+                property string memo_
+                property string signal_text_
+                property string area_
+                property string avatar_path_
+                property string gender_
+
                 anchors.fill: parent
                 asynchronous: true
                 source:contactListPage_loader

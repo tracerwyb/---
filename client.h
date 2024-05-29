@@ -47,6 +47,7 @@ public:
     char *Messagedata();
     void comversionJson(char* json_buf);
     void setId();
+    int getId();
     void setAcceptId();
     void setRequestType();
 

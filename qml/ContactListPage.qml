@@ -13,19 +13,11 @@ Rectangle {
     // readonly property url groupList_loader: "AddfriendPage.qml"
     // readonly property url label_loader: "AddfriendPage.qml"
 
-    signal addToContacts(var ID,var name,var first_letter,var avatar_path)
-
     Component.onCompleted: {
         if(isContactsUpdate){
             readFriendFromLocal()
             isContactsUpdate = false
         }
-    }
-
-    function addFriend(ID, nickname, firstletter, avatar_path){
-        addToContacts(ID, nickname, firstletter, avatar_path)
-        // 1. add new friend relation to local doucument
-        console.log("add new friend relation to local doucument")
     }
 
     function setProperties(text){
@@ -34,10 +26,11 @@ Rectangle {
         // 2. set value of person page infomation
         friendID     = tmp[1][1]
         nickname     = tmp[2][1]
-        area_        = tmp[3][1]
-        memo_        = tmp[4][1]
-        avatar_path_ = tmp[5][1]
+        avatar_path_ = tmp[3][1]
+        gender_      = tmp[4][1]
+        area_        = tmp[5][1]
         signal_text_ = tmp[6][1]
+        memo_        = tmp[7][1]
     }
 
     function remove_from_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
@@ -140,6 +133,7 @@ Rectangle {
             area: "中国大陆 重庆";
             signal_text: "测试： 个性签名 Alice";
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
         }
         ListElement {
             ID:"20000002" ;
@@ -149,6 +143,7 @@ Rectangle {
             area: "中国大陆 重庆";
             signal_text: "测试： 个性签名 Bob";
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
         }
         ListElement {
             ID:"20000003" ;
@@ -158,6 +153,7 @@ Rectangle {
             area: "中国大陆 重庆"
             signal_text: "测试： 个性签名 Bob";
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "男"
         }
         ListElement {
             ID:"20000004" ;
@@ -165,9 +161,10 @@ Rectangle {
             memo: "David";
             first_letter: "D";
             signal_text: "测试： 个性签名 Bob";
-
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            area: "中国大陆 重庆"}
+            area: "中国大陆 重庆"
+            gender: "男"
+        }
         ListElement {
             ID:"20000005" ;
             name: "Ella" ;
@@ -176,6 +173,7 @@ Rectangle {
             area: "中国大陆 重庆"
             signal_text: "测试： 个性签名 Bob";
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
         }
         ListElement {
             ID:"20000006" ;
@@ -184,8 +182,8 @@ Rectangle {
             first_letter: "F";
             area: "中国大陆 重庆"
             signal_text: "测试： 个性签名 Bob";
-
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
         }
         ListElement {
             ID:"20000007" ;
@@ -194,8 +192,8 @@ Rectangle {
             first_letter: "G";
             area: "中国大陆 重庆"
             signal_text: "测试： 个性签名 Bob";
-
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
         }
         // 添加更多姓名，以字母顺序排列
     }
@@ -294,6 +292,7 @@ Rectangle {
 
                                     backvisible = true
                                     titlevisible = false
+                                    pagebar_visible = false
                                     loader.source = showFriend_loader
                                 }
 

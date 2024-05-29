@@ -11,12 +11,19 @@ Rectangle {
     property bool newfriV: true
 
     signal searchTextChanged(var text)
+    signal addToContacts(var ID, var nickname,var avatar_path,var gender,var area,var signal_text,var memo)
 
     function findPerson(personID){
         // 1. search from local document
         // 2. is exist -> return info
         // 3. not exist -> send find signal to server with person(target) id
         searchTextChanged(personID)
+    }
+
+    function addFriend(ID, nickname, avatar_path, gender, area, signal_text, memo){
+        addToContacts(ID, nickname, avatar_path, gender, area, signal_text, memo)
+        // 1. add new friend relation to local doucument
+        console.log("add new friend relation to local doucument")
     }
 
     Component.onCompleted: {
@@ -34,7 +41,14 @@ Rectangle {
         }
         function onSendToAddFriRequest(text){
             var tmp = JSON.parse(text)
-            addreq_model.append(tmp[1][1],tmp[2][1],getFirstLetter.getFirstWord(tmp[2][1]),tmp[5][1])
+            addreq_model.append( ID=tmp[1][1],
+                                nickname=tmp[2][1],
+                                getFirstLetter.getFirstWord(tmp[2][1]),
+                                avatar=tmp[3][1],
+                                gender = tmp[4][1],
+                                area=tmp[5][1],
+                                signal_text=tmp[6][1],
+                                memo=tmp[2][1])
         }
 
     }
@@ -159,7 +173,17 @@ Rectangle {
 
     ListModel{
         id: addreq_model
-        ListElement{ID:"00000000";nickname:"测试"; fristletter:"a";avatar:"../assets/Picture/avatar/cats.jpg";who:"hhh"}
+        ListElement{
+            ID:"00000000";
+            nickname:"测试";
+            fristletter:"a";
+            avatar:"../assets/Picture/avatar/cats.jpg";
+            who:"hhh";
+            gender:"女"
+            area:"China";
+            signal_text:"这个人什么都没有写";
+            memo:"test_memo";
+        }
     }
 
     Component{
@@ -248,7 +272,7 @@ Rectangle {
                         TapHandler{
                             onTapped: {
                                 console.log("accept button on clicked")
-                                addFriend(model.ID, model.nickname, model.fristletter, model.avatar)
+                                addFriend(model.ID, model.nickname, model.avatar, model.gender, model.area, model.signal_text, model.memo)
                                 isContactsUpdate = true
                             }
                         }

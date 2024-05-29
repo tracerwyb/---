@@ -12,6 +12,7 @@ Rectangle{
     property string friend_name: parent.nickname
     property string area: parent.area_
     property string avatar_path: parent.avatar_path_
+    property string gender: parent.gender_
 
     color: "#eeeeee"
 

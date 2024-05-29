@@ -8,7 +8,7 @@
 #include "client.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <libavformat/avformat.h>
+// #include <libavformat/avformat.h>
 #include <nlohmann/json.hpp>
 #include <QQmlContext>
 int main(int argc, char *argv[])
@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     AddFriendPageController add;
-    add.setAddFri(1);
 
     engine.load(url);
     return app.exec();

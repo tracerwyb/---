@@ -13,9 +13,8 @@ Rectangle{
     property string signal_text: parent.signal_text_ /*"罪业的报偿"*/
     property string area: parent.area_ /*"中国大陆 重庆"*/
     property string avatar_path: parent.avatar_path_ /*"../assets/Picture/avatar/cats.jpg"*/
+    property string gender: parent.gender_
     color: "#eeeeee"
-
-    // signal sendAddFriRequest(var text)
 
     Component.onCompleted: {
         console.log("contact list on clicked")
@@ -26,16 +25,7 @@ Rectangle{
         console.log(signal_text)
         console.log(avatar_path)
         console.log(area)
-        console.log(test)
-        // sendAddFriRequest.connect(afController.onSendAddFriRequest)
     }
-
-    // Loader{
-    //     id: msgpage_loader
-    //     anchors.fill: parent
-    //     source: messagePreviewPage_loader
-    //     visible: false
-    // }
 
     // show friend base info
     Rectangle{

@@ -64,12 +64,18 @@ void Client::comversionJson(char* json_buf)
     std::string s=j.dump();
     strcpy(json_buf,s.data());
 }
+
 void Client::setId()
 {    
     time = QDateTime::currentDateTime();
     std::cout<<"Please input your id:"<<std::endl;
     std::cin>>id;
     std::cin.get();
+}
+
+int Client::getId()
+{
+    return id;
 }
 
 void Client::setAcceptId(){

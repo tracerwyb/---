@@ -22,23 +22,23 @@
 
 #include <QObject>
 #include <QString>
+#include "client.h"
+#include <nlohmann/json.hpp>
 
-#include <QJsonDocument>
-#include <QJsonObject>
+using nlohmann::json;
+
 class AddFriendPageController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int addFri READ addFri WRITE setAddFri NOTIFY addFriChanged FINAL)
 
 public:
+    Q_INVOKABLE void setMUserID(int user_id);
     Q_INVOKABLE void SetFriendRequestInfo() const;
     Q_INVOKABLE void setFriendDetail() const;
 
-    Q_INVOKABLE int addFri() const;
-    Q_INVOKABLE void setAddFri(int);
     void receiveFriBaseInfo(char *text);
     void receiveAddRequest(
-        char *text); // receive all friend base info, request type: "addFriendRequest"
+        char *text); // receive friends' all base info, request type: "addFriendRequest"
     void receiveAcceptSignal(char *text);
     // Q_INVOKABLE QString jsonToQstring(QJsonObject jsonObject);
     // Q_INVOKABLE QJsonObject qstringToJson(QString jsonString);
@@ -51,12 +51,17 @@ signals:
 public slots:
     QString onSearchTextChanged(QString text);
     bool onSendAddFriRequest(int target_id); // send user id and target(friend) id to server
-    void onAddToContacts(int ID, QString nickname, QString firstletter, QString avatar_path);
+    void onAddToContacts(int ID,
+                         QString nickname,
+                         QString avatar_path,
+                         QString gender,
+                         QString area,
+                         QString signal_text,
+                         QString memo);
 
 private:
-    int m_addfri = 0;
-    int user_id; // initialize when user login
-    std::vector<int> m_friendlist;
+    int m_userid; // initialize when user login
+    std::vector<json> m_friendlist;
 };
 
 #endif
