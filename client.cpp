@@ -9,8 +9,9 @@ Client::Client(){
 }
 Client* Client::m_instance = nullptr;
 Client *Client::getInstance() {
-    if(m_instance == nullptr){
+    if (m_instance == nullptr) {
         m_instance=new Client();
+        qDebug() << "client getinstance-------------";
     }
     return m_instance;
 }
@@ -27,6 +28,7 @@ int Client::receive(char *buf) {
 void Client::start() {
 
     m_network.createSocket();
+    qDebug() << "create socket-------------";
 }
 
 int Client::select()
@@ -77,12 +79,18 @@ void Client::setId(int inputid)
     id=inputid;
 }
 
+
 void Client::setAcceptId(int id){
     // std::cout<<"Please input aceept id:"<<std::endl;
     // std::cin>>acid;
     // std::cin.get();
     acid=id;
 }
+int Client::getId()
+{
+    return id;
+}
+
 void Client::setRequestType(){
     // std::cout<<"Please requst type:"<<std::endl;
     // std::cin>>request_type;

@@ -22,30 +22,12 @@ qt_add_executable(appWechat-Client
     communicationpagecontroller.h       communicationpagecontroller.cpp
     addfriendpagecontroller.h           addfriendpagecontroller.cpp
     personalpagecontroller.h            personalpagecontroller.cpp
+    getfirstletter.h                    getfirstletter.cpp
+    listenthread.h listenthread.cpp
 
     qml.qrc
     assets.qrc
-    listenthread.h listenthread.cpp
 )
-# qt_add_executable(appWechat-Client
-    # main.cpp
-    # client.h                            client.cpp
-    # network.h                           network.cpp
-    # messagepreviewpagecontroller.h      messagepreviewpagecontroller.cpp
-    # communicationpagecontroller.h       communicationpagecontroller.cpp
-    # addfriendpagecontroller.h           addfriendpagecontroller.cpp
-    # personalpagecontroller.h            personalpagecontroller.cpp
-
-    # qml/Main.qml
-    # qml/ContactListPage.qml
-    # qml/CommuniCationpage.qml
-    # qml/Messagepreviewpage.qml
-    # qml/Personalpage.qml
-    # qml.qrc
-    # assets.qrc
-
-# )
-
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
 

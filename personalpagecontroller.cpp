@@ -87,7 +87,7 @@ void PersonalPageController::test()
 
 void PersonalPageController::send()
 {
-    Client *client=Client::getInstance();      //点击登陆时创建Client实例，调用start（）方法与服务器建立连接
+    Client *client=Client::getInstance();      //
     client->setId(m_number);
     client->setAcceptId(m_acceptid);
     client->setRequestType();

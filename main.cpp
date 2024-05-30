@@ -1,13 +1,14 @@
 //#include "mainwindow.h"
 #include "addfriendpagecontroller.h"
 #include "communicationpagecontroller.h"
+#include "getfirstletter.h"
 #include "messagepreviewpagecontroller.h"
 #include "personalpagecontroller.h"
 #include "listenthread.h"
 #include "client.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <libavformat/avformat.h>
+// #include <libavformat/avformat.h>
 #include <nlohmann/json.hpp>
 #include <QQmlContext>
 int main(int argc, char *argv[])
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
     qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
     qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageController");
+    qmlRegisterType<GetFirstLetter>("Algorithm", 1, 0, "GetFirstLetter");
     qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
 
 
@@ -39,9 +41,6 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         },
         Qt::QueuedConnection);
-
-    AddFriendPageController add;
-    add.setAddFri(1);
 
     engine.load(url);
     return app.exec();

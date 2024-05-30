@@ -48,6 +48,7 @@ public:
     void comversionJson(char* json_buf);
     void setId(int);
     void setAcceptId(int);
+    int getId();
     void setRequestType();
 
 };

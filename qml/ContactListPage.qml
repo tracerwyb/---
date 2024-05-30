@@ -7,12 +7,30 @@ Rectangle {
     width: parent.width
     height: parent.height
 
+    property bool isContactsUpdate: false
+
     readonly property url addfriendPage_loader: "AddfriendPage.qml"
     // readonly property url groupList_loader: "AddfriendPage.qml"
     // readonly property url label_loader: "AddfriendPage.qml"
 
-    function add_to_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
-        name_model.append({name:name , first_letter:first_letter, avatar_path: avatar_path})
+    Component.onCompleted: {
+        if(isContactsUpdate){
+            readFriendFromLocal()
+            isContactsUpdate = false
+        }
+    }
+
+    function setProperties(text){
+        var tmp = JSON.parse(text)
+
+        // 2. set value of person page infomation
+        friendID     = tmp[1][1]
+        nickname     = tmp[2][1]
+        avatar_path_ = tmp[3][1]
+        gender_      = tmp[4][1]
+        area_        = tmp[5][1]
+        signal_text_ = tmp[6][1]
+        memo_        = tmp[7][1]
     }
 
     function remove_from_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
@@ -23,25 +41,23 @@ Rectangle {
             // console.log(model.value)
                 name_model.remove({name:name , first_letter:first_letter, avatar_path: avatar_path})
         }
+    }
 
-
+    function readFriendFromLocal(){
+        // 1. read all friend from local document(friend state === 1)
+        // 2. add friend model to name_model
+        // 3. 去重**
     }
 
     Connections{
         target: afController
 
-        function onAddFriChanged(friend_name, first_letter, avatar_path) {
-            if(afcontroller.getAddFri() === 1){
-                afcontroller.setAddfri(0);
-                add_to_contacts(friend_name, first_letter, avatar_path);
-                console.log("add to contact")
-            }else if(afcontroller.getAddFri() === -1){
-                afcontroller.setAddfri(0);
-                remove_from_contacts(friend_name, first_letter, avatar_path);
-                console.log("remove from contact")
-            }
+        function onReceiveAcceptSignal(text){
+            addFriend(tmp[1][1],tmp[2][1],getFirstLetter.getFirstWord(tmp[2][1]),tmp[5][1])
+            isContactsUpdate = true
         }
     }
+
 
     // top
     ListModel {
@@ -109,13 +125,76 @@ Rectangle {
 
     ListModel {
         id: name_model
-        ListElement { name: "Alice" ; first_letter: "A";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "Bob" ; first_letter: "A";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "Carol" ; first_letter: "A";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "David" ; first_letter: "D";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "Ella" ; first_letter: "E";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "Flla" ; first_letter: "F";avatar_path: "../assets/Picture/icons/newfriend.png"}
-        ListElement { name: "Alice" ; first_letter: "G";avatar_path: "../assets/Picture/icons/newfriend.png"}
+        ListElement {
+            ID:"20000001" ;
+            name: "Alice" ;
+            memo: "Alice";
+            first_letter: "A";
+            area: "中国大陆 重庆";
+            signal_text: "测试： 个性签名 Alice";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
+        }
+        ListElement {
+            ID:"20000002" ;
+            name: "Bob" ;
+            memo: "Bob";
+            first_letter: "A";
+            area: "中国大陆 重庆";
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
+        }
+        ListElement {
+            ID:"20000003" ;
+            name: "Carol" ;
+            memo: "Carol";
+            first_letter: "A";
+            area: "中国大陆 重庆"
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "男"
+        }
+        ListElement {
+            ID:"20000004" ;
+            name: "David" ;
+            memo: "David";
+            first_letter: "D";
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            area: "中国大陆 重庆"
+            gender: "男"
+        }
+        ListElement {
+            ID:"20000005" ;
+            name: "Ella" ;
+            memo: "Ella";
+            first_letter: "E";
+            area: "中国大陆 重庆"
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
+        }
+        ListElement {
+            ID:"20000006" ;
+            name: "Flla" ;
+            memo: "Flla";
+            first_letter: "F";
+            area: "中国大陆 重庆"
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
+        }
+        ListElement {
+            ID:"20000007" ;
+            name: "Alice" ;
+            memo: "Alice";
+            first_letter: "G";
+            area: "中国大陆 重庆"
+            signal_text: "测试： 个性签名 Bob";
+            avatar_path: "../assets/Picture/icons/newfriend.png" ;
+            gender: "女"
+        }
         // 添加更多姓名，以字母顺序排列
     }
 
@@ -128,7 +207,7 @@ Rectangle {
             id: top
             interactive: false              // forbid drag operation
             width: contactsPage.width
-            height:200
+            height:180
             model: contacts_model
             delegate: contacts_delegate
         }
@@ -137,16 +216,18 @@ Rectangle {
 
 
     ListView {
+
         y: top.height
         width: parent.width
         height:parent.height - top.height
         model: 26 // A-Z 字母的数量
-        spacing: 10
         delegate: Item {
             id:parentItem
             width: contactsPage.width
-            height: childrenRect.height
+            height: childrenRect.height === 19 ? 0 : childrenRect.height
+            visible: height === 0 ? false : true
 
+            Component.onCompleted: console.log(height)
             property string letter: String.fromCharCode(index + 65) // A-Z 字母
             property var filteredNames: []
 
@@ -161,48 +242,69 @@ Rectangle {
                 ListView {
                     id: user
 
-                    width: parent.width
+                    width: contactsPage.width
                     height: contentHeight
                     model: name_model
+
                     delegate:Row{
-                        Rectangle{width: 10; height:model.first_letter === parentItem.letter ? avatar.height+20 : 0.1}
+                        id: user_row
+                        height: model.first_letter === parentItem.letter ? 55 : 0
+                        Rectangle{width: 10; height:model.first_letter === parentItem.letter ? avatar.height+20 : 0}
                         Image{
                             id: avatar
                             width: contactsPage.width / 11
-                            height: model.first_letter === parentItem.letter ? width : 0
+                            height: width
                             source: model.first_letter === parentItem.letter ? model.avatar_path : ""
                             fillMode: Image.PreserveAspectFit
                         }
-                        Rectangle{width: 10; height:0.1}
+                        Rectangle{width: 10; height:0.0001}
                         Rectangle{
                             id: rect
                             width: user.width - 20 - avatar.width
                             height: avatar.height
-                            color: "red"
-                            border.color: "#E8E8E8"
-                            Rectangle{
-                                // anchors{
-                                //     fill: rect;
-                                //     bottomMargin:rect.border.width;
-                                // }
-                                width: parent.width
-                                height: 0.6
-                                border.color: "#c7c7c7"
-                                border.width: 0.6
-                                anchors.bottom:parent.bottom
-                            }
+                            // Rectangle{
+                            //     width: parent.width
+                            //     height: 0.6
+                            //     border.width: 0.6
+                            //     anchors.bottom:parent.bottom
+                            // }
                             Text {
                                 text: model.first_letter === parentItem.letter ? model.name : ""
-                                height: model.first_letter === parentItem.letter ? 20 : 0.1
                                 font.italic: true
                                 anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        // TapHandler{
+                        //     onTapped: console.log("ontapped")
+                        // }
+                        TapHandler{
+                            onTapped:{
+
+                                if(model.ID !== ""){
+                                    friendID = model.ID
+                                    nickname = model.name
+                                    memo_ = model.memo
+                                    signal_text_ = model.signal_text
+                                    area_ = model.area
+                                    avatar_path_ = model.avatar_path
+
+                                    backvisible = true
+                                    titlevisible = false
+                                    pagebar_visible = false
+                                    loader.source = showFriend_loader
+                                }
 
                             }
                         }
 
                     }
+
+
                 }
             }
+
+
         }
     }
 }
