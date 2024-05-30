@@ -42,8 +42,6 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
 
-    AddFriendPageController add;
-
     engine.load(url);
     return app.exec();
 

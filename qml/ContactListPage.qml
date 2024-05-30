@@ -207,7 +207,7 @@ Rectangle {
             id: top
             interactive: false              // forbid drag operation
             width: contactsPage.width
-            height:200
+            height:180
             model: contacts_model
             delegate: contacts_delegate
         }
@@ -221,12 +221,13 @@ Rectangle {
         width: parent.width
         height:parent.height - top.height
         model: 26 // A-Z 字母的数量
-        spacing: 10
         delegate: Item {
             id:parentItem
             width: contactsPage.width
-            height: childrenRect.height
+            height: childrenRect.height === 19 ? 0 : childrenRect.height
+            visible: height === 0 ? false : true
 
+            Component.onCompleted: console.log(height)
             property string letter: String.fromCharCode(index + 65) // A-Z 字母
             property var filteredNames: []
 
@@ -247,12 +248,12 @@ Rectangle {
 
                     delegate:Row{
                         id: user_row
-
-                        Rectangle{width: 10; height:model.first_letter === parentItem.letter ? avatar.height+20 : 0.0001}
+                        height: model.first_letter === parentItem.letter ? 55 : 0
+                        Rectangle{width: 10; height:model.first_letter === parentItem.letter ? avatar.height+20 : 0}
                         Image{
                             id: avatar
                             width: contactsPage.width / 11
-                            height: model.first_letter === parentItem.letter ? width : 0
+                            height: width
                             source: model.first_letter === parentItem.letter ? model.avatar_path : ""
                             fillMode: Image.PreserveAspectFit
                         }
@@ -269,10 +270,8 @@ Rectangle {
                             // }
                             Text {
                                 text: model.first_letter === parentItem.letter ? model.name : ""
-                                height: model.first_letter === parentItem.letter ? 20 : 0.0001
                                 font.italic: true
                                 anchors.verticalCenter: parent.verticalCenter
-
                             }
                         }
 

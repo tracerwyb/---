@@ -26,7 +26,7 @@ QString AddFriendPageController::onSearchTextChanged(QString text)
 
     //send get friend info request to server
     json getfrinfo;
-    getfrinfo.push_back({"request", "getFriendBaseInfo"});
+    getfrinfo.push_back({"request_type", "getfribaseinfo"});
     getfrinfo.push_back({"friendID", text.toStdString()});
     // str.push_back({"ID", "20000000"});
 
@@ -41,12 +41,15 @@ bool AddFriendPageController::onSendAddFriRequest(int target_id)
 
     //1. get my info from local document
     json addfrireq;
-    addfrireq["request"] = "addFriendRequest";
+    addfrireq["request_type"] = "addfriend";
     addfrireq["target_id"] = target_id;
-    addfrireq["my_id"] = "20000000";
+    addfrireq["my_id"] = "20209834";
     addfrireq["my_nickname"] = "85";
-    addfrireq["my_avatar"] = "../assets/Picture/icons/newfriend.png";
-    addfrireq["who"] = "hahaha";
+    addfrireq["my_avatar"] = "../assets/Picture/avatar/cat.png";
+    addfrireq["who"] = "8.5";
+    addfrireq["gender"] = "女";
+    addfrireq["area"] = "中国 重庆";
+    addfrireq["signature"] = "罪恶没有假期，正义便无暇休憩";
 
     //2. send friend request to server
     Client::getInstance()->send(addfrireq.dump().data(), sizeof(addfrireq.dump().data()));
@@ -84,9 +87,9 @@ void AddFriendPageController::onAddToContacts(int ID,
 
     // 3.send accept signal to server(with accepter id) 所有查找过的其他人的基本信息都存在一个文件里面
     json acceptinfo;
-    acceptinfo["request"] = "acceptfrinfo";
+    acceptinfo["request_type"] = "acceptfrinfo";
     acceptinfo["acceptor_id"] = m_userid;
-    acceptinfo["recver_id"] = ID;
+    acceptinfo["requestsender_id"] = ID;
 
     Client::getInstance()->send(acceptinfo.dump().data(), sizeof(acceptinfo.dump().data()));
 }

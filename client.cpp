@@ -4,13 +4,14 @@
 #include <iostream>
 
 Client::Client(){
-    m_network.createSocket();
+    // m_network.createSocket();
     qDebug()<<"Client connect Server......";
 }
 Client* Client::m_instance = nullptr;
 Client *Client::getInstance() {
-    if(m_instance == nullptr){
+    if (m_instance == nullptr) {
         m_instance=new Client();
+        qDebug() << "client getinstance-------------";
     }
     return m_instance;
 }
@@ -27,6 +28,7 @@ bool Client::receive(char *buf) {
 void Client::start() {
 
     m_network.createSocket();
+    qDebug() << "create socket-------------";
 }
 
 int Client::select()

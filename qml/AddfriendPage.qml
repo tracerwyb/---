@@ -10,22 +10,6 @@ Rectangle {
     property bool loaderVisible : false
     property bool newfriV: true
 
-    signal searchTextChanged(var text)
-    signal addToContacts(var ID, var nickname,var avatar_path,var gender,var area,var signal_text,var memo)
-
-    function findPerson(personID){
-        // 1. search from local document
-        // 2. is exist -> return info
-        // 3. not exist -> send find signal to server with person(target) id
-        searchTextChanged(personID)
-    }
-
-    function addFriend(ID, nickname, avatar_path, gender, area, signal_text, memo){
-        addToContacts(ID, nickname, avatar_path, gender, area, signal_text, memo)
-        // 1. add new friend relation to local doucument
-        console.log("add new friend relation to local doucument")
-    }
-
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
         addToContacts.connect(afController.onAddToContacts)

@@ -1,6 +1,8 @@
 #ifndef LISTENTHREAD_H
 #define LISTENTHREAD_H
 
+#include "addfriendpagecontroller.h"
+
 #include <QThread>
 class ListenThread:public QThread
 {
@@ -15,6 +17,7 @@ public slots:
 protected:
     void run()override;
     bool state;
+    AddFriendPageController *m_afc;
 };
 
 #endif // LISTENTHREAD_H
