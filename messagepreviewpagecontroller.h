@@ -25,6 +25,8 @@ public:
 
     Q_INVOKABLE int getPersonCount() const;
     Q_INVOKABLE void setPersonCount(int count);
+
+    void saveMessage();
 signals:
     Q_INVOKABLE void messagesChanged(QString message);
     Q_INVOKABLE void messagesReceiver();

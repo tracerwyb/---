@@ -21,7 +21,10 @@ Item{
     readonly property url personalPage_loader: "PersonalPage.qml"
     readonly property url showFriend_loader: "ShowFriendPage.qml"
     readonly property url showStranger_loader: "ShowStrangerPage.qml"
+
     readonly property url personalinformation_loader: "PersonalInformation"
+    //huangruixian-text
+    readonly property url main_loader: "Main.qml"
 
     property string titlecolor: themeColor
     property string themeColor: "#ededed"
@@ -30,8 +33,11 @@ Item{
     property bool backvisible: false
     property bool pagebar_visible: true
     property alias afController: afController
+    property alias messagePriviewPageController: messagePriviewPageController
     property alias loader: loader
-    //property alias titletext:titletext
+
+    //hrx-test
+    property alias communicationPageLoader: communicationPageLoader
     property int page_num: 3
     property double barheight_rate: 0.05
 
@@ -47,7 +53,12 @@ Item{
         id:getFirstLetter
     }
 
+    MessagePreviewPageController{
+        id:messagePriviewPageController
+    }
+
     Rectangle{
+        id:titlebar
         width: parent.width
         height:parent.height
         color:"#EDEDED"
@@ -78,7 +89,6 @@ Item{
                                 titletext = "微信"
                                 backvisible = false
                                 loader.source = contactListPage_loader
-
                             }
                             if(loader.source === showStranger_loader){
                                 loader.source = addfriendPage_loader
@@ -169,7 +179,6 @@ Item{
 
         Rectangle{
             id: pagebar
-
             width: main.width
             height: main.height * (barheight_rate+0.01)
             anchors.horizontalCenter: main.horizontalCenter
@@ -219,8 +228,6 @@ Item{
             }
         }
     }
-
-
  //    Rectangle{
  //        id:initRectangle
  //        anchors.fill: parent
@@ -410,4 +417,8 @@ Item{
  //        }
  //    }
 
+    Loader{
+        id:communicationPageLoader
+        anchors.fill:parent
+    }
 }

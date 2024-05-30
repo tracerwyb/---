@@ -27,6 +27,10 @@ qt_add_executable(appWechat-Client
 
     qml.qrc
     assets.qrc
+    fileopendialog.h fileopendialog.cpp
+    othersource.qrc
+    VedioPlayer.qml
+
 )
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)
