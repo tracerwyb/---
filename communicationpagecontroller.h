@@ -27,6 +27,7 @@ public:
     bool getReceiverState() { return receiverState; };
     void setReceiverState(bool str) { receiverState = str; }
 
+    void saveMessage();
 signals:
     //qml调用、c++处理
     void senderMessageChanged();

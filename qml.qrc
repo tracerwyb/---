@@ -8,5 +8,6 @@
         <file>qml/ContactListPage.qml</file>
         <file>qml/ShowFriendPage.qml</file>
         <file>qml/ShowStrangerPage.qml</file>
+        <file>qml/Avatar.qml</file>
     </qresource>
 </RCC>

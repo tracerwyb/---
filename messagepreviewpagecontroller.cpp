@@ -46,3 +46,8 @@ void MessagePreviewPageController::setPersonCount(int count)
 {
     personCount = count;
 }
+
+void MessagePreviewPageController::saveMessage()
+{
+    //接受离线消息的保存
+}

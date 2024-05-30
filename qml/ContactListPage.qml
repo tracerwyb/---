@@ -61,7 +61,6 @@ Rectangle {
             padding: 10
             Image {
                 id: icon
-
                 width: contactsPage.width / 11
                 height: width
                 source: avatar_path

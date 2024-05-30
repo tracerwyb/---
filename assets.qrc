@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-
         <file>assets/Picture/icons/find.png</file>
         <file>assets/Picture/icons/add.png</file>
         <file>assets/Picture/icons/addfriend.png</file>
@@ -24,7 +23,12 @@
         <file>assets/Picture/icons/voice.png</file>
         <file>assets/Picture/icons/back.png</file>
         <file>assets/Picture/icons/to_personInfo.png</file>
+        <file>assets/Picture/icons/group_people.png</file>
+        <file>assets/Picture/icons/label.png</file>
         <file>assets/Picture/avatar/11111.jpg</file>
         <file>assets/Picture/avatar/22222.jpg</file>
+        <file>assets/Picture/icons/vediocall.png</file>
+        <file>assets/Picture/icons/vedio.png</file>
+        <file>assets/Picture/icons/album.png</file>
     </qresource>
 </RCC>
