@@ -8,6 +8,7 @@ ApplicationWindow{
     height: Screen.desktopAvailableHeight
     visible: true
     title: qsTr("Wechat")
+
     Loader{
         anchors.fill: parent
         id:initloder

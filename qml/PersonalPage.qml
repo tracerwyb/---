@@ -12,13 +12,6 @@ Rectangle{
     visible: true
     color: "#FFFAFF"
 
-    Loader {
-        id: loadermine
-        anchors.fill: parent
-        asynchronous: true
-        Component.onCompleted: {
-        }
-    }
     Rectangle{
         id:re
         width: parent.width
@@ -93,7 +86,7 @@ Rectangle{
         width: parent.width
         height: parent.height/15
         anchors.top: re.bottom
-        anchors.topMargin: 30   
+        anchors.topMargin: 30
         // Button{
         //     anchors.fill: parent
         //     flat: true                        //设置为扁平按钮
@@ -215,6 +208,7 @@ Rectangle{
             id:setuptaphandler
             onTapped: {
                 console.log("setup was clicked!")
+                pup.open()
             }
         }
         Image {
@@ -244,6 +238,95 @@ Rectangle{
             sourceSize: Qt.size(setup.width,setup.height)
             source: "qrc:/assets/Picture/icons/jiantou.png"        }
     }
+  //-----------------------------------------------------------------------------
+    Popup{
+        id:pup
+        width: parent.width
+        height: 200
+        background: Rectangle{
+            color: Qt.rgba(255,255,255)
+            radius: 10
+            clip: true
+        }
+        x:0
+        y:main.height-pup.height
+        modal: true
+        padding: 0
+        onClosed: console.log("pup was closed")
+        Rectangle{
+            id:poprec
+            anchors.fill: parent
+            radius: 10
+            clip: true
+            ListModel{
+                id:exitlist
+                ListElement{
+                    name:"退出登录"
+                }
+                ListElement{
+                    name:"关闭微信"
+                }
+                ListElement{
+                    name:"取消"
+                }
+            }
+            Component{
+                id:exitcomponent
+                Rectangle{
+                    id:listrec
+                    width: poprec.width
+                    height: poprec.height/4
+                    Button{
+                        id:buttonitem
+                        anchors.fill: parent
+                        background: Rectangle{
+                            id:buttonrec
+                            color:"white"
+                            border.color: "#e9eded"
+                        }
+
+                        onPressed: {
+                            buttonrec.color="#ededed"
+                        }
+                        onReleased: {
+                            buttonrec.color="white"
+                            if(index===0){                         //退出登录回到重新输入id的初始化界面
+                                console.log("1 was clicked")
+                                pup.close()
+                                initRectangle.visible=true
+                                idtextinput.text=""
+                                initloader.source=""
+                                // loader.source=messagePreviewPage_loader
+
+                            }
+                            else if(index===1){                 //关闭微信
+                                console.log("2 was clicked")
+                                pup.close()
+                                Qt.quit()
+                            }
+                            else{                               //取消
+                                console.log("3 was clicked")
+                                pup.close()
+                            }
+                        }
+                        Text {
+                            id: poprectext
+                            text: name
+                            font.pixelSize: 18
+                            anchors.centerIn: parent
+                        }
+
+                    }
+                }
+            }
+            ListView{
+                anchors.fill: parent
+                model: exitlist
+                delegate: exitcomponent
+            }
+        }
+    }
+
 
 }
 
