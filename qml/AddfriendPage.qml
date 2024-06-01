@@ -13,6 +13,10 @@ Rectangle {
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
         addToContacts.connect(afController.onAddToContacts)
+        afController.friendBaseInfo.connect(function(msg){
+            console.log("signal was aceept!!!!!!!!!!!!!!!!!")
+        }
+            )
     }
 
     Connections{
@@ -121,10 +125,10 @@ Rectangle {
                 onTapped: {
                     findPerson(search_content.text)
 
-                    nickname = model.name
-                    signal_text_ = model.signal_text
-                    area_ = model.area
-                    avatar_path_ = model.avatar_path
+                    // nickname = model.name
+                    // signal_text_ = model.signal_text
+                    // area_ = model.area
+                    // avatar_path_ = model.avatar_path
 
                     titlecolor = "#ffffff"
                     loaderVisible = true

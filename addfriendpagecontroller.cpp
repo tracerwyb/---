@@ -5,6 +5,11 @@
 #include <nlohmann/json.hpp>
 
 using nlohmann::json;
+AddFriendPageController *AddFriendPageController::adfc=nullptr;
+AddFriendPageController::AddFriendPageController(QObject *parent):QObject{parent}{
+    adfc=this;
+}
+
 
 void AddFriendPageController::SetFriendRequestInfo() const {}
 
@@ -17,7 +22,9 @@ void AddFriendPageController::setMUserID(int user_id)
 
 void AddFriendPageController::receiveFriBaseInfo(char *text)
 {
-    emit friendBaseInfo(QString::fromStdString(json::parse(text).dump()));
+    //QString::fromStdString(json::parse(text).dump())
+    emit adfc->friendBaseInfo(text);
+    qDebug()<<"signal was send!!!!!!!!!!!!!!!!";
 }
 
 QString AddFriendPageController::onSearchTextChanged(QString text)
@@ -26,11 +33,12 @@ QString AddFriendPageController::onSearchTextChanged(QString text)
 
     //send get friend info request to server
     json getfrinfo;
-    getfrinfo.push_back({"request_type", "getfribaseinfo"});
-    getfrinfo.push_back({"friendID", text.toStdString()});
+    getfrinfo["myid"] = Client::getInstance()->getId();
+    getfrinfo["request_type"] = "getfribaseinfo";
+    getfrinfo["friendID"] = text.toStdString();
     // str.push_back({"ID", "20000000"});
 
-    Client::getInstance()->send(getfrinfo.dump().data(), sizeof(getfrinfo.dump().data()));
+    Client::getInstance()->send(getfrinfo.dump().data(), strlen(getfrinfo.dump().data()));
 
     return text;
 }
@@ -52,7 +60,7 @@ bool AddFriendPageController::onSendAddFriRequest(int target_id)
     addfrireq["signature"] = "罪恶没有假期，正义便无暇休憩";
 
     //2. send friend request to server
-    Client::getInstance()->send(addfrireq.dump().data(), sizeof(addfrireq.dump().data()));
+    Client::getInstance()->send(addfrireq.dump().data(), strlen(addfrireq.dump().data()));
 
     return true;
 }
@@ -91,7 +99,7 @@ void AddFriendPageController::onAddToContacts(int ID,
     acceptinfo["acceptor_id"] = m_userid;
     acceptinfo["requestsender_id"] = ID;
 
-    Client::getInstance()->send(acceptinfo.dump().data(), sizeof(acceptinfo.dump().data()));
+    Client::getInstance()->send(acceptinfo.dump().data(), strlen(acceptinfo.dump().data()));
 }
 
 void AddFriendPageController::receiveAcceptSignal(char *text)

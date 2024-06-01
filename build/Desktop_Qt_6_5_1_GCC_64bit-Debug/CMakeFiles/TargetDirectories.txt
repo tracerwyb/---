@@ -1,0 +1,16 @@
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/appWechat-Client.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/appWechat-Client_qmlimportscan.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/edit_cache.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/rebuild_cache.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/list_install_components.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/install.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/install/local.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/install/strip.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/appWechat-Client_autogen_timestamp_deps.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/CMakeFiles/appWechat-Client_autogen.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/edit_cache.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/rebuild_cache.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/list_install_components.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/install.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/install/local.dir
+/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/json/CMakeFiles/install/strip.dir

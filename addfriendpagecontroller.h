@@ -35,8 +35,10 @@ public:
     Q_INVOKABLE void setMUserID(int user_id);
     Q_INVOKABLE void SetFriendRequestInfo() const;
     Q_INVOKABLE void setFriendDetail() const;
-
-    void receiveFriBaseInfo(char *text);
+//----
+    static void receiveFriBaseInfo(char *text);
+    AddFriendPageController(QObject *parent =nullptr);
+//----
     void receiveAddRequest(
         char *text); // receive friends' all base info, request type: "addFriendRequest"
     void receiveAcceptSignal(char *text);
@@ -61,6 +63,7 @@ public slots:
 
 private:
     int m_userid; // initialize when user login
+    static AddFriendPageController *adfc;
     std::vector<json> m_friendlist;
 };
 

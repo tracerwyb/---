@@ -32,14 +32,13 @@ ApplicationWindow{
                 height: init.height/10
                 //color:"#FFAAFF"
                 Row{
+                    id:idrow
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    id:idrow
-                    spacing: 25
+                    // spacing: inputRecid.width/10
                     Rectangle{
-                        width: 50
+                        width: inputRecid.width/5
                         height: inputRecid.height/2
-                        // color: "#DEDEDE"
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
@@ -49,7 +48,7 @@ ApplicationWindow{
                     }
                     }
                     Rectangle{
-                        width: inputRecid.width/5*4
+                        width: inputRecid.width/10*7
                         height: inputRecid.height/2
                         // color: "#"
                         border.color: "black"
@@ -108,6 +107,7 @@ ApplicationWindow{
                         initloder.source="Main.qml"
                         initRectangle.visible=false
                         personalctrller.test()              //与服务器建立连接
+                        personalctrller.send()
                         listenThread.startThread()          //开启监听线程，从套接字里读数据
                     }
                 }
