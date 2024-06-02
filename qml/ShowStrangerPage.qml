@@ -53,7 +53,7 @@ Rectangle{
                     height: width
                     fillMode: Image.PreserveAspectFit
                     visible: false
-                    source: "../assets/Picture/avatar/cats.jpg"
+                    source: avatar_path
                 }
                 Rectangle {
                     id: maskRec
@@ -107,10 +107,6 @@ Rectangle{
             }
         }
         Rectangle{
-            anchors{
-                fill: rect;
-                bottomMargin:rect.border.width;
-            }
             width: parent.width * 0.9
             height: 0.6
             border.color: "#c7c7c7"

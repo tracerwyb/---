@@ -9,36 +9,22 @@ Rectangle {
 
     property bool loaderVisible : false
     property bool newfriV: true
+    property int isfriend: 1
+    property bool isContactsUpdate: true
+
+    // Connections{
+    //     target: afController
+
+    //     function isFriendSignal(text){
+    //         var tmp = JSON.parse(text)
+    //         isfriend =(tmp["isfriend"] === "true" ? true : false)
+    //         console.log("isfriend:" + isfriend)
+    //     }
+    // }
 
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
         addToContacts.connect(afController.onAddToContacts)
-        afController.friendBaseInfo.connect(function(msg){
-            console.log("signal was aceept!!!!!!!!!!!!!!!!!")
-        }
-            )
-    }
-
-    Connections{
-        target: afController
-        function onFriendBaseInfo(text){
-            console.log("on friend base info called")
-            // 1. let text easy to understand
-            setProperties(text)
-
-        }
-        function onSendToAddFriRequest(text){
-            var tmp = JSON.parse(text)
-            addreq_model.append( ID=tmp[1][1],
-                                nickname=tmp[2][1],
-                                getFirstLetter.getFirstWord(tmp[2][1]),
-                                avatar=tmp[3][1],
-                                gender = tmp[4][1],
-                                area=tmp[5][1],
-                                signal_text=tmp[6][1],
-                                memo=tmp[2][1])
-        }
-
     }
 
     // friend base info page loader
@@ -46,10 +32,69 @@ Rectangle {
         id: loader_stranger
         asynchronous: true
         anchors.fill: parent
-        source: showFriend_loader
+        // source: showFriend_loader
         // source: showStranger_loader
-        visible: loaderVisible
+        // visible: loaderVisible
 
+        property string friendID
+        property string nickname
+        property string memo_
+        property string signal_text_
+        property string area_
+        property string avatar_path_
+        property string gender_
+
+        function setProperties(text){
+            if(text !== ""){
+                var tmp = JSON.parse(text)
+
+                // 2. set value of person page infomation
+                friendID     = tmp["friendID"]
+                nickname     = tmp["nickname"]
+                avatar_path_ = tmp["avatar_path_"]
+                gender_      = tmp["gender"]
+                area_        = tmp["area"]
+                signal_text_ = tmp["signature"]
+                memo_        = tmp["memo"]
+            }
+
+        }
+
+        Connections{
+            target: afController
+            function onFriendBaseInfo(text){
+                console.log("on friend base info called")
+                loader_stranger.setProperties(text)
+            }
+
+            function onSendToAddFriRequest(text){
+                console.log("on send add friend request called: " + text)   
+                var tmp = JSON.parse(text)
+
+                console.log(tmp["myid"])
+                console.log(tmp["my_nickname"])
+                console.log(tmp["my_avatar"])
+                console.log(tmp["gender"])
+                console.log(tmp["area"])
+                console.log(tmp["signature"])
+                console.log(tmp["my_avatar"])
+
+                addreq_model.append( {ID:tmp["myid"],
+                                    nickname:tmp["my_nickname"],
+                                    fristletter:"A",                    // imcompleted
+                                    avatar:tmp["my_avatar"],
+                                    gender:tmp["gender"],
+                                    area:tmp["area"],
+                                    signal_text:tmp["signature"],
+                                    memo:tmp["my_avatar"]})
+            }
+
+            function onIsFriendSignal(text){
+                var tmp = JSON.parse(text)
+                isfriend =(tmp["isfriend"] === "true" ? 1 : 0)
+                console.log("isfriend:" + tmp["isfriend"])
+            }
+        }
     }
 
     // 搜索栏
@@ -125,13 +170,14 @@ Rectangle {
                 onTapped: {
                     findPerson(search_content.text)
 
-                    // nickname = model.name
-                    // signal_text_ = model.signal_text
-                    // area_ = model.area
-                    // avatar_path_ = model.avatar_path
+                    if(isfriend === 0){
+                        loader_stranger.source = showFriend_loader
+                    }else{
+                        loader_stranger.source = showStranger_loader
+                    }
 
                     titlecolor = "#ffffff"
-                    loaderVisible = true
+                    // loaderVisible = true
                     titlevisible = false
                     newfriV = false
                     search_content.focus = false
@@ -162,7 +208,7 @@ Rectangle {
     ListModel{
         id: addreq_model
         ListElement{
-            ID:"00000000";
+            ID:00000000;
             nickname:"测试";
             fristletter:"a";
             avatar:"../assets/Picture/avatar/cats.jpg";
@@ -181,7 +227,13 @@ Rectangle {
             id: addreq_rec
             width: newfriend.width
             height: searchBar.height * 1.5
-
+            property int addreqID: model.ID
+            property var addreqNick: model.nickname
+            property var addreqAvatar: model.avatar
+            property var addreqGender: model.gender
+            property var addreqArea: model.area
+            property var addreqSig: model.signal_text
+            property var addreqMemo: model.memo
             Row{
                 spacing: 20
                 anchors.verticalCenter: parent.verticalCenter
@@ -260,7 +312,11 @@ Rectangle {
                         TapHandler{
                             onTapped: {
                                 console.log("accept button on clicked")
-                                addFriend(model.ID, model.nickname, model.avatar, model.gender, model.area, model.signal_text, model.memo)
+                                console.log(model.ID)
+                                console.log(model.nickname)
+                                console.log(model.avatar)
+                                // addFriend(model.ID, model.nickname, model.avatar, model.gender, model.area, model.signal_text, model.memo)
+                                addFriend(addreqID,addreqNick ,addreqAvatar ,addreqGender ,addreqArea ,addreqSig ,addreqMemo)
                                 isContactsUpdate = true
                             }
                         }

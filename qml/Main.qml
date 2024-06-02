@@ -140,13 +140,6 @@ Item{
             border.color: "black"
             Loader {
                 id: loader
-                property string friendID
-                property string nickname
-                property string memo_
-                property string signal_text_
-                property string area_
-                property string avatar_path_
-                property string gender_
 
                 anchors.fill: parent
                 asynchronous: true

@@ -14,18 +14,8 @@ Rectangle{
     property string area: parent.area_ /*"中国大陆 重庆"*/
     property string avatar_path: parent.avatar_path_ /*"../assets/Picture/avatar/cats.jpg"*/
     property string gender: parent.gender_
-    color: "#eeeeee"
 
-    Component.onCompleted: {
-        console.log("contact list on clicked")
-        console.log(parent)
-        console.log(friendID)
-        console.log(nickname)
-        console.log(memo)
-        console.log(signal_text)
-        console.log(avatar_path)
-        console.log(area)
-    }
+    color: "#eeeeee"
 
     // show friend base info
     Rectangle{
@@ -52,6 +42,7 @@ Rectangle{
                 width: parent.height / 1.5
                 height: width
                 anchors.verticalCenter: parent.verticalCenter
+
                 Image {
                     id: image
                     width: parent.height

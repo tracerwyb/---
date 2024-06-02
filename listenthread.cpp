@@ -48,15 +48,21 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
         // content=j.at("content");
         // PersonalPageController::setAcceptmsg(content);
         // json j = json::parse(buf);
+
+        if (j.at("request_type") == "isfriend") {
+            AddFriendPageController::isFriend(buf);
+        }
+
         if (j.at("request_type") == "user_info") {
             AddFriendPageController::receiveFriBaseInfo(buf);
         }
-        // if (j.at("request_type") == "addfriend") {
-        //     m_afc->receiveAddRequest(buf);
-        // }
-        // if (j.at("request_type") == "acceptfrinfo") {
-        //     m_afc->receiveAcceptSignal(buf);
-        // }
+
+        if (j.at("request_type") == "addfriend") {
+            AddFriendPageController::receiveAddRequest(buf);
+        }
+        if (j.at("request_type") == "acceptfrinfo") {
+            m_afc->receiveAcceptSignal(buf);
+        }
     }
 
     qDebug()<<"the listen thread finish work";

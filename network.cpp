@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#define IPADDR "192.168.105.186" //"10.253.172.131"
+#define IPADDR "10.253.131.177" //"10.253.172.131"
 #define PORT 9878
 Network::Network() {}
 
@@ -45,6 +45,7 @@ void Network::sendTextMessage(char* sendmessage,int size)
         offset+=n;
         size=size-n;
     }
+    qDebug() << "n:" << n;
 }
 
 int Network::reciveTextMessage(char* recivemessage)
