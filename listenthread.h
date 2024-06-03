@@ -2,6 +2,7 @@
 #define LISTENTHREAD_H
 
 #include "addfriendpagecontroller.h"
+#include "messagepreviewpagecontroller.h"
 
 #include <QThread>
 class ListenThread:public QThread
@@ -18,6 +19,7 @@ protected:
     void run()override;
     bool state;
     AddFriendPageController *m_afc;
+    MessagePreviewPageController *m_mfc;
 };
 
 #endif // LISTENTHREAD_H

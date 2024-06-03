@@ -1,5 +1,6 @@
 #ifndef MESSAGEPREVIEWPAGECONTROLLER_H
 #define MESSAGEPREVIEWPAGECONTROLLER_H
+#include <QMap>
 #include <QObject>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -11,33 +12,40 @@
 class MessagePreviewPageController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString messages READ getMessages WRITE setMessages NOTIFY messagesChanged FINAL)
-    Q_PROPERTY(int personCount READ getPersonCount WRITE setPersonCount)
+    Q_PROPERTY(QString message READ getMessage WRITE setMessage NOTIFY messageChanged)
+    Q_PROPERTY(QString myId READ getMyId WRITE setMyId NOTIFY myIdChanged)
+
 public:
+    static MessagePreviewPageController *getInstance();
     MessagePreviewPageController(QObject *parent = nullptr);
-    Q_INVOKABLE void handelOfflineMessage();
+    Q_INVOKABLE void getOfflineMessage();
+    void getOnlineMessage(nlohmann::json newMessage);
+    Q_INVOKABLE void getFirstInfos();
 
-    //test
-    void receiveOfflineMessage(nlohmann::json jsonMessage);
+    Q_INVOKABLE void initMessagePreviewPage();
 
-    Q_INVOKABLE QString getMessages() const;
-    Q_INVOKABLE void setMessages(QString message);
+    Q_INVOKABLE QString getMessage();
+    Q_INVOKABLE void setMessage(QString message);
 
-    Q_INVOKABLE int getPersonCount() const;
-    Q_INVOKABLE void setPersonCount(int count);
+    Q_INVOKABLE QString getMyId() { return myId; }
+    Q_INVOKABLE void setMyId(QString str) { myId = str; };
 
-    void saveMessage();
 signals:
-    Q_INVOKABLE void messagesChanged(QString message);
-    Q_INVOKABLE void messagesReceiver();
+    void messageChanged();
+    void messagesReceiver();
+    void myIdChanged();
+
+    void newOnlineMessage();
 public slots:
     void onMessagesReceived() { std::cout << "get message form aml" << std::endl; };
 
 private:
     //test
-    QString messages;
+    QString message;
+    QString myId;
     nlohmann::json jsonMessage;
-    int personCount = 0;
+    QVector<QString> messages;
+    static MessagePreviewPageController *messagePreviewPageController;
 };
 
 #endif

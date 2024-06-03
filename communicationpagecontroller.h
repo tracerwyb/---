@@ -1,6 +1,7 @@
 #ifndef COMMUNICATIONPAGECONTROLLER_H
 #define COMMUNICATIONPAGECONTROLLER_H
 #include <QObject>
+#include <nlohmann/json.hpp>
 //判断用户（ID）聊天对象是否在线，在线直接发消息，不在线发送给服务器存储；调用client的功能向对面发送消息；接收别人发送的消息
 class CommunicationPageController : public QObject
 {
@@ -9,52 +10,62 @@ class CommunicationPageController : public QObject
                    receiverMessageChanged)
     Q_PROPERTY(QString senderMessage READ getSenderMessage WRITE setSenderMessage NOTIFY
                    senderMessageChanged)
-    Q_PROPERTY(bool senderState READ getSenderState WRITE setSenderState NOTIFY senderStateChanged)
-
-    Q_PROPERTY(
-        bool receiverState READ getReceiverState WRITE setReceiverState NOTIFY receiverStateChanged)
+    // Q_PROPERTY(std::string newSendMessage READ getNewSendMessage WRITE setNewSendMessage NOTIFY
+    //                newSendMessageChanged)
+    Q_PROPERTY(QString newSendMessage READ getNewSendMessage WRITE setNewSendMessage NOTIFY
+                   newSendMessageChanged)
+    Q_PROPERTY(QString receiverId READ getReceiverId WRITE setReceiverId NOTIFY receiverIdChanged)
+    Q_PROPERTY(QString senderId READ getSenderId WRITE setSenderId NOTIFY senderIdChanged)
     //offline->online;
 public:
-    QString getReceiverMessage() { return receiverMessage; };
-    void setReceiverMessage(QString str) { receiverMessage = str; }
+    static CommunicationPageController *getInstance();
+    Q_INVOKABLE void initCommunicationPage();
+    void getCommunicationInfos();
+    void getOnlineMessage(nlohmann::json newMessage);
 
-    QString getSenderMessage() { return senderMessage; };
-    void setSenderMessage(QString str) { receiverMessage = str; }
+    // void receiverNewReceivMessage();
+    Q_INVOKABLE void saveMessage();
+    Q_INVOKABLE void sendNewMessage();
 
-    bool getSenderState() { return senderState; };
-    void setSenderState(bool str) { senderState = str; }
+    Q_INVOKABLE QString getReceiverMessage() { return receiverMessage; };
+    Q_INVOKABLE void setReceiverMessage(QString str) { receiverMessage = str; }
 
-    bool getReceiverState() { return receiverState; };
-    void setReceiverState(bool str) { receiverState = str; }
+    Q_INVOKABLE QString getSenderMessage() { return senderMessage; };
+    Q_INVOKABLE void setSenderMessage(QString str) { senderMessage = str; }
 
-    void saveMessage();
+    Q_INVOKABLE QString getReceiverId() { return receiverId; };
+    Q_INVOKABLE void setReceiverId(QString i) { receiverId = i; }
+
+    // Q_INVOKABLE std::string getNewSendMessage() { return newSendMessage; };
+    // Q_INVOKABLE void setNewSendMessage(std::string i) { newSendMessage = i; }
+
+    Q_INVOKABLE QString getNewSendMessage() { return newSendMessage; };
+    Q_INVOKABLE void setNewSendMessage(QString i) { newSendMessage = i; }
+
+    Q_INVOKABLE QString getSenderId() { return senderId; }
+    Q_INVOKABLE void setSenderId(QString i) { senderId = i; }
+
 signals:
     //qml调用、c++处理
     void senderMessageChanged();
     //c++调用、qml处理
     void receiverMessageChanged();
-    void senderStateChanged();
-    void receiverStateChanged();
+
+    void newSendMessageChanged();
+
+    void receiverIdChanged();
+    void senderIdChanged();
+
 public slots:
-    //  void onSenderMessageChange();
-    //  void onReceiverMessageChanged();
-    //  void onSenderStateChanged();
-    //  void onReceiverStateChanged();
-
-public:
-    void sendMessage();
-    void getMessageOnline();
-    //判断sender网络
-    void getSenderUserState();
-
-    //连接套接字、判断receiver网络
-    void getReceiverUserState();
 
 private:
+    QVector<QString> communicationMessages;
     QString receiverMessage;
     QString senderMessage;
-    bool senderState;
-    bool receiverState;
+    QString senderId;
+    QString receiverId;
+    QString newSendMessage;
+    static CommunicationPageController *communicationPageController;
 };
 
 #endif

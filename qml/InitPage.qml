@@ -108,7 +108,18 @@ ApplicationWindow{
                         initloder.source="Main.qml"
                         initRectangle.visible=false
                         personalctrller.test()              //与服务器建立连接
+
                         listenThread.startThread()          //开启监听线程，从套接字里读数据
+                        personalctrller.send()
+                        messagePreviewPageController.setMyId(idtextinput.text)
+                        fileTools.setMyId(idtextinput.text)
+
+                        fileTools.initFiled(idtextinput.text)
+                        messagePreviewPageController.getOfflineMessage();
+
+                        communicationPageController.setSenderId(idtextinput.text);
+                        console.log("当前用户："+communicationPageController.senderId.toString())
+
                     }
                 }
             }

@@ -7,8 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-
-#define IPADDR "10.253.209.148" //"10.253.172.131"
+#define IPADDR "192.168.101.210" //10.253.209.148" //"10.253.172.131"
 #define PORT 9879
 Network::Network() {}
 
