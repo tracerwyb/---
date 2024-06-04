@@ -18,15 +18,9 @@ Rectangle {
             readFriendFromLocal()
             isContactsUpdate = false
         }
-    }
-
-    function remove_from_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
-        var rowCount = name_model.count;
-
-        for(i = 0;i < name_model.count;i++){
-            if(name === contacts_Model.get(i).name)
-            // console.log(model.value)
-                name_model.remove({name:name , first_letter:first_letter, avatar_path: avatar_path})
+        console.log("contact list page")
+        if(loader.source===contactListPage_loader){
+            afController.initFriendList()
         }
     }
 
@@ -40,20 +34,42 @@ Rectangle {
         target: afController
 
         function onSendAcceptSignal(text){
-            var tmp = JSON.parse(text)
-
-            // tmp["myid"]  //靠该值 向本地文件读取朋友的信息，并添加到朋友列表中
-            // addreq_model.append( {ID:tmp["myid"],
-            //                     nickname:tmp["my_nickname"],
-            //                     fristletter:"A",                    // imcompleted
-            //                     avatar:tmp["my_avatar"],
-            //                     gender:tmp["gender"],
-            //                     area:tmp["area"],
-            //                     signal_text:tmp["signature"],
-            //                     memo:tmp["my_avatar"]})
-            addFriend(addreqID,addreqNick ,addreqAvatar ,addreqGender ,addreqArea ,addreqSig ,addreqMemo)
-            isContactsUpdate = true
+            fileTools.modifyRelation(JSON.parse(text),"friend")
         }
+
+        function onInitfrilist(text){
+            if(text !== "")
+            var tmp = JSON.parse(text)
+            console.log("init friend list 111111111111111111111111")
+            console.log(tmp["ID"])
+            // name_model.append({ID:tmp["ID"],
+            //                       name:tmp["nickname"],
+            //                       memo:tmp["nickname"],
+            //                       frist_letter:"A",
+            //                       area:tmp["area"],
+            //                       signal_text:tmp["signal_text"],
+            //                       avatar_path:"../assets/Picture/icons/newfriend.png",
+            //                       gender:tmp["gender"]
+            //                   })
+            // name_model.append(   {ID:"20000002" ,
+            //                       name: "Bob" ,
+            //                       memo: "Bob",                                  first_letter: "A",
+            //                       area: "中国大陆 重庆",
+            //                       signal_text: "测试： 个性签名 Bob",
+            //                       avatar_path: "../assets/Picture/icons/newfriend.png" ,
+            //                       gender: "女"})
+            var ob={}
+            ob.ID=tmp.ID
+            ob.name=tmp.nickname
+            ob.memo=tmp.nickname
+            ob.first_letter="A"
+            ob.area=tmp.area
+            ob.signal_text=tmp.signal_text
+            ob.avatar_path="../assets/Picture/icons/newfriend.png"
+            ob.gender=tmp.gender
+            name_model.append(ob)
+        }
+
     }
 
 
@@ -105,6 +121,7 @@ Rectangle {
                         // console.log(model.name)
                         // loader 动态加载页面 AddfriendPage
                         loader.source = addfriendPage_loader
+
                         titletext = "新的朋友"
                         pagebar_visible = false
                         backvisible = true
@@ -132,66 +149,66 @@ Rectangle {
             avatar_path: "../assets/Picture/icons/newfriend.png" ;
             gender: "女"
         }
-        ListElement {
-            ID:"20000002" ;
-            name: "Bob" ;
-            memo: "Bob";
-            first_letter: "A";
-            area: "中国大陆 重庆";
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            gender: "女"
-        }
-        ListElement {
-            ID:"20000003" ;
-            name: "Carol" ;
-            memo: "Carol";
-            first_letter: "A";
-            area: "中国大陆 重庆"
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            gender: "男"
-        }
-        ListElement {
-            ID:"20000004" ;
-            name: "David" ;
-            memo: "David";
-            first_letter: "D";
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            area: "中国大陆 重庆"
-            gender: "男"
-        }
-        ListElement {
-            ID:"20000005" ;
-            name: "Ella" ;
-            memo: "Ella";
-            first_letter: "E";
-            area: "中国大陆 重庆"
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            gender: "女"
-        }
-        ListElement {
-            ID:"20000006" ;
-            name: "Flla" ;
-            memo: "Flla";
-            first_letter: "F";
-            area: "中国大陆 重庆"
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            gender: "女"
-        }
-        ListElement {
-            ID:"20000007" ;
-            name: "Alice" ;
-            memo: "Alice";
-            first_letter: "G";
-            area: "中国大陆 重庆"
-            signal_text: "测试： 个性签名 Bob";
-            avatar_path: "../assets/Picture/icons/newfriend.png" ;
-            gender: "女"
-        }
+        // ListElement {
+        //     ID:"20000002" ;
+        //     name: "Bob" ;
+        //     memo: "Bob";
+        //     first_letter: "A";
+        //     area: "中国大陆 重庆";
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     gender: "女"
+        // }
+        // ListElement {
+        //     ID:"20000003" ;
+        //     name: "Carol" ;
+        //     memo: "Carol";
+        //     first_letter: "A";
+        //     area: "中国大陆 重庆"
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     gender: "男"
+        // }
+        // ListElement {
+        //     ID:"20000004" ;
+        //     name: "David" ;
+        //     memo: "David";
+        //     first_letter: "D";
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     area: "中国大陆 重庆"
+        //     gender: "男"
+        // }
+        // ListElement {
+        //     ID:"20000005" ;
+        //     name: "Ella" ;
+        //     memo: "Ella";
+        //     first_letter: "E";
+        //     area: "中国大陆 重庆"
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     gender: "女"
+        // }
+        // ListElement {
+        //     ID:"20000006" ;
+        //     name: "Flla" ;
+        //     memo: "Flla";
+        //     first_letter: "F";
+        //     area: "中国大陆 重庆"
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     gender: "女"
+        // }
+        // ListElement {
+        //     ID:"20000007" ;
+        //     name: "Alice" ;
+        //     memo: "Alice";
+        //     first_letter: "G";
+        //     area: "中国大陆 重庆"
+        //     signal_text: "测试： 个性签名 Bob";
+        //     avatar_path: "../assets/Picture/icons/newfriend.png" ;
+        //     gender: "女"
+        // }
         // 添加更多姓名，以字母顺序排列
     }
 
@@ -246,6 +263,14 @@ Rectangle {
                     delegate:Row{
                         id: user_row
                         height: model.first_letter === parentItem.letter ? 55 : 0
+
+                        property var friend_ID : model.ID
+                        property var nick_name : model.name
+                        property var me_mo_ : model.memo
+                        property var signal_t : model.signal_text
+                        property var ara : model.area
+                        property var ava_ : model.avatar_path
+
                         Rectangle{width: 10; height:model.first_letter === parentItem.letter ? avatar.height+20 : 0}
                         Image{
                             id: avatar
@@ -279,12 +304,13 @@ Rectangle {
                             onTapped:{
 
                                 if(model.ID !== ""){
-                                    friendID = model.ID
-                                    nickname = model.name
-                                    memo_ = model.memo
-                                    signal_text_ = model.signal_text
-                                    area_ = model.area
-                                    avatar_path_ = model.avatar_path
+
+                                    friendID = friend_ID
+                                    nickname = nick_name
+                                    memo_ = me_mo_
+                                    signal_text_ = signal_t
+                                    area_ = ara
+                                    avatar_path_ = ava_
 
                                     backvisible = true
                                     titlevisible = false

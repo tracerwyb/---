@@ -38,6 +38,11 @@ void FileTools::initFiled(QString SenderId)
     if (!newDirAudio.exists()) {
         newDirAudio.mkpath(".");
     }
+    QString newDirPathFriendReq = documentsPath + "/FriendReq/" + SenderId;
+    QDir newDirFriendReq(newDirPathFriendReq);
+    if (!newDirFriendReq.exists()) {
+        newDirFriendReq.mkpath(".");
+    }
 }
 
 // QString FileTools::openTextFile(QString fileType, QString filename)
@@ -173,67 +178,6 @@ void FileTools::saveMessageText(nlohmann::json jsonMessage, QString filename)
     }
 }
 
-// void FileTools::saveMessageText(nlohmann::json jsonMessage)
-// {
-//     QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-//     std::string senderId;
-//     qDebug() << "store 1";
-//     if (jsonMessage["SenderId"].is_number()) {
-//         senderId = std::to_string(jsonMessage["SenderId"].get<int>());
-//     } else if (jsonMessage["SenderId"].is_string()) {
-//         senderId = jsonMessage["SenderId"].get<std::string>();
-//     } else {
-//         qDebug() << "SenderId is neither number nor string";
-//     }
-
-//     std::string receiverId;
-//     if (jsonMessage["ReceiverId"].is_number()) {
-//         receiverId = std::to_string(jsonMessage["ReceiverId"].get<int>());
-//     } else if (jsonMessage["ReceiverId"].is_string()) {
-//         receiverId = jsonMessage["ReceiverId"].get<std::string>();
-//     } else {
-//         qDebug() << "SenderId is neither number nor string";
-//     }
-//     qDebug() << "store 2";
-//     QString newFilePath = documentsPath + "/Text/" + QString::fromStdString(senderId)
-//                           + QString::fromStdString(receiverId) + ".json";
-//     qDebug() << newFilePath;
-
-//     QFile file(newFilePath);
-//     QTextStream stream(&file);
-
-//     if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-//         qDebug() << "Failed to open file: ";
-//     }
-//     if (file.size() == 0) {
-//         nlohmann::json jr = nlohmann::json::array();
-//         jr.push_back(jsonMessage);
-//         QString info = QString::fromStdString(jr.dump());
-//         stream << info;
-//     } else {
-//         //kong
-//         QString info = stream.readAll(); // 读取整个文件内容
-//         std::string str = info.toStdString();
-//         // 解析 JSON
-//         nlohmann::json ja = nlohmann::json::parse(str);
-//         file.close();
-//         for (const auto &item : ja) {
-//             if (item != jsonMessage) {
-//                 ja.push_back(jsonMessage);
-//                 info = QString::fromStdString(ja.dump());
-//                 //重新打开文件只为重新写入
-//                 QFile filew(newFilePath);
-//                 filew.open(QIODevice::WriteOnly | QIODevice::Text);
-//                 QTextStream streamw(&filew);
-//                 qDebug() << "store 3";
-//                 qDebug() << info;
-//                 streamw << info;
-//                 filew.close();
-//             }
-//         }
-//     }
-// }
-
 QVector<QString> FileTools::getFirstInfos()
 {
     qDebug() << "正在遍历消息目录";
@@ -256,6 +200,82 @@ QVector<QString> FileTools::getFirstInfos()
     return fristMessages;
 }
 
+void FileTools::saveRequest(nlohmann::json jsonMessage, QString filename)
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    qDebug() << "store 2";
+    QString newFilePath = documentsPath + "/FriendReq/" + myId + "/" + filename + ".json";
+    qDebug() << newFilePath;
+
+    QFile file(newFilePath);
+    QTextStream stream(&file);
+
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qDebug() << "Failed to open file: ";
+    }
+    if (file.size() == 0) {
+        qDebug() << "1";
+        nlohmann::json jr = nlohmann::json::array();
+        jr.push_back(jsonMessage);
+        QString info = QString::fromStdString(jr.dump());
+        stream << info;
+        file.close();
+    } else {
+        //kong
+        QString info = stream.readAll(); // 读取整个文件内容
+        std::string str = info.toStdString();
+        // 解析 JSON
+        nlohmann::json ja = nlohmann::json::parse(str);
+        file.close();
+        int flags = 0;
+        for (nlohmann::json &item : ja) {
+            //有相同的
+            if (item == jsonMessage) {
+                flags = 1;
+                break;
+            }
+        }
+        if (flags == 0) {
+            ja.push_back(jsonMessage);
+        }
+        info = QString::fromStdString(ja.dump());
+        QFile filew(newFilePath);
+        filew.open(QIODevice::WriteOnly | QIODevice::Text);
+        file.resize(0);
+        QTextStream streamw(&filew);
+        qDebug() << "store 3";
+        streamw << info;
+        filew.close();
+    }
+}
+
+void FileTools::modifyRelation(nlohmann::json jsonMessage, QString filename, QString relation)
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    qDebug() << "store 2";
+    QString newFilePath = documentsPath + "/FriendReq/" + myId + "/" + filename + ".json";
+    qDebug() << newFilePath;
+
+    QFile file(newFilePath);
+    QTextStream stream(&file);
+
+    //kong
+    QString info = stream.readAll(); // 读取整个文件内容
+    std::string str = info.toStdString();
+    // 解析 JSON
+    nlohmann::json ja = nlohmann::json::parse(str);
+    file.close();
+    int flags = 0;
+    for (nlohmann::json &item : ja) {
+        //有相同的
+        if (item == jsonMessage) {
+            item["relation"] = relation.toStdString();
+            break;
+        }
+    }
+}
 QString FileTools::getInfo(QString filePath)
 {
     qDebug() << "正在获取消息";
@@ -294,5 +314,32 @@ QVector<QString> FileTools::getCommunciationInfos(QString senderId, QString rece
         messages.append(QString::fromStdString(messageObjec.dump()));
     }
     file.close();
+    return messages;
+}
+
+QVector<QString> FileTools::getReq(QString filename)
+{
+    QVector<QString> messages;
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString filePath = documentsPath + "/FriendReq/" + myId + "/" + filename + ".json";
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file:" << filePath;
+    }
+    if (file.size() == 0) {
+        file.close();
+    } else {
+        QTextStream stream(&file);
+        QString tempInfo = stream.readAll();
+        std::string str = tempInfo.toStdString();
+        nlohmann::json jr = nlohmann::json ::parse(str);
+        // 格式
+        for (nlohmann::json &messageObjec : jr) {
+            messages.append(QString::fromStdString(messageObjec.dump()));
+        }
+        file.close();
+    }
+
     return messages;
 }

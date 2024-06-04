@@ -21,6 +21,9 @@ public:
     QString getInfo(QString filePath);
 
     QVector<QString> getCommunciationInfos(QString senderId, QString receiverId);
+    Q_INVOKABLE void saveRequest(nlohmann::json jsonMessage, QString filename);
+    Q_INVOKABLE QVector<QString> getReq(QString filename);
+    Q_INVOKABLE void modifyRelation(nlohmann::json jsonMessage, QString filename, QString relation);
 
     Q_INVOKABLE QString getMyId() { return myId; }
     Q_INVOKABLE void setMyId(QString str) { myId = str; };

@@ -43,23 +43,28 @@ public:
     static void receiveAddRequest(
         char *text); // receive friends' all base info, request type: "addFriendRequest"
     static void receiveAcceptSignal(char *text);
-
+    Q_INVOKABLE void initFriendReqs();
+    Q_INVOKABLE void initFriendList();
+    Q_INVOKABLE void onAddToContacts(QString ID,
+                                     QString nickname,
+                                     QString avatar_path,
+                                     QString gender,
+                                     QString area,
+                                     QString signal_text,
+                                     QString memo);
 signals:
     void friendBaseInfo(QString);
-    void sendToAddFriRequest(QString);
     void sendAcceptSignal(QString);
     void isFriendSignal(QString);
+    void initfrilist(QString);
+    void initFriReq(QString);
 
 public slots:
     QString onSearchTextChanged(QString text);
     bool onSendAddFriRequest(int target_id); // send user id and target(friend) id to server
-    void onAddToContacts(int ID,
-                         QString nickname,
-                         QString avatar_path,
-                         QString gender,
-                         QString area,
-                         QString signal_text,
-                         QString memo);
+
+    void onContactListClicked();
+    void onSaveToLocal(QString, QString);
 
 private:
     int m_userid; // initialize when user login

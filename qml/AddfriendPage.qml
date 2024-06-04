@@ -9,22 +9,15 @@ Rectangle {
 
     property bool loaderVisible : false
     property bool newfriV: true
-    property int isfriend: 1
+    property int isfriend
     property bool isContactsUpdate: true
 
-    // Connections{
-    //     target: afController
-
-    //     function isFriendSignal(text){
-    //         var tmp = JSON.parse(text)
-    //         isfriend =(tmp["isfriend"] === "true" ? true : false)
-    //         console.log("isfriend:" + isfriend)
-    //     }
-    // }
-
+    signal saveToLocal(var text,var file)
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
-        addToContacts.connect(afController.onAddToContacts)
+        if(loader.source===addfriendPage_loader){
+            afController.initFriendReqs()
+        }
     }
 
     // friend base info page loader
@@ -65,28 +58,14 @@ Rectangle {
             function onFriendBaseInfo(text){
                 console.log("on friend base info called")
                 loader_stranger.setProperties(text)
-            }
-
-            function onSendToAddFriRequest(text){
-                console.log("on send add friend request called: " + text)   
                 var tmp = JSON.parse(text)
+                if(isfriend === 0){
+                    tmp["relation"] = "stranger"
+                }else{
+                    tmp["relation"] = "friend"
+                }
 
-                console.log(tmp["myid"])
-                console.log(tmp["my_nickname"])
-                console.log(tmp["my_avatar"])
-                console.log(tmp["gender"])
-                console.log(tmp["area"])
-                console.log(tmp["signature"])
-                console.log(tmp["my_avatar"])
-
-                addreq_model.append( {ID:tmp["myid"],
-                                    nickname:tmp["my_nickname"],
-                                    fristletter:"A",                    // imcompleted
-                                    avatar:tmp["my_avatar"],
-                                    gender:tmp["gender"],
-                                    area:tmp["area"],
-                                    signal_text:tmp["signature"],
-                                    memo:tmp["my_avatar"]})
+                saveToLocal(JSON.stringify(tmp),"relation")
             }
 
             function onIsFriendSignal(text){
@@ -94,7 +73,21 @@ Rectangle {
                 isfriend =(tmp["isfriend"] === "true" ? 1 : 0)
                 console.log("isfriend:" + tmp["isfriend"])
             }
+
+            function onInitFriReq(text){
+                console.log("on init friend page received called")
+                var tmp = JSON.parse(text)
+                addreq_model.append( {ID:tmp["myid"],
+                                    nickname:tmp["my_nickname"],
+                                    fristletter:"A",
+                                    avatar:tmp["my_avatar"],
+                                    gender:tmp["gender"],
+                                    area:tmp["area"],
+                                    signal_text:tmp["signature"],
+                                    memo:tmp["my_avatar"]})
+            }
         }
+
     }
 
     // 搜索栏
@@ -170,7 +163,7 @@ Rectangle {
                 onTapped: {
                     findPerson(search_content.text)
 
-                    if(isfriend === 0){
+                    if(isfriend === 1){
                         loader_stranger.source = showFriend_loader
                     }else{
                         loader_stranger.source = showStranger_loader
@@ -315,7 +308,6 @@ Rectangle {
                                 console.log(model.ID)
                                 console.log(model.nickname)
                                 console.log(model.avatar)
-                                // addFriend(model.ID, model.nickname, model.avatar, model.gender, model.area, model.signal_text, model.memo)
                                 addFriend(addreqID,addreqNick ,addreqAvatar ,addreqGender ,addreqArea ,addreqSig ,addreqMemo)
                                 isContactsUpdate = true
                             }

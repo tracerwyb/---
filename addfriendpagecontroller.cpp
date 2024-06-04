@@ -2,7 +2,9 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "filetools.h"
 #include <nlohmann/json.hpp>
+#include <unistd.h>
 
 using nlohmann::json;
 AddFriendPageController *AddFriendPageController::adfc=nullptr;
@@ -60,6 +62,8 @@ QString AddFriendPageController::onSearchTextChanged(QString text)
 
 bool AddFriendPageController::onSendAddFriRequest(int target_id)
 {
+    qDebug() << "onSendAddFriRequest called";
+
     qDebug() << target_id;
 
     //1. get my info from local document
@@ -83,10 +87,10 @@ bool AddFriendPageController::onSendAddFriRequest(int target_id)
 void AddFriendPageController::receiveAddRequest(char *text)
 {
     qDebug() << "receiveAddRequest called";
-    emit adfc->sendToAddFriRequest(text);
+    FileTools::getInstance()->saveRequest(nlohmann::json::parse(text), "friend_request");
 }
 
-void AddFriendPageController::onAddToContacts(int ID,
+void AddFriendPageController::onAddToContacts(QString ID,
                                               QString nickname,
                                               QString avatar_path,
                                               QString gender,
@@ -97,7 +101,7 @@ void AddFriendPageController::onAddToContacts(int ID,
     // 1.add to m_friendlist
     json friendinfo;
     friendinfo["relation"] = "friend";
-    friendinfo["ID"] = ID;
+    friendinfo["ID"] = ID.toStdString();
     friendinfo["nickname"] = nickname.toStdString();
     friendinfo["avatar_path"] = avatar_path.toStdString();
     friendinfo["gender"] = gender.toStdString();
@@ -108,12 +112,13 @@ void AddFriendPageController::onAddToContacts(int ID,
     m_friendlist.push_back(friendinfo);
 
     // 2.store in local document
+    FileTools::getInstance()->saveRequest(friendinfo, "relation");
 
     // 3.send accept signal to server(with accepter id) 所有查找过的其他人的基本信息都存在一个文件里面
     json acceptinfo;
     acceptinfo["request_type"] = "acceptfrinfo";
     acceptinfo["myid"] = Client::getInstance()->getId();
-    acceptinfo["requestsender_id"] = ID;
+    acceptinfo["requestsender_id"] = ID.toStdString();
 
     Client::getInstance()->send(acceptinfo.dump().data(), strlen(acceptinfo.dump().data()));
 }
@@ -122,6 +127,41 @@ void AddFriendPageController::receiveAcceptSignal(char *text)
 {
     qDebug() << "receiveAcceptSignal:" << text;
     emit adfc->sendAcceptSignal(text);
+}
+
+void AddFriendPageController::initFriendReqs()
+{
+    auto reqs = FileTools::getInstance()->getReq("friend_request");
+    for (QString &value : reqs) {
+        qDebug() << "initFriendReqs value" << value;
+        emit initFriReq(value);
+    }
+}
+
+void AddFriendPageController::initFriendList()
+{
+    qDebug() << "init friend list";
+    auto fris = FileTools::getInstance()->getReq("relation");
+    for (QString &value : fris) {
+        auto v = nlohmann::json::parse(value.toStdString());
+        qDebug() << "friend list value" << value;
+        if (v["relation"] == "friend") {
+            qDebug() << "v['relation']";
+
+            emit initfrilist(value);
+        }
+    }
+}
+
+void AddFriendPageController::onContactListClicked()
+{
+    qDebug() << "contact list page on clicked";
+    initFriendList();
+}
+
+void AddFriendPageController::onSaveToLocal(QString content, QString file)
+{
+    FileTools::getInstance()->saveRequest(nlohmann::json::parse(content.toStdString()), file);
 }
 
 /* server: send msg 

@@ -39,6 +39,13 @@ Item{
     property int page_num: 3
     property double barheight_rate: 0.05
 
+
+    signal contactListClicked()
+
+    Component.onCompleted: {
+        contactListClicked.connect(afController.onContactListClicked)
+    }
+
     AddFriendPageController{
         id: afController
 
@@ -145,20 +152,38 @@ Item{
                 anchors.fill: parent
                 asynchronous: true
                 source:messagePreviewPage_loader
+                // onSourceChanged: source === addfriendPage_loader ? afController.initFriendReqs() : source = source
+
 
                 signal searchTextChanged(var text)
-                signal addToContacts(var ID, var nickname,var avatar_path,var gender,var area,var signal_text,var memo)
+
+                Component.onCompleted: {
+                    addPageClicked.connect(afController.onAddPageClicked)
+                    saveToLocal.connect(afController.onSaveToLocal)
+                }
 
                 function findPerson(personID){
                     // 1. search from local document
                     // 2. is exist -> return info
-                    // 3. not exist -> send find signal to server with person(target) id
+                    // 3. not exist -> send find  to server with person(target) id
                     searchTextChanged(personID)
                 }
 
                 function addFriend(ID, nickname, avatar_path, gender, area, signal_text, memo){
-                    addToContacts(ID, nickname, avatar_path, gender, area, signal_text, memo)
+                    afController.onAddToContacts(ID, nickname, avatar_path, gender, area, signal_text, memo)
                     // 1. add new friend relation to local doucument
+                    // var relation;
+                    // relation["relation"] = "friend"
+                    // relation["ID"] = ID
+                    // relation["nickname"] = nickname
+                    // relation["avatar_path"] = avatar_path
+                    // relation["gender"] = gender
+                    // relation["area"] = area
+                    // relation["signal_text"] = signal_text
+                    // relation["memo"] = memo
+
+                    // fileTools.saveRequest(relation,"relation")
+
                     console.log("add new friend relation to local doucument")
                 }
                 onSourceChanged: {
