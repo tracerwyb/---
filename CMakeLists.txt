@@ -30,6 +30,7 @@ qt_add_executable(appWechat-Client
     fileopendialog.h fileopendialog.cpp
     othersource.qrc
     VedioPlayer.qml
+    myimageprovider.h myimageprovider.cpp
 
 )
 

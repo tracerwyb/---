@@ -13,6 +13,10 @@ Rectangle {
     Component.onCompleted: {
         searchTextChanged.connect(afController.onSearchTextChanged)
         addToContacts.connect(afController.onAddToContacts)
+        afController.friendBaseInfo.connect(function(msg){
+            console.log("signal was aceept!!!!!!!!!!!!!!!!!")
+        }
+            )
     }
 
     Connections{

@@ -17,6 +17,8 @@ public:
     Q_INVOKABLE void initPersonalData();
     Q_INVOKABLE void test();
     Q_INVOKABLE void send();
+    Q_INVOKABLE void inite();
+    Q_INVOKABLE void sendImage();
     void setNetname(const QString str);
     QString netname()const;
     void setNetnumber(const QString number);

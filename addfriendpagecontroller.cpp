@@ -5,6 +5,11 @@
 #include <nlohmann/json.hpp>
 
 using nlohmann::json;
+AddFriendPageController *AddFriendPageController::adfc=nullptr;
+AddFriendPageController::AddFriendPageController(QObject *parent):QObject{parent}{
+    adfc=this;
+}
+
 
 void AddFriendPageController::SetFriendRequestInfo() const {}
 
@@ -17,7 +22,9 @@ void AddFriendPageController::setMUserID(int user_id)
 
 void AddFriendPageController::receiveFriBaseInfo(char *text)
 {
-    emit friendBaseInfo(QString::fromStdString(json::parse(text).dump()));
+    //QString::fromStdString(json::parse(text).dump())
+    emit adfc->friendBaseInfo(text);
+    qDebug()<<"signal was send!!!!!!!!!!!!!!!!";
 }
 
 QString AddFriendPageController::onSearchTextChanged(QString text)

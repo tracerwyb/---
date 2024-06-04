@@ -47,5 +47,6 @@
         <file>assets/Picture/icons/vediocall.png</file>
         <file>assets/Picture/icons/vedio.png</file>
         <file>assets/Picture/icons/album.png</file>
+        <file>assets/Picture/icons/bg.jpeg</file>
     </qresource>
 </RCC>

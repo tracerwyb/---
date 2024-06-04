@@ -21,7 +21,13 @@ ApplicationWindow{
     Rectangle{
         id:initRectangle
         anchors.fill: parent
-        color: "#ededed"
+        // color: "#ededed"
+        Image {
+            id: backg
+            anchors.fill: parent
+            // sourceSize: Qt.size(parent.width,parent.height)
+            source: "qrc:/assets/Picture/icons/bg.jpeg"
+        }
         Column{
             id:initColumn
             anchors.horizontalCenter: parent.horizontalCenter
@@ -30,16 +36,16 @@ ApplicationWindow{
                 id:inputRecid
                 width: init.width/10*8
                 height: init.height/10
-                //color:"#FFAAFF"
+                opacity: 0.7
                 Row{
+                    id:idrow
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    id:idrow
-                    spacing: 25
+                    // spacing: inputRecid.width/10
                     Rectangle{
-                        width: 50
+                        width: inputRecid.width/5
                         height: inputRecid.height/2
-                        // color: "#DEDEDE"
+                        color: "transparent"
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
@@ -49,9 +55,9 @@ ApplicationWindow{
                     }
                     }
                     Rectangle{
-                        width: inputRecid.width/5*4
+                        width: inputRecid.width/10*7
                         height: inputRecid.height/2
-                        // color: "#"
+                        color: "transparent"
                         border.color: "black"
                         TextInput{
                             id:idtextinput
@@ -78,6 +84,7 @@ ApplicationWindow{
                 id:initbuttonRec
                 width: init.width/10*8
                 height: init.height/15
+                color: "transparent"
                 Button{
                     anchors.fill: parent
                     id:initbutton
@@ -108,7 +115,10 @@ ApplicationWindow{
                         initloder.source="Main.qml"
                         initRectangle.visible=false
                         personalctrller.test()              //与服务器建立连接
+                        personalctrller.send()
                         listenThread.startThread()          //开启监听线程，从套接字里读数据
+                        personalctrller.inite()            //测试了从服务端传头像过来初始化
+
                     }
                 }
             }

@@ -7,6 +7,7 @@ import QtQuick.Dialogs
 import QtMultimedia
 
 Rectangle  {
+    z:2
     width: parent.width
     height: parent.height
     visible: true
@@ -33,7 +34,7 @@ Rectangle  {
     //信号-》json-》qml槽函数调用添加
     //function
     //判断是谁发的，
-    function addItem(pType,mType,message,time) {
+    function  addItem(pType,mType,message,time) {
         // if(type==="sender")
         //     senderMessage=message
         // else
@@ -51,8 +52,14 @@ Rectangle  {
     }
 
     function sendMessage(pType,mType,message,time) {
+
         console.log("发送消息:", message);
         //判断网友是否在线，选择是否发送给服务端
+//------zj test, can delete
+        personalctrller.acceptid=1
+        personalctrller.sendmsg=message
+        personalctrller.send()
+//------
         console.log(communicationPage.width)
         console.log(communicationPage.height)
         console.log(pType,mType,message,time)
@@ -224,6 +231,13 @@ Rectangle  {
                     addItem("sender","Text","HAHAHA","2024-5-21 21:00");
                     addItem("receiver","Text","XIXIXI","2024-5-21 21:00");
                     addItem("sender","Text","ZEZEZE","2024-5-21 21:00");
+//-------------z j test,can delete
+                    personalctrller.acceptmsgChanged.connect(function(msg){
+                                                console.log("signal was touch");
+                                                addItem("receiver","Text",msg,"2024-5-22 21:00");
+                                            }
+                                                )
+//------------
                 }
             }
             Component{
@@ -549,6 +563,7 @@ Rectangle  {
                                        }
                                        console.log(inputField.text)
                                        // 清空输入框
+                                        //
                                        inputField.text = "";
                                    }
                                }
@@ -570,8 +585,15 @@ Rectangle  {
                                    Rectangle{
                                        width: 80
                                        height: 80
-                                       Avatar{
-                                           source: "qrc:/assets/Picture/icons/vedio.png"
+                                       Rectangle{
+
+                                           width: 50
+                                           height: 50
+                                           Image {
+                                               source: "qrc:/assets/Picture/icons/vedio.png"
+                                               anchors.fill: parent
+                                           }
+
                                        }
 
                                        FileDialog {
@@ -597,9 +619,17 @@ Rectangle  {
                                    Rectangle{
                                        width: 80
                                        height: 80
-                                       Avatar{
-                                           source: "qrc:/assets/Picture/icons/vediocall.png"
+                                       Rectangle{
+
+                                           width: 50
+                                           height: 50
+                                           Image {
+                                               source: "qrc:/assets/Picture/icons/vediocall.png"
+                                               anchors.fill: parent
+                                           }
+
                                        }
+
                                        TapHandler{
 
                                        }
@@ -608,8 +638,14 @@ Rectangle  {
                                        id: fileDialog_imageBorder
                                        width: 80
                                        height: 80
-                                       Avatar{
-                                           source: "qrc:/assets/Picture/icons/album.png"
+                                       Rectangle{
+
+                                           width: 50
+                                           height: 50
+                                           Image {
+                                              source: "qrc:/assets/Picture/icons/album.png"
+                                               anchors.fill: parent
+                                           }
                                        }
                                        FileDialog {
                                            id: fileDialog_image

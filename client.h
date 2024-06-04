@@ -33,6 +33,9 @@ public:
 
     int receive(char *buf);
 
+    QPixmap receiveImage();
+    void sendImage(std::string path);
+
     void start();
 
     int select();

@@ -100,4 +100,23 @@ void PersonalPageController::send()
     delete[] json_buf;
 }
 
+void PersonalPageController::inite()
+{
+    nlohmann::json j;
+    j["request_type"]="initPersonalPage";
+    std::string s=j.dump();
+    Client::getInstance()->send(s.data(),strlen(s.data()));
+    qDebug()<<"inite was excute!";
+}
+
+void PersonalPageController::sendImage(){
+    nlohmann::json j;
+    j["request_type"]="sendimage";
+    j["acceptid"]=1;
+    // j["acceptid"]=2;
+    std::string s=j.dump();
+    Client::getInstance()->send(s.data(),strlen(s.data()));
+    Client::getInstance()->sendImage("/run/media/root/study/avater2.jpg");
+    qDebug()<<"sendimage was excute!";
+}
 

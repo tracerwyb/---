@@ -6,11 +6,14 @@
 #include "personalpagecontroller.h"
 #include "listenthread.h"
 #include "client.h"
+#include "myimageprovider.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
 // #include <libavformat/avformat.h>
 #include <nlohmann/json.hpp>
 #include <QQmlContext>
+
+
 int main(int argc, char *argv[])
 {
 
@@ -23,13 +26,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<GetFirstLetter>("Algorithm", 1, 0, "GetFirstLetter");
     qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
 
-
-    ListenThread listenThread;
-
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    ListenThread listenThread;
     engine.rootContext()->setContextProperty("listenThread",&listenThread);
+
+    MyImageProvider *myImageProvider = MyImageProvider::getInstance();
+    engine.addImageProvider("pictures",myImageProvider);
 
     const QUrl url(QStringLiteral("qrc:/qml/InitPage.qml"));
     QObject::connect(

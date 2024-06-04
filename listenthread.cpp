@@ -2,14 +2,13 @@
 #include "client.h"
 #include "nlohmann/json.hpp"
 #include "personalpagecontroller.h"
-
+#include "myimageprovider.h"
 using nlohmann::json;
-
 
 ListenThread::ListenThread(QObject *parent)
     : QThread(parent)
     , state(true)
-    , m_afc{new AddFriendPageController()}
+
 {
 }
 
@@ -43,21 +42,33 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
             break;
         }
         //从将套接字内容读到了buf中，下接转json存储
-        // auto j=nlohmann::json::parse(buf);
-        // std::string content;
-        // content=j.at("content");
-        // PersonalPageController::setAcceptmsg(content);
+        auto j=nlohmann::json::parse(buf);
+        if(j.at("request_type") == "sendmsg"){
+            std::string content;
+            content=j.at("content");
+            PersonalPageController::setAcceptmsg(content);
+        }
+        if(j.at("request_type") == "initPersonalPage"){
+            if(j.at("imageName") == "avater"){
+                MyImageProvider::getInstance()->setAvater(Client::getInstance()->receiveImage());
+            }
+        }
+        if(j.at("request_type") == "sendimage"){
+            MyImageProvider::getInstance()->setAvater(Client::getInstance()->receiveImage());
+            qDebug()<<"set avater succeed!!!!!!!!!!";
+        }
 
-        json j = json::parse(buf);
-        if (j.at("request_type") == "user_info") {
-            m_afc->receiveFriBaseInfo(buf);
-        }
-        if (j.at("request_type") == "addfriend") {
-            m_afc->receiveAddRequest(buf);
-        }
-        if (j.at("request_type") == "acceptfrinfo") {
-            m_afc->receiveAcceptSignal(buf);
-        }
+
+        // json j = json::parse(buf);
+        // if (j.at("request_type") == "user_info") {
+        //     m_afc->receiveFriBaseInfo(buf);
+        // }
+        // if (j.at("request_type") == "addfriend") {
+        //     m_afc->receiveAddRequest(buf);
+        // }
+        // if (j.at("request_type") == "acceptfrinfo") {
+        //     m_afc->receiveAcceptSignal(buf);
+        // }
     }
 
     qDebug()<<"the listen thread finish work";

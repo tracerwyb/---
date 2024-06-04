@@ -26,9 +26,20 @@ Rectangle{
                 themeColor="#ededed"
                 titletext="个人信息"
                 console.log("avater was clicked:"+titletext)
+                personalctrller.sendImage();
             }
 
         }
+        // Rectangle{
+        //     width: 400
+        //     height: 400
+        //     color: "blue"
+        //     Image {
+        //         id: test
+        //         anchors.fill: parent
+        //         source: "image://pi/1"
+        //     }
+        // }
 
         Rectangle{
 
@@ -42,10 +53,15 @@ Rectangle{
             clip: true
             Image {
                 id: avator1
-                //anchors.fill: parent
-                sourceSize: Qt.size(parent.width,parent.height)   //让图片能够平滑的显示
-                source: "qrc:/assets/Picture/avatar/avater1.jpg"
+                // anchors.fill: parent
+                width: parent.width
+                height: parent.height
+                // sourceSize: Qt.size(parent.width,parent.height)   //让图片能够平滑的显示
+                // source: "qrc:/assets/Picture/avatar/avater1.jpg"
+                source: "image://pictures/avater"
+                fillMode: Image.PreserveAspectCrop
                 visible: false
+
             }
             Rectangle{
                 id:maskrec
