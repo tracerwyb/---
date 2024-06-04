@@ -6,9 +6,7 @@ import UIControl 1.0
 import Algorithm 1.0
 
 Item{
-
     id: main
-
     width: Screen.desktopAvailableWidth
     height: Screen.desktopAvailableHeight
     visible: true
@@ -33,7 +31,7 @@ Item{
     property bool backvisible: false
     property bool pagebar_visible: true
     property alias afController: afController
-    property alias messagePriviewPageController: messagePriviewPageController
+    // property alias communicationPageController:communicationPageController
     property alias loader: loader
 
     //hrx-test
@@ -53,9 +51,12 @@ Item{
         id:getFirstLetter
     }
 
-    MessagePreviewPageController{
-        id:messagePriviewPageController
-    }
+    // MessagePreviewPageController{
+    //     id:messagePriviewPageController
+    // }
+    // CommunicationPageController{
+    //     id:communicationPageController
+    // }
 
     Rectangle{
         id:titlebar
@@ -143,7 +144,7 @@ Item{
 
                 anchors.fill: parent
                 asynchronous: true
-                source:contactListPage_loader
+                source:messagePreviewPage_loader
 
                 signal searchTextChanged(var text)
                 signal addToContacts(var ID, var nickname,var avatar_path,var gender,var area,var signal_text,var memo)
@@ -167,7 +168,13 @@ Item{
                     }
                 }
             }
+            function updateMessagePreviewPage(){
+                loader.source=messagePreviewPage_loader
+            }
+            Component.onCompleted: {
+                messagePreviewPageController.onNewOnlineMessage().connect(updateMessagePreviewPage)
 
+            }
         }
 
         Rectangle{
@@ -413,5 +420,6 @@ Item{
     Loader{
         id:communicationPageLoader
         anchors.fill:parent
+        property var temp
     }
 }

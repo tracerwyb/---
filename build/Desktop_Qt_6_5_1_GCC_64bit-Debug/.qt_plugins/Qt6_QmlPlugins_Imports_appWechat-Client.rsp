@@ -1,9 +1,0 @@
--rootPath
-/run/media/root/study/tempWechat/WeChat-Imitate-Client
--cmake-output
--output-file
-/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug/.qt_plugins/Qt6_QmlPlugins_Imports_appWechat-Client.cmake
--importPath
-/run/media/root/study/tempWechat/WeChat-Imitate-Client/build/Desktop_Qt_6_5_1_GCC_64bit-Debug
--importPath
-/opt/Qt/6.5.1/gcc_64/./qml

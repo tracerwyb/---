@@ -1,13 +1,14 @@
 //#include "mainwindow.h"
-#include "addfriendpagecontroller.h"
-#include "communicationpagecontroller.h"
-#include "getfirstletter.h"
-#include "messagepreviewpagecontroller.h"
-#include "personalpagecontroller.h"
-#include "listenthread.h"
-#include "client.h"
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include "addfriendpagecontroller.h"
+#include "client.h"
+#include "communicationpagecontroller.h"
+#include "filetools.h"
+#include "getfirstletter.h"
+#include "listenthread.h"
+#include "messagepreviewpagecontroller.h"
+#include "personalpagecontroller.h"
 // #include <libavformat/avformat.h>
 #include <nlohmann/json.hpp>
 #include <QQmlContext>
@@ -17,20 +18,24 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
-    qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
+    // qmlRegisterType<MessagePreviewPageController>("UIControl", 1, 0, "MessagePreviewPageController");
+    // qmlRegisterType<CommunicationPageController>("UIControl", 1, 0, "CommunicationPageController");
     qmlRegisterType<PersonalPageController>("UIControl", 1, 0, "PersonalPageController");
     qmlRegisterType<GetFirstLetter>("Algorithm", 1, 0, "GetFirstLetter");
     qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
 
-
     ListenThread listenThread;
-
+    // MessagePreviewPageController messagePreviewPageController;
+    // CommunicationPageController communicationPageController;
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
-
     engine.rootContext()->setContextProperty("listenThread",&listenThread);
 
+    engine.rootContext()->setContextProperty("messagePreviewPageController",
+                                             MessagePreviewPageController::getInstance());
+    engine.rootContext()->setContextProperty("communicationPageController",
+                                             CommunicationPageController::getInstance());
+    engine.rootContext()->setContextProperty("fileTools", FileTools::getInstance());
     const QUrl url(QStringLiteral("qrc:/qml/InitPage.qml"));
     QObject::connect(
         &engine,
@@ -41,7 +46,6 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         },
         Qt::QueuedConnection);
-
     engine.load(url);
     return app.exec();
 
