@@ -17,7 +17,7 @@ Client *Client::getInstance() {
 }
 
 void Client::send(char *buf, int size) {
-    m_network.sendTextMessage(buf,size);
+    m_network.sendTextMessage(buf, size);
 }
 
 int Client::receive(char *buf) {

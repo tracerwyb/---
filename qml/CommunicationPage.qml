@@ -15,13 +15,11 @@ Rectangle  {
     readonly property url messagePreviewPage_loader: "MessagePreviewPage.qml"
 
     property double barheight_rate: 0.06
+
     property var receiverAvatarSource
-    //message-动态获取-发信人发得消息
-    property string senderMessage
-    //message-动态获取-收信人发得消息
-    property string receiverMessage
+
    //message-动态获取-收信人的昵称
-    property var nickname
+    property string nickname:"test"
 
     //控制视频全屏
     property  bool isFullScreen: false
@@ -55,11 +53,6 @@ Rectangle  {
 
         console.log("发送消息:", message);
         //判断网友是否在线，选择是否发送给服务端
-//------zj test, can delete
-        personalctrller.acceptid=1
-        personalctrller.sendmsg=message
-        personalctrller.send()
-//------
         console.log(communicationPage.width)
         console.log(communicationPage.height)
         console.log(pType,mType,message,time)
@@ -119,7 +112,7 @@ Rectangle  {
                         id:receiverNickname
                         width: parent.width
                         height: parent.height
-                        text: "hhh"//nickname
+                        text: nickname
                         font.pixelSize: 20
                         anchors.horizontalCenter: parent.horizontalCenter
                         horizontalAlignment: Text.AlignHCenter // 水平居中
@@ -201,9 +194,6 @@ Rectangle  {
               }
        }
 
-
-
-
     Rectangle{
             id:chatMessageDisplay
             width: parent.width
@@ -231,13 +221,6 @@ Rectangle  {
                     addItem("sender","Text","HAHAHA","2024-5-21 21:00");
                     addItem("receiver","Text","XIXIXI","2024-5-21 21:00");
                     addItem("sender","Text","ZEZEZE","2024-5-21 21:00");
-//-------------z j test,can delete
-                    personalctrller.acceptmsgChanged.connect(function(msg){
-                                                console.log("signal was touch");
-                                                addItem("receiver","Text",msg,"2024-5-22 21:00");
-                                            }
-                                                )
-//------------
                 }
             }
             Component{
@@ -307,6 +290,7 @@ Rectangle  {
                             width:210
                             anchors.left: parent.left
                             wrapMode: Text.Wrap
+                            text: message
                             font.pointSize: 20
                             padding: 10
                             visible: false
@@ -411,7 +395,6 @@ Rectangle  {
                                     picture.visible=false
                                     player.visible=false
                                     senderinfo.visible=true
-                                    senderinfo.text=message
 
                                 }
                         }
@@ -531,6 +514,9 @@ Rectangle  {
                                }
                            }
                            //发送消息按钮
+                            //发送消息按钮
+                            //发送消息按钮
+                            //发送消息按钮
                            Rectangle {
                                id:senderMessageBorder
                                width: communicationPage.width*0.11
@@ -559,7 +545,10 @@ Rectangle  {
                                        // 自定义格式化字符串
                                        var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
                                        if(inputField.text!==""){
-                                           sendMessage("sender","Text",inputField.text,currentFormattedDate)
+                                           // sendMessage("sender","Text",inputField.text,currentFormattedDate)
+                                           //String->QString
+                                           communicationPageController.setNewSendMessage(inputField.text);
+                                           communicationPageController.sendNewMessage();
                                        }
                                        console.log(inputField.text)
                                        // 清空输入框
@@ -586,16 +575,13 @@ Rectangle  {
                                        width: 80
                                        height: 80
                                        Rectangle{
-
                                            width: 50
                                            height: 50
-                                           Image {
-                                               source: "qrc:/assets/Picture/icons/vedio.png"
+                                           Image{
                                                anchors.fill: parent
+                                               source: "qrc:/assets/Picture/icons/vedio.png"
                                            }
-
                                        }
-
                                        FileDialog {
                                            id: fileDialog_video
                                            currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
@@ -607,7 +593,7 @@ Rectangle  {
                                                var currentDate = new Date();
                                                // 自定义格式化字符串
                                                var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
-                                               sendMessage("sender","Vedio",selectedFile.toString(),currentFormattedDate)
+                                               // sendMessage("sender","Vedio",selectedFile.toString(),currentFormattedDate)
                                            }
                                        }
                                        TapHandler{
@@ -620,16 +606,13 @@ Rectangle  {
                                        width: 80
                                        height: 80
                                        Rectangle{
-
                                            width: 50
                                            height: 50
-                                           Image {
-                                               source: "qrc:/assets/Picture/icons/vediocall.png"
+                                           Image{
                                                anchors.fill: parent
+                                               source: "qrc:/assets/Picture/icons/vediocall.png"
                                            }
-
                                        }
-
                                        TapHandler{
 
                                        }
@@ -639,12 +622,11 @@ Rectangle  {
                                        width: 80
                                        height: 80
                                        Rectangle{
-
                                            width: 50
                                            height: 50
-                                           Image {
-                                              source: "qrc:/assets/Picture/icons/album.png"
+                                           Image{
                                                anchors.fill: parent
+                                               source: "qrc:/assets/Picture/icons/album.png"
                                            }
                                        }
                                        FileDialog {
@@ -659,7 +641,7 @@ Rectangle  {
                                                var currentDate = new Date();
                                                // 自定义格式化字符串
                                                var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
-                                               sendMessage("sender","Picture",selectedFile.toString(),currentFormattedDate)
+                                               // sendMessage("sender","Picture",selectedFile.toString(),currentFormattedDate)
                                            }
                                        }
                                        TapHandler{
@@ -682,11 +664,7 @@ Rectangle  {
                   anchors.top:parent.top
               }
       }
-    Component.onCompleted: {
-        communicationPage.visible=true
-        chatMessageDisplay.visible=true
-        inputBox.visible=true
-    }
+
     //bigView
     Rectangle{
         id:imageViewBorder
@@ -773,5 +751,38 @@ Rectangle  {
             }
          }
       }
+    Component.onCompleted: {
+        communicationPage.visible=true
+        chatMessageDisplay.visible=true
+        inputBox.visible=true
+        nickname=communicationPageController.receiverId;
+        communicationPageController.onReceiverMessageChanged.connect(onReceiverMessageChangedQml)
+        communicationPageController.onSenderMessageChanged.connect(onSenderMessageChangedQml)
+        communicationPageController.initCommunicationPage();
+    }
+    function onReceiverMessageChangedQml(){
+        console.log("getReceiverMessage的槽函数")
+        var jsonData=JSON.parse(communicationPageController.getReceiverMessage());
+        console.log(jsonData.SenderId)
+        //添加信息
+        var ob={};
+        ob.pType = "receiver"
+        ob.mType =jsonData.MessageType
+        ob.message=jsonData.MessageContent
+        ob.time=jsonData.SendTime
+        messageListModel.append(ob);
+    }
+
+    function onSenderMessageChangedQml(){
+        console.log("getSenderMessage的槽函数")
+        var jsonData=JSON.parse(communicationPageController.getSenderMessage());
+        //添加信息
+        var ob={};
+        ob.pType = "sender"
+        ob.mType =jsonData.MessageType
+        ob.message=jsonData.MessageContent
+        ob.time=jsonData.SendTime
+        messageListModel.append(ob);
+    }
 }
 

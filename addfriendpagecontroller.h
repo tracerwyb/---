@@ -37,18 +37,17 @@ public:
     Q_INVOKABLE void setFriendDetail() const;
 //----
     static void receiveFriBaseInfo(char *text);
-    AddFriendPageController(QObject *parent =nullptr);
+    static void isFriend(char *text);
+    AddFriendPageController(QObject *parent = nullptr);
 //----
-    void receiveAddRequest(
-        char *text); // receive friends' all base info, request type: "addFriendRequest"
-    void receiveAcceptSignal(char *text);
-    // Q_INVOKABLE QString jsonToQstring(QJsonObject jsonObject);
-    // Q_INVOKABLE QJsonObject qstringToJson(QString jsonString);
+    static void receiveAddRequest(char *text); // receive friends' all base info, request type: "addFriendRequest"
+    static void receiveAcceptSignal(char *text);
 
 signals:
     void friendBaseInfo(QString);
     void sendToAddFriRequest(QString);
-    void sendAcceptSignal(char *text);
+    void sendAcceptSignal(QString);
+    void isFriendSignal(QString);
 
 public slots:
     QString onSearchTextChanged(QString text);

@@ -20,19 +20,6 @@ Rectangle {
         }
     }
 
-    function setProperties(text){
-        var tmp = JSON.parse(text)
-
-        // 2. set value of person page infomation
-        friendID     = tmp[1][1]
-        nickname     = tmp[2][1]
-        avatar_path_ = tmp[3][1]
-        gender_      = tmp[4][1]
-        area_        = tmp[5][1]
-        signal_text_ = tmp[6][1]
-        memo_        = tmp[7][1]
-    }
-
     function remove_from_contacts(name, first_letter, avatar_path = "../assets/Picture/icons/newfriend.png"){
         var rowCount = name_model.count;
 
@@ -52,8 +39,19 @@ Rectangle {
     Connections{
         target: afController
 
-        function onReceiveAcceptSignal(text){
-            addFriend(tmp[1][1],tmp[2][1],getFirstLetter.getFirstWord(tmp[2][1]),tmp[5][1])
+        function onSendAcceptSignal(text){
+            var tmp = JSON.parse(text)
+
+            // tmp["myid"]  //靠该值 向本地文件读取朋友的信息，并添加到朋友列表中
+            // addreq_model.append( {ID:tmp["myid"],
+            //                     nickname:tmp["my_nickname"],
+            //                     fristletter:"A",                    // imcompleted
+            //                     avatar:tmp["my_avatar"],
+            //                     gender:tmp["gender"],
+            //                     area:tmp["area"],
+            //                     signal_text:tmp["signature"],
+            //                     memo:tmp["my_avatar"]})
+            addFriend(addreqID,addreqNick ,addreqAvatar ,addreqGender ,addreqArea ,addreqSig ,addreqMemo)
             isContactsUpdate = true
         }
     }

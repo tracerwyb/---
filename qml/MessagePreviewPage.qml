@@ -10,7 +10,7 @@ Rectangle{
     visible: true
     property var jsonData: {"messagecontent":"string","messagetype":"Text","receiver":"22222","sender":"11111","sendtime":"2024-5-21 21:00"}
     readonly property url communicationPage_loader: "CommunicationPage.qml"
-    //Qstring赋值VAR JSONDATA看看是什么，JSONDATA是JSON还是QSTRING
+
     Rectangle{
             id:messagedisplay
             width:parent.width
@@ -26,6 +26,7 @@ Rectangle{
                     messageinfo: "消息内容哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
                     sendtime:"12:00"
                     imagesource:"qrc:/assets/Picture/avatar/hrx.jpg"
+                    receiverid:"2222"
                     attributes: [
                         ListElement { description: "离线消息" },
                         ListElement { description: "在线消息" }
@@ -41,6 +42,12 @@ Rectangle{
                    id:message
                    width:messagedisplay.width
                    height:70
+                   //保存id
+                   Text{
+                       id:receiver
+                       text:receiverid
+                       visible: false
+                   }
                    Row {
                        id:meaage_layout
                        width:messagedisplay.width
@@ -127,7 +134,7 @@ Rectangle{
                    }
 
                    Rectangle{
-                       width: 70
+                       width: 100
                        height: 60
                        id:sendtime_layout
                        anchors.right: parent.right
@@ -142,8 +149,12 @@ Rectangle{
                        onTapped: {
                            message.border.color="red"
                            message.border.width=1
+                           communicationPageController.setReceiverId(receiverid)
+                           console.log(communicationPageController.receiverId);
                            communicationPageLoader.source=communicationPage_loader
+                           //设置communication的receiverid-》communciation根据这个id去查找数据做准备
                            //别名设置另一个界面的资源
+
                        }
                    }
                }
@@ -158,35 +169,39 @@ Rectangle{
                            width: 1
                }
             }
-            // Timer{
-            //     interval: 2000
-            //     running: true
-            //     repeat: true
-            //     onTriggered: {
-            //         messagePriviewPageController.messagesReceiver();
-            //     }
-            // }
-            //也可以是前端记录（判断是否已经出现，出现过就更新，没出现过就添加）
-
-            Connections{
-                target: messagePriviewPageController
-                function onMessagesReceiver(personCount){console.log("111")
-                    var jsonString=JSON.stringify(jsonData)
-                    console.log("QString",jsonString)
-                    messagePriviewPageController.setMessages(jsonString);
-                    //添加信息
-                    var ob={};
-                    ob.name = jsonData.sender
-                    ob.messageinfo =jsonData.messageContent
-                    ob.sendtime = jsonData.sendTime
-                    //查找头像
-                    ob.imagesource="qrc:/assets/Picture/avatar/"+jsonData.sender+".jpg"
-                    //按顺序添加到消息列表
-                    messageModel.insert(messagePriviewPageController.personCount,ob)
-                    messagePriviewPageController.setPersonCount(messagePriviewPageController.personCount+1)
+            function onMessageChangedd(){
+               console.log("qml相应message改变，添加对象到view中")
+               // var jsonString=JSON.stringify(jsonData)
+               // console.log("QString",jsonString)
+               // messagePreviewPageController.setMessages(jsonString);
+               var jsonData=JSON.parse(messagePreviewPageController.getMessage());
+                var ob={};
+                if(jsonData.SenderId.toString()===messagePreviewPageController.myId){
+                    //添加信息-
+                    console.log(jsonData.ReceiverId)
+                    ob.name = jsonData.ReceiverId.toString()
+                    ob.receiverid=jsonData.ReceiverId.toString()
+                    ob.imagesource="qrc:/assets/Picture/avatar/"+jsonData.ReceiverId+".jpg"
+                }else{
+                    console.log(jsonData.SenderId)
+                    ob.name = jsonData.SenderId.toString()
+                    ob.receiverid=jsonData.SenderId.toString()
+                    ob.imagesource="qrc:/assets/Picture/avatar/"+jsonData.SenderId+".jpg"
                 }
+                ob.messageinfo =jsonData.MessageContent.toString()
+                ob.sendtime =jsonData.SendTime.toString()
+               //查找头像
+                messageModel.insert(messagePreviewPageController.personCount,ob)
+               //  messageModel.insert(ob)
+               //按顺序添加到消息列表
             }
 
-        }
 
+            Component.onCompleted: {
+                messagePreviewPageController.onMessageChanged.connect(onMessageChangedd)
+                messagePreviewPageController.initMessagePreviewPage();
+                console.log('initMessagePreviewPage')
+
+            }
+    }
 }

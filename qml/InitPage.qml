@@ -114,11 +114,21 @@ ApplicationWindow{
                         personalctrller.netnumber = idtextinput.text
                         initloder.source="Main.qml"
                         initRectangle.visible=false
-                        personalctrller.test()              //与服务器建立连接
-                        personalctrller.send()
-                        listenThread.startThread()          //开启监听线程，从套接字里读数据
-                        personalctrller.inite()            //测试了从服务端传头像过来初始化
 
+                        personalctrller.test()              //与服务器建立连接
+                        listenThread.startThread()          //开启监听线程，从套接字里读数据
+
+                        personalctrller.send()              //发送本人的id初始化在线列表
+                        personalctrller.inite()            //测试,从服务端传头像过来初始化
+
+                        messagePreviewPageController.setMyId(idtextinput.text)
+                        fileTools.setMyId(idtextinput.text)
+
+                        fileTools.initFiled(idtextinput.text)
+                        messagePreviewPageController.getOfflineMessage();
+
+                        communicationPageController.setSenderId(idtextinput.text);
+                        console.log("当前用户："+communicationPageController.senderId.toString())
                     }
                 }
             }
