@@ -4,6 +4,8 @@
 #include "filetools.h"
 #include "nlohmann/json.hpp"
 #include "personalpagecontroller.h"
+#include "myimageprovider.h"
+
 using nlohmann::json;
 
 ListenThread::ListenThread(QObject *parent)
@@ -45,10 +47,22 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
         }
         //从将套接字内容读到了buf中，下接转json存储
         auto j=nlohmann::json::parse(buf);
-        // std::string content;
-        // content=j.at("content");
-        // PersonalPageController::setAcceptmsg(content);
-        // json j = json::parse(buf);
+//------z j test ,ok can delete
+        if(j.at("request_type") == "sendmsg"){
+            std::string content;
+            content=j.at("content");
+            PersonalPageController::setAcceptmsg(content);
+        }
+        if(j.at("request_type") == "initPersonalPage"){
+            if(j.at("imageName") == "avater"){
+                MyImageProvider::getInstance()->setAvater(Client::getInstance()->receiveImage());
+            }
+        }
+        if(j.at("request_type") == "sendimage"){
+            MyImageProvider::getInstance()->setAvater(Client::getInstance()->receiveImage());
+            qDebug()<<"set avater succeed!!!!!!!!!!";
+        }
+//--------
 
         if (j.at("request_type") == "isfriend") {
             AddFriendPageController::isFriend(buf);

@@ -39,9 +39,8 @@ public:
     static void receiveFriBaseInfo(char *text);
     static void isFriend(char *text);
     AddFriendPageController(QObject *parent = nullptr);
-    //----
-    static void receiveAddRequest(
-        char *text); // receive friends' all base info, request type: "addFriendRequest"
+//----
+    static void receiveAddRequest(char *text); // receive friends' all base info, request type: "addFriendRequest"
     static void receiveAcceptSignal(char *text);
     Q_INVOKABLE void initFriendReqs();
     Q_INVOKABLE void initFriendList();

@@ -25,6 +25,17 @@ int Client::receive(char *buf) {
     return n;
 }
 
+QPixmap Client::receiveImage()
+{
+    QPixmap tempQPixmap;
+    return m_network.recImage();
+}
+
+void Client::sendImage(std::string path)
+{
+    m_network.sendImage(path);
+}
+
 void Client::start() {
 
     m_network.createSocket();

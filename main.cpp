@@ -1,17 +1,20 @@
 //#include "mainwindow.h"
-#include <QApplication>
-#include <QQmlApplicationEngine>
 #include "addfriendpagecontroller.h"
-#include "client.h"
 #include "communicationpagecontroller.h"
-#include "filetools.h"
 #include "getfirstletter.h"
-#include "listenthread.h"
 #include "messagepreviewpagecontroller.h"
 #include "personalpagecontroller.h"
+#include "listenthread.h"
+#include "client.h"
+#include "myimageprovider.h"
+#include <QApplication>
+#include <QQmlApplicationEngine>
+#include "filetools.h"
 // #include <libavformat/avformat.h>
 #include <nlohmann/json.hpp>
 #include <QQmlContext>
+
+
 int main(int argc, char *argv[])
 {
 
@@ -24,18 +27,24 @@ int main(int argc, char *argv[])
     qmlRegisterType<GetFirstLetter>("Algorithm", 1, 0, "GetFirstLetter");
     qmlRegisterType<AddFriendPageController>("UIControl", 1, 0, "AddFriendPageController");
 
-    ListenThread listenThread;
-    // MessagePreviewPageController messagePreviewPageController;
-    // CommunicationPageController communicationPageController;
     QApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+    ListenThread listenThread;
     engine.rootContext()->setContextProperty("listenThread",&listenThread);
+
+    MyImageProvider *myImageProvider = MyImageProvider::getInstance();
+    engine.addImageProvider("pictures",myImageProvider);
+    
+    // MessagePreviewPageController messagePreviewPageController;
+    // CommunicationPageController communicationPageController;
 
     engine.rootContext()->setContextProperty("messagePreviewPageController",
                                              MessagePreviewPageController::getInstance());
     engine.rootContext()->setContextProperty("communicationPageController",
                                              CommunicationPageController::getInstance());
     engine.rootContext()->setContextProperty("fileTools", FileTools::getInstance());
+    
     const QUrl url(QStringLiteral("qrc:/qml/InitPage.qml"));
     QObject::connect(
         &engine,
@@ -48,39 +57,5 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
     engine.load(url);
     return app.exec();
-
-
-    // Network network;
-    // Client *client=Client::getInstance();
-    // client->start();
-    // //network.createSocket();
-    // client->setId();
-    // char recevebuf[1024]="";
-    // while (1) {
-    //     int choice;
-    //     int retval;
-    //     retval=client->select();
-    //     std::cout<<"retval:"<<retval<<std::endl;
-    //     if(retval==1){
-    //         int n=client->receive(recevebuf);
-    //         if(n<0){
-    //             break;
-    //         }
-    //     }
-
-    //     qDebug()<<"If you want send msg,please input 1";
-    //     std::cin>>choice;
-    //     std::cin.get();
-    //     if(choice==1){
-    //         client->setAcceptId();
-    //         client->setRequestType();
-    //         char* buf=client->Messagedata();
-    //         char* json_buf=new char[1024];
-    //         client->comversionJson(json_buf);
-    //         client->send(json_buf,strlen(json_buf));
-    //         delete[] json_buf;
-    //     }
-    // }
-    // network.closeSocket();
 
 }

@@ -21,7 +21,13 @@ ApplicationWindow{
     Rectangle{
         id:initRectangle
         anchors.fill: parent
-        color: "#ededed"
+        // color: "#ededed"
+        Image {
+            id: backg
+            anchors.fill: parent
+            // sourceSize: Qt.size(parent.width,parent.height)
+            source: "qrc:/assets/Picture/icons/bg.jpeg"
+        }
         Column{
             id:initColumn
             anchors.horizontalCenter: parent.horizontalCenter
@@ -30,7 +36,7 @@ ApplicationWindow{
                 id:inputRecid
                 width: init.width/10*8
                 height: init.height/10
-                //color:"#FFAAFF"
+                opacity: 0.7
                 Row{
                     id:idrow
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -39,6 +45,7 @@ ApplicationWindow{
                     Rectangle{
                         width: inputRecid.width/5
                         height: inputRecid.height/2
+                        color: "transparent"
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
@@ -50,7 +57,7 @@ ApplicationWindow{
                     Rectangle{
                         width: inputRecid.width/10*7
                         height: inputRecid.height/2
-                        // color: "#"
+                        color: "transparent"
                         border.color: "black"
                         TextInput{
                             id:idtextinput
@@ -77,6 +84,7 @@ ApplicationWindow{
                 id:initbuttonRec
                 width: init.width/10*8
                 height: init.height/15
+                color: "transparent"
                 Button{
                     anchors.fill: parent
                     id:initbutton
@@ -106,10 +114,13 @@ ApplicationWindow{
                         personalctrller.netnumber = idtextinput.text
                         initloder.source="Main.qml"
                         initRectangle.visible=false
-                        personalctrller.test()              //与服务器建立连接
 
+                        personalctrller.test()              //与服务器建立连接
                         listenThread.startThread()          //开启监听线程，从套接字里读数据
-                        personalctrller.send()
+
+                        personalctrller.send()              //发送本人的id初始化在线列表
+                        personalctrller.inite()            //测试,从服务端传头像过来初始化
+
                         messagePreviewPageController.setMyId(idtextinput.text)
                         fileTools.setMyId(idtextinput.text)
 
@@ -118,7 +129,6 @@ ApplicationWindow{
 
                         communicationPageController.setSenderId(idtextinput.text);
                         console.log("当前用户："+communicationPageController.senderId.toString())
-
                     }
                 }
             }

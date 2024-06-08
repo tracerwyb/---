@@ -28,8 +28,8 @@ qt_add_executable(appWechat-Client
     qml.qrc
     assets.qrc
     othersource.qrc
+    myimageprovider.h myimageprovider.cpp
     filetools.h filetools.cpp
-
 )
 
 target_compile_features(appWechat-Client PRIVATE cxx_std_20)

@@ -33,7 +33,6 @@ Rectangle  {
     //function
     //判断是谁发的，
     function  addItem(pType,mType,message,time) {
-
         // if(type==="sender")
         //     senderMessage=message
         // else
@@ -54,7 +53,6 @@ Rectangle  {
 
         console.log("发送消息:", message);
         //判断网友是否在线，选择是否发送给服务端
-
         console.log(communicationPage.width)
         console.log(communicationPage.height)
         console.log(pType,mType,message,time)
@@ -608,7 +606,6 @@ Rectangle  {
                                        width: 80
                                        height: 80
                                        Rectangle{
-
                                            width: 50
                                            height: 50
                                            Image{
@@ -616,7 +613,6 @@ Rectangle  {
                                                source: "qrc:/assets/Picture/icons/vediocall.png"
                                            }
                                        }
-
                                        TapHandler{
 
                                        }
