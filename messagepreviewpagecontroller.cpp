@@ -20,15 +20,40 @@ void MessagePreviewPageController::getOfflineMessage()
     qDebug() << "请求服务端推送离线消息";
     nlohmann::json request;
     Client *client = Client::getInstance();
-    qDebug() << "当前登陆的用户是" << myId;
+    qDebug() << "当前登陆的用户是：" << myId;
     request["UserId"] = myId.toStdString();
     request["request_type"] = "GetOfflineMessage";
     std::string str = request.dump();
     char *json_buf = new char[1024];
     strcpy(json_buf, str.data());
-    client->send(json_buf, strlen(json_buf)); //点击发送按钮后,调用send方法发送已经序列化的json字符串
+    client->send(json_buf, strlen(json_buf));
     delete[] json_buf;
-    qDebug() << "客户端获取服务端发送的消息";
+}
+
+void MessagePreviewPageController::getUsersAvatar()
+{
+    qDebug() << "请求服务端推送用户好友头像";
+    nlohmann::json request;
+    Client *client = Client::getInstance();
+    request["UserId"] = myId.toStdString();
+    request["request_type"] = "initUsersAvatar";
+    std::string str = request.dump();
+    char *json_buf = new char[1024];
+    strcpy(json_buf, str.data());
+    client->send(json_buf, strlen(json_buf));
+}
+
+void MessagePreviewPageController::getFriendInfo()
+{
+    qDebug() << "请求服务端推送用户好友信息";
+    nlohmann::json request;
+    Client *client = Client::getInstance();
+    request["UserId"] = myId.toStdString();
+    request["request_type"] = "initFriendInfo";
+    std::string str = request.dump();
+    char *json_buf = new char[1024];
+    strcpy(json_buf, str.data());
+    client->send(json_buf, strlen(json_buf));
 }
 
 void MessagePreviewPageController::getOnlineMessage(nlohmann::json newMessage)

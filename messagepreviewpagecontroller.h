@@ -19,11 +19,14 @@ public:
     static MessagePreviewPageController *getInstance();
     MessagePreviewPageController(QObject *parent = nullptr);
     Q_INVOKABLE void getOfflineMessage();
+    //-----------
+    Q_INVOKABLE void getUsersAvatar();
+    Q_INVOKABLE void getFriendInfo();
+    //-----------
     void getOnlineMessage(nlohmann::json newMessage);
     Q_INVOKABLE void getFirstInfos();
 
     Q_INVOKABLE void initMessagePreviewPage();
-
     Q_INVOKABLE QString getMessage();
     Q_INVOKABLE void setMessage(QString message);
 

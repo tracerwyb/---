@@ -160,6 +160,7 @@ Item{
                 Component.onCompleted: {
                     addPageClicked.connect(afController.onAddPageClicked)
                     saveToLocal.connect(afController.onSaveToLocal)
+                    // messagePreviewPageController.initMessagePreviewPage();
                 }
 
                 function findPerson(personID){

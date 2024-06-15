@@ -48,7 +48,7 @@ Item {
                     id:avaterimage
                     sourceSize: Qt.size(avater.width,avater.height)
                     // source: "qrc:/assets/Picture/avatar/avater2"            //
-                    source: "image://pictures/avater"
+                    source: "file://"+fileTools.avatarStroePath()+messagePreviewPageController.getMyId()+"avatar.jpg"
                     visible: false
                 }
                 Rectangle{

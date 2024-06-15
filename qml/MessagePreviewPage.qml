@@ -21,17 +21,6 @@ Rectangle{
 
             ListModel {
                 id: messageModel
-                ListElement {
-                    name: "test"
-                    messageinfo: "消息内容哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
-                    sendtime:"12:00"
-                    imagesource:"qrc:/assets/Picture/avatar/hrx.jpg"
-                    receiverid:"2222"
-                    attributes: [
-                        ListElement { description: "离线消息" },
-                        ListElement { description: "在线消息" }
-                    ]
-                }
             }
 
             Component {
@@ -65,8 +54,6 @@ Rectangle{
                                id:avatar
                                width: 50
                                height: 50
-                               //border.color: "black"
-                               //border.width: 0.5
                                 Image {
                                     id: image
                                     source:imagesource
@@ -108,7 +95,7 @@ Rectangle{
                         }
                        Column{
                            Text{
-                               text: "Name "+name
+                               text: name+receiverid
                                font.pointSize: 20
                            }
                            Text{
@@ -179,14 +166,14 @@ Rectangle{
                 if(jsonData.SenderId.toString()===messagePreviewPageController.myId){
                     //添加信息-
                     console.log(jsonData.ReceiverId)
-                    ob.name = jsonData.ReceiverId.toString()
-                    ob.receiverid=jsonData.ReceiverId.toString()
-                    ob.imagesource="qrc:/assets/Picture/avatar/"+jsonData.ReceiverId+".jpg"
+                    ob.name = fileTools.getFriendNickname(jsonData.ReceiverId)
+                    ob.receiverid=jsonData.ReceiverId.toString(jsonData.ReceiverId)
+                    ob.imagesource="file://"+fileTools.avatarStroePath()+jsonData.ReceiverId+"avatar.jpg"
                 }else{
                     console.log(jsonData.SenderId)
-                    ob.name = jsonData.SenderId.toString()
+                    ob.name = fileTools.getFriendNickname(jsonData.ReceiverId)
                     ob.receiverid=jsonData.SenderId.toString()
-                    ob.imagesource="qrc:/assets/Picture/avatar/"+jsonData.SenderId+".jpg"
+                    ob.imagesource="file://"+fileTools.avatarStroePath()+jsonData.SenderId+"avatar.jpg"
                 }
                 ob.messageinfo =jsonData.MessageContent.toString()
                 ob.sendtime =jsonData.SendTime.toString()

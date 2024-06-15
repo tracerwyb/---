@@ -62,8 +62,19 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
             MyImageProvider::getInstance()->setAvater(Client::getInstance()->receiveImage());
             qDebug()<<"set avater succeed!!!!!!!!!!";
         }
-//--------
-
+        //--------
+        //--------avatar
+        if (j.at("request_type") == "initUsersAvatar") {
+            std::string UserId = j.at("UserId");
+            QString filename = QString::fromStdString(UserId) + "avatar";
+            std::cout << "接收头像图片" << std::endl;
+            QPixmap avatar = Client::getInstance()->receiveImage();
+            FileTools::getInstance()->saveUserAvatar(avatar, filename);
+        }
+        if (j.at("request_type") == "initFriendInfo") {
+            FileTools::getInstance()->saveFriendsInfo(j);
+        }
+        //---------
         if (j.at("request_type") == "isfriend") {
             AddFriendPageController::isFriend(buf);
         }
@@ -82,8 +93,8 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
 
         if (j["request_type"] == "GetOfflineMessage") {
             std::string senderId;
+
             //json格式转换
-            qDebug() << "store 1";
             if (j["SenderId"].is_number()) {
                 senderId = std::to_string(j["SenderId"].get<int>());
             } else if (j["SenderId"].is_string()) {
@@ -106,17 +117,17 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
             if (j["MessageType"] == "Vedio" || j["MessageType"] == "Audio"
                 || j["MessageType"] == "Picture") {
                 char mediaBuffer[99999];
-                int n = Client::getInstance()->receive(mediaBuffer);
-                qDebug() << "接收离线消息音视频、图片";
-                if (n == -1) {
-                    qDebug() << "listenthread read failed!";
-                    break;
-                }
-                qDebug() << "接收离线消息成功，准备存储";
+                QPixmap messagePicture = Client::getInstance()->receiveImage();
+                FileTools::getInstance()->saveUserAvatar(messagePicture,
+                                                         filename + "Pic"
+                                                             + QString::fromStdString(
+                                                                 j["SendTime"]));
+
+                qDebug() << "接收离线多媒体消息成功，准备存储";
                 j = FileTools::getInstance()->saveMessageMedia(j, mediaBuffer, filename);
             } else {
                 qDebug() << j.dump();
-                qDebug() << "接收离线消息成功，准备存储";
+                qDebug() << "接收离线文字消息成功，准备存储";
                 std::string strtemp(buf);
                 FileTools::getInstance()->saveMessageText(j, filename);
             }

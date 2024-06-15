@@ -53,7 +53,6 @@ void CommunicationPageController::getCommunicationInfos()
 void CommunicationPageController::getOnlineMessage(nlohmann::json newMessage)
 {
     //判断是否是当前聊天页面的receiverid
-
     std::string senderId = newMessage.at("ReceiverId");
     qDebug() << getSenderId() << "_" << QString::fromStdString(newMessage.at("ReceiverId"));
     qDebug() << " CommunicationPageController::getOnlineMessage";
@@ -72,12 +71,13 @@ void CommunicationPageController::saveMessage()
     //  Client::getInstance()->send();
 }
 //针对文本
-void CommunicationPageController::sendNewMessage()
+void CommunicationPageController::sendNewMessage(QString type)
 {
     QString MessageContent = getNewSendMessage();
+    qDebug() << MessageContent;
     nlohmann::json request;
     request["MessageContent"] = MessageContent.toStdString();
-    request["MessageType"] = "Text";
+    request["MessageType"] = type.toStdString();
     request["ReceiverId"] = getReceiverId().toStdString();
     request["SenderId"] = getSenderId().toStdString();
     QDateTime currentDateTime = QDateTime::currentDateTime();
@@ -98,4 +98,22 @@ void CommunicationPageController::sendNewMessage()
     setSenderMessage(QString::fromStdString(request.dump()));
     //类型转换过去没办法赋值
     emit senderMessageChanged();
+}
+
+void CommunicationPageController::sendNewPicMessage()
+{
+    qDebug() << "sendNewPicMessage";
+    // QByteArray byteArray = FileTools::getInstance()->getPixmapAsBinary(newSendMessage);
+    // char *charArray = FileTools::getInstance()->getPixmapAsBinary(newSendMessage);
+
+    // Client::getInstance()->send(charArray, strlen(charArray));
+    // // delete[] charArray;
+    QString str = FileTools::getInstance()->saveImageA(newSendMessage);
+    Client::getInstance()->sendImage(str.toStdString());
+    FileTools::getInstance()->deleteImageA(newSendMessage);
+}
+
+void CommunicationPageController::setNickname(QString i)
+{
+    nickname = FileTools::getInstance()->getFriendNickname(receiverId);
 }

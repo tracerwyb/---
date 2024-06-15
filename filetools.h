@@ -19,7 +19,17 @@ public:
     void saveMessage(std::string str);
     QVector<QString> getFirstInfos();
     QString getInfo(QString filePath);
+    QString saveImageA(QString filePath);
+    void deleteImageA(QString filePath);
+    // char *getPicBychar(QString filePath);
+    char *getPixmapAsBinary(QString filePath);
+    //-----------------新添加的功能
+    void saveUserAvatar(QPixmap avatar, QString filename);
+    Q_INVOKABLE QString avatarStroePath();
 
+    Q_INVOKABLE void saveFriendsInfo(nlohmann::json jsonMessage);
+    Q_INVOKABLE QString getFriendNickname(QString friendId);
+    //-------------------
     QVector<QString> getCommunciationInfos(QString senderId, QString receiverId);
     Q_INVOKABLE void saveRequest(nlohmann::json jsonMessage, QString filename);
     Q_INVOKABLE QVector<QString> getReq(QString filename);

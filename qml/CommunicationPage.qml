@@ -5,6 +5,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import QtMultimedia
+import Qt.labs.folderlistmodel
+
 
 Rectangle  {
     z:2
@@ -216,12 +218,6 @@ Rectangle  {
                            width: 1
                 }
                 delegate:senderMessageDelegate
-                Component.onCompleted: {
-                    console.log("messages")
-                    addItem("sender","Text","HAHAHA","2024-5-21 21:00");
-                    addItem("receiver","Text","XIXIXI","2024-5-21 21:00");
-                    addItem("sender","Text","ZEZEZE","2024-5-21 21:00");
-                }
             }
             Component{
                 id:senderMessageDelegate
@@ -365,12 +361,14 @@ Rectangle  {
                                 if(pType=="receiver"){
                                     avatar.anchors.leftMargin=10
                                     avatar.anchors.left= parent.left
+                                    image.source="file://"+fileTools.avatarStroePath()+communicationPageController.getReceiverId()+"avatar.jpg"
                                     senderMessageInfoBorder.anchors.left=parent.left
                                     senderMessageInfoBorder.anchors.leftMargin=70
                                 }
                                 if(pType==="sender"){
                                     avatar.anchors.rightMargin=10
                                     avatar.anchors.right=parent.right
+                                      image.source="file://"+fileTools.avatarStroePath()+communicationPageController.getSenderId()+"avatar.jpg"
                                     senderMessageInfoBorder.anchors.right= parent.right
                                     senderMessageInfoBorder.anchors.rightMargin= 70
                                 }
@@ -513,9 +511,6 @@ Rectangle  {
                                    }
                                }
                            }
-                           //发送消息按钮
-                            //发送消息按钮
-                            //发送消息按钮
                             //发送消息按钮
                            Rectangle {
                                id:senderMessageBorder
@@ -548,7 +543,7 @@ Rectangle  {
                                            // sendMessage("sender","Text",inputField.text,currentFormattedDate)
                                            //String->QString
                                            communicationPageController.setNewSendMessage(inputField.text);
-                                           communicationPageController.sendNewMessage();
+                                           communicationPageController.sendNewMessage("Text");
                                        }
                                        console.log(inputField.text)
                                        // 清空输入框
@@ -642,6 +637,10 @@ Rectangle  {
                                                // 自定义格式化字符串
                                                var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
                                                // sendMessage("sender","Picture",selectedFile.toString(),currentFormattedDate)
+                                               console.log(selectedFile.toString())
+                                               communicationPageController.setNewSendMessage(selectedFile.toString());
+                                               communicationPageController.sendNewMessage("Picture");
+                                               communicationPageController.sendNewPicMessage();
                                            }
                                        }
                                        TapHandler{
@@ -755,7 +754,8 @@ Rectangle  {
         communicationPage.visible=true
         chatMessageDisplay.visible=true
         inputBox.visible=true
-        nickname=communicationPageController.receiverId;
+        communicationPageController.setNickname("!");
+        nickname=communicationPageController.getNickname();
         communicationPageController.onReceiverMessageChanged.connect(onReceiverMessageChangedQml)
         communicationPageController.onSenderMessageChanged.connect(onSenderMessageChangedQml)
         communicationPageController.initCommunicationPage();

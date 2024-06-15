@@ -123,10 +123,13 @@ ApplicationWindow{
 
                         messagePreviewPageController.setMyId(idtextinput.text)
                         fileTools.setMyId(idtextinput.text)
-
                         fileTools.initFiled(idtextinput.text)
-                        messagePreviewPageController.getOfflineMessage();
 
+                        messagePreviewPageController.getFriendInfo();
+                        messagePreviewPageController.getOfflineMessage();
+//---------------------------
+                        // messagePreviewPageController.getUsersAvatar();
+//---------------------------
                         communicationPageController.setSenderId(idtextinput.text);
                         console.log("当前用户："+communicationPageController.senderId.toString())
                     }

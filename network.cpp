@@ -69,30 +69,57 @@ int Network::reciveTextMessage(char* recivemessage)
     return 0;
 }
 
+// QPixmap Network::recImage()
+// {
+//     char filebuf[202400] = "";
+//     int n_read;
+//     int posx = 0;
+//     std::streamsize size;
+//     if ((read(m_listenfd, &size, sizeof(std::streamsize))) <= 0) { //读取消息长度
+//         qDebug() << "read image length erro";
+//     }
+//     qDebug() << "recimage size:" << size;
+//     while (size > 0) {
+//         qDebug() << "n_read:" << n_read;
+//         if (n_read <= 0) {
+//             qDebug() << "recimg erro,maybe socket was closed!";
+//             break;
+//         }
+//         size = size - n_read;
+//         posx = posx + n_read;
+//     }
+//     QPixmap tempQPixmap;
+//     bool invert = tempQPixmap.loadFromData((const unsigned char *) filebuf, posx);
+//     qDebug() << "invert to QPixmap:" << invert;
+//     return tempQPixmap;
+// }
 QPixmap Network::recImage()
 {
-    char filebuf[202400]="";
-    int n_read;
-    int posx=0;
-    int size;
-    if((read(m_listenfd,&size,8))<=0){    //读取消息长度
-        qDebug()<<"read image length erro";
-    }
-    qDebug()<<"recimage size:"<<size;
-    while(size>0){
-        n_read=read(m_listenfd,filebuf+posx,102400);       //
+    char filebuf[202400] = "";
+    int posx = 0;
+    std::streamsize size;
 
-        qDebug()<<"n_read:"<<n_read;
-        if(n_read<=0){
-            qDebug()<<"recimg erro,maybe socket was closed!";
-            break;
-        }
-        size=size-n_read;
-        posx=posx+n_read;
+    // 读取消息长度
+    if (read(m_listenfd, &size, sizeof(std::streamsize)) <= 0) {
+        qDebug() << "Error reading image length";
+        return QPixmap(); // 返回空 QPixmap 表示出错
     }
+    qDebug() << "Received image size:" << size;
+
+    // 循环读取数据
+    while (size > 0) {
+        int n_read = read(m_listenfd, filebuf + posx, sizeof(filebuf) - posx);
+        if (n_read <= 0) {
+            qDebug() << "Error reading image data, maybe socket was closed!";
+            return QPixmap(); // 返回空 QPixmap 表示出错
+        }
+        size -= n_read;
+        posx += n_read;
+    }
+
     QPixmap tempQPixmap;
-    bool invert=tempQPixmap.loadFromData((const unsigned char*)filebuf,posx);
-    qDebug()<<"invert to QPixmap:"<<invert;
+    bool invert = tempQPixmap.loadFromData(reinterpret_cast<const uchar *>(filebuf), posx);
+    qDebug() << "Loaded into QPixmap:" << invert;
     return tempQPixmap;
 }
 

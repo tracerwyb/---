@@ -16,6 +16,7 @@ class CommunicationPageController : public QObject
                    newSendMessageChanged)
     Q_PROPERTY(QString receiverId READ getReceiverId WRITE setReceiverId NOTIFY receiverIdChanged)
     Q_PROPERTY(QString senderId READ getSenderId WRITE setSenderId NOTIFY senderIdChanged)
+    Q_PROPERTY(QString nickname READ getNickname WRITE setNickname)
     //offline->online;
 public:
     static CommunicationPageController *getInstance();
@@ -25,7 +26,8 @@ public:
 
     // void receiverNewReceivMessage();
     Q_INVOKABLE void saveMessage();
-    Q_INVOKABLE void sendNewMessage();
+    Q_INVOKABLE void sendNewMessage(QString type);
+    Q_INVOKABLE void sendNewPicMessage();
 
     Q_INVOKABLE QString getReceiverMessage() { return receiverMessage; };
     Q_INVOKABLE void setReceiverMessage(QString str) { receiverMessage = str; }
@@ -44,6 +46,9 @@ public:
 
     Q_INVOKABLE QString getSenderId() { return senderId; }
     Q_INVOKABLE void setSenderId(QString i) { senderId = i; }
+
+    Q_INVOKABLE QString getNickname() { return nickname; };
+    Q_INVOKABLE void setNickname(QString i);
 
 signals:
     //qml调用、c++处理
@@ -65,6 +70,7 @@ private:
     QString senderId;
     QString receiverId;
     QString newSendMessage;
+    QString nickname;
     static CommunicationPageController *communicationPageController;
 };
 
