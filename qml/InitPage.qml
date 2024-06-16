@@ -128,7 +128,8 @@ ApplicationWindow{
                         messagePreviewPageController.getFriendInfo();
                         messagePreviewPageController.getOfflineMessage();
 //---------------------------
-                        // messagePreviewPageController.getUsersAvatar();
+
+                        messagePreviewPageController.getUsersAvatar();
 //---------------------------
                         communicationPageController.setSenderId(idtextinput.text);
                         console.log("当前用户："+communicationPageController.senderId.toString())

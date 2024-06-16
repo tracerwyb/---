@@ -96,8 +96,13 @@ void CommunicationPageController::sendNewMessage(QString type)
     FileTools::getInstance()->saveMessageText(request, filename);
 
     setSenderMessage(QString::fromStdString(request.dump()));
+    if (type == "Picture") {
+        qDebug() << "sendIMage";
+        Client::getInstance()->sendImage(MessageContent.toStdString());
+    } else {
+        emit senderMessageChanged();
+    }
     //类型转换过去没办法赋值
-    emit senderMessageChanged();
 }
 
 void CommunicationPageController::sendNewPicMessage()

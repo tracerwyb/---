@@ -166,12 +166,12 @@ Rectangle{
                 if(jsonData.SenderId.toString()===messagePreviewPageController.myId){
                     //添加信息-
                     console.log(jsonData.ReceiverId)
-                    ob.name = fileTools.getFriendNickname(jsonData.ReceiverId)
-                    ob.receiverid=jsonData.ReceiverId.toString(jsonData.ReceiverId)
+                    ob.name = fileTools.getFriendNickname(jsonData.SenderId)
+                    ob.receiverid=jsonData.ReceiverId.toString()
                     ob.imagesource="file://"+fileTools.avatarStroePath()+jsonData.ReceiverId+"avatar.jpg"
                 }else{
                     console.log(jsonData.SenderId)
-                    ob.name = fileTools.getFriendNickname(jsonData.ReceiverId)
+                    ob.name = fileTools.getFriendNickname(jsonData.SenderId)
                     ob.receiverid=jsonData.SenderId.toString()
                     ob.imagesource="file://"+fileTools.avatarStroePath()+jsonData.SenderId+"avatar.jpg"
                 }

@@ -67,8 +67,9 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
         if (j.at("request_type") == "initUsersAvatar") {
             std::string UserId = j.at("UserId");
             QString filename = QString::fromStdString(UserId) + "avatar";
-            std::cout << "接收头像图片" << std::endl;
+            qDebug() << "接收头像图片";
             QPixmap avatar = Client::getInstance()->receiveImage();
+            qDebug() << "保存头像图片";
             FileTools::getInstance()->saveUserAvatar(avatar, filename);
         }
         if (j.at("request_type") == "initFriendInfo") {
@@ -116,7 +117,7 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
             qDebug() << "接收离线消息";
             if (j["MessageType"] == "Vedio" || j["MessageType"] == "Audio"
                 || j["MessageType"] == "Picture") {
-                char mediaBuffer[99999];
+                char mediaBuffer[504800];
                 QPixmap messagePicture = Client::getInstance()->receiveImage();
                 FileTools::getInstance()->saveUserAvatar(messagePicture,
                                                          filename + "Pic"
@@ -138,6 +139,19 @@ void ListenThread::run()         //子线程：从套接字中读数据,点击�
             std::string receiverId = j.at("ReceiverId");
             QString filename = QString::fromStdString(senderId)
                                + QString::fromStdString(receiverId);
+            if (j["MessageType"] == "Vedio" || j["MessageType"] == "Audio"
+                || j["MessageType"] == "Picture") {
+                qDebug() << "接收图片消息";
+                char mediaBuffer[504800];
+                QPixmap messagePicture = Client::getInstance()->receiveImage();
+
+                QString str = FileTools::getInstance()->saveUserAvatar(messagePicture,
+                                                                       filename + "Pic"
+                                                                           + QString::fromStdString(
+                                                                               j["SendTime"]));
+
+                j["MessageContent"] = "file://" + str.toStdString();
+            }
             FileTools::getInstance()->saveMessageText(j, filename);
             qDebug() << j.dump();
             qDebug() << "MessagePreviewPageController有新的消息发送过来";

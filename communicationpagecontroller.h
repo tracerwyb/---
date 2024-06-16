@@ -26,6 +26,7 @@ public:
 
     // void receiverNewReceivMessage();
     Q_INVOKABLE void saveMessage();
+
     Q_INVOKABLE void sendNewMessage(QString type);
     Q_INVOKABLE void sendNewPicMessage();
 

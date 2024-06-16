@@ -326,7 +326,7 @@ char *FileTools::getPixmapAsBinary(QString filePath)
 }
 
 //保存头像-----------获取头像
-void FileTools::saveUserAvatar(QPixmap avatar, QString filename)
+QString FileTools::saveUserAvatar(QPixmap avatar, QString filename)
 {
     QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QString directoryPath = documentsPath + "/Picture/" + myId + "/";
@@ -335,7 +335,7 @@ void FileTools::saveUserAvatar(QPixmap avatar, QString filename)
     if (!directory.exists()) {
         if (!directory.mkpath(directoryPath)) {
             qDebug() << "Failed to create directory:" << directoryPath;
-            return;
+            return "";
         }
     }
 
@@ -351,6 +351,7 @@ void FileTools::saveUserAvatar(QPixmap avatar, QString filename)
         }
     }
     qDebug() << "保存头像结束" << directoryPath;
+    return newFilePath;
 }
 
 QString FileTools::avatarStroePath()

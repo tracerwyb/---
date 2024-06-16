@@ -42,7 +42,6 @@ Rectangle{
         // }
 
         Rectangle{
-
             id:avatar;
             width: parent.height/3
             height: parent.height/3
@@ -58,7 +57,8 @@ Rectangle{
                 height: parent.height
                 // sourceSize: Qt.size(parent.width,parent.height)   //让图片能够平滑的显示
                 // source: "qrc:/assets/Picture/avatar/avater1.jpg"
-                source: "image://pictures/avater"
+                // source: "image://pictures/avater"
+                  source: "file://"+fileTools.avatarStroePath()+messagePreviewPageController.getMyId()+"avatar.jpg"
                 fillMode: Image.PreserveAspectCrop
                 visible: false
 

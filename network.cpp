@@ -1,13 +1,17 @@
 #include "network.h"
-#include <string.h>
 #include <QApplication>
+#include <QDataStream>
+#include <QFile>
+#include <QPixmap>
+#include <QStandardPaths>
+#include <QTextStream>
 #include <arpa/inet.h>
+#include <fstream>
 #include <netinet/in.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <fstream>
-
 
 #define IPADDR "192.168.101.210" //10.253.209.148" //"10.253.172.131"
 #define PORT 9878
@@ -95,7 +99,7 @@ int Network::reciveTextMessage(char* recivemessage)
 // }
 QPixmap Network::recImage()
 {
-    char filebuf[202400] = "";
+    char filebuf[502400] = "";
     int posx = 0;
     std::streamsize size;
 
@@ -105,10 +109,10 @@ QPixmap Network::recImage()
         return QPixmap(); // 返回空 QPixmap 表示出错
     }
     qDebug() << "Received image size:" << size;
-
+    int totalsize = size;
     // 循环读取数据
     while (size > 0) {
-        int n_read = read(m_listenfd, filebuf + posx, sizeof(filebuf) - posx);
+        int n_read = read(m_listenfd, filebuf + posx, totalsize - posx);
         if (n_read <= 0) {
             qDebug() << "Error reading image data, maybe socket was closed!";
             return QPixmap(); // 返回空 QPixmap 表示出错
@@ -116,7 +120,7 @@ QPixmap Network::recImage()
         size -= n_read;
         posx += n_read;
     }
-
+    qDebug() << "Print recIMage POSX" << posx;
     QPixmap tempQPixmap;
     bool invert = tempQPixmap.loadFromData(reinterpret_cast<const uchar *>(filebuf), posx);
     qDebug() << "Loaded into QPixmap:" << invert;
@@ -125,26 +129,31 @@ QPixmap Network::recImage()
 
 void Network::sendImage(std::string path)
 {
-    std::ifstream file(path,std::ios::binary|std::ios::ate);
-    if(!file)
-        qDebug()<<"file open erro!";
+    qDebug() << path;
+    size_t pos = path.find("file://");
+    if (pos != std::string::npos) {
+        path.erase(pos, strlen("file://"));
+    }
+    std::ifstream file(path, std::ios::binary | std::ios::ate);
+    if (!file)
+        qDebug() << "file open erro!";
 
-    std::streamsize size=file.tellg();
-    qDebug()<<"file size:"<<size;
-    qDebug()<<"sizeof(size):"<<sizeof(size);
+    std::streamsize size = file.tellg();
+    qDebug() << "file size:" << size;
+    qDebug() << "sizeof(size):" << sizeof(size);
 
-    write(m_listenfd,&size,sizeof(size));
-    file.seekg(0,std::ios::beg);
+    write(m_listenfd, &size, sizeof(size));
+    file.seekg(0, std::ios::beg);
 
     char buf[10240];
 
-    while (size>0) {
-        std::streamsize file_read=file.read(buf,sizeof(buf)).gcount();
-        qDebug()<<"file_read:"<<file_read;
-        write(m_listenfd,buf,file_read);
-        size=size-file_read;
+    while (size > 0) {
+        std::streamsize file_read = file.read(buf, sizeof(buf)).gcount();
+        qDebug() << "file_read:" << file_read;
+        write(m_listenfd, buf, file_read);
+        size = size - file_read;
     }
-    qDebug()<<"send image ok";
+    qDebug() << "send image ok";
 }
 
 void Network::closeSocket()

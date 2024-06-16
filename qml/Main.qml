@@ -198,7 +198,7 @@ Item{
                 loader.source=messagePreviewPage_loader
             }
             Component.onCompleted: {
-                messagePreviewPageController.onNewOnlineMessage().connect(updateMessagePreviewPage)
+                // messagePreviewPageController.onNewOnlineMessage().connect(updateMessagePreviewPage)
 
             }
         }

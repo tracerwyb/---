@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import QtMultimedia
 import Qt.labs.folderlistmodel
-
+// import Qt.labs.platform
 
 Rectangle  {
     z:2
@@ -301,7 +301,8 @@ Rectangle  {
                             Image{
                                 id:senderinfo_Pic
                                 anchors.fill: parent
-                                source:Qt.resolvedUrl(message)
+                                source:message
+                                // source:message
                                 fillMode: Image.PreserveAspectFit
                                 visible: true
                             }
@@ -327,7 +328,7 @@ Rectangle  {
                             Image{
                                 id:mediaPlayer_vedio
                                 anchors.fill: parent
-                                source:Qt.resolvedUrl(message)
+                                // source:"file://"+Qt.resolvedUrl(message)
                                 fillMode: Image.PreserveAspectFit
                                 visible: false
                             }
@@ -579,7 +580,9 @@ Rectangle  {
                                        }
                                        FileDialog {
                                            id: fileDialog_video
-                                           currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+                                           // currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+                                           currentFile: document.source
+                                           // folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
                                            nameFilters: ["Video files(*)"]
                                            selectedNameFilter.index: 1
                                            onAccepted: {
@@ -626,22 +629,37 @@ Rectangle  {
                                        }
                                        FileDialog {
                                            id: fileDialog_image
-                                           currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
-                                           nameFilters: ["Image files(*.jpg,*.jpeg,*.png)"]
+                                           // currentFolder: StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+                                           // currentFile: document.source
+                                           // folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+                                           nameFilters: ["Image files(*.jpg)"]
                                            selectedNameFilter.index: 1
                                            //！！！5.28进度！！！
                                            onAccepted: {
-                                               //设置source添加element
-                                               // 获取当前日期和时间
+                                           //     //设置source添加element
+                                           //     // 获取当前日期和时间
                                                var currentDate = new Date();
-                                               // 自定义格式化字符串
+                                           //     // 自定义格式化字符串
                                                var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
-                                               // sendMessage("sender","Picture",selectedFile.toString(),currentFormattedDate)
-                                               console.log(selectedFile.toString())
-                                               communicationPageController.setNewSendMessage(selectedFile.toString());
+                                               sendMessage("sender","Picture",selectedFile.toString(),currentFormattedDate)
+                                               console.log(selectedFile)
+                                               communicationPageController.setNewSendMessage(selectedFile);
                                                communicationPageController.sendNewMessage("Picture");
-                                               communicationPageController.sendNewPicMessage();
+                                           //     communicationPageController.sendNewPicMessage();
                                            }
+                                           // onAccepted: {
+                                           //     //设置source添加element
+                                           //     // 获取当前日期和时间
+                                           //     var currentDate = new Date();
+                                           //     // 自定义格式化字符串
+                                           //     var currentFormattedDate = Qt.formatDateTime(currentDate, "yyyy-MM-dd hh:mm:ss");
+                                           //     // console.log(selectedFile.toString())
+                                           //     sendMessage("sender","Picture",fileDialog_image.file.toString(),currentFormattedDate)
+                                           //      console.log(fileDialog_image.file.toString())
+                                           //     communicationPageController.setNewSendMessage(fileDialog_image.file);
+                                           //     communicationPageController.sendNewMessage("Picture");
+                                           //     // communicationPageController.sendNewPicMessage();
+                                           // }
                                        }
                                        TapHandler{
                                            onTapped: {

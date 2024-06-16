@@ -24,7 +24,7 @@ public:
     // char *getPicBychar(QString filePath);
     char *getPixmapAsBinary(QString filePath);
     //-----------------新添加的功能
-    void saveUserAvatar(QPixmap avatar, QString filename);
+    QString saveUserAvatar(QPixmap avatar, QString filename);
     Q_INVOKABLE QString avatarStroePath();
 
     Q_INVOKABLE void saveFriendsInfo(nlohmann::json jsonMessage);
